@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mnaimi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 13:14:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/04/10 17:46:36 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/08 15:18:13 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,6 @@ int		ft_isspace(int c);
 int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr_tl(const char *haystack, const char *needle);
 int		ft_strcmp_tl(const char *s1, const char *s2);
+void	ft_perror(char *msg);
 
 #endif
