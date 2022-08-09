@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/06 13:14:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/08 15:18:13 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/09 11:49:18 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	*ft_strstr_tl(const char *haystack, const char *needle);
 int		ft_strcmp_tl(const char *s1, const char *s2);
 void	ft_perror(char *msg);
+void	ft_free_2d_char_arr(char **arr);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/08 15:11:51 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/09 15:11:38 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 /* ------------------------------- LIBRARIES -------------------------------- */
 // Functions & Functionalities //
 # include <math.h>
-# include <mlx.h>
 # include <stdio.h>
 # include <fcntl.h>
 
@@ -26,13 +25,21 @@
 # include <limits.h>
 
 // Custom
-# include "includes/get_next_line/get_next_line.h"
+# include "../includes/get_next_line/get_next_line.h"
+# include "../includes/MLX42/include/MLX42/MLX42.h"
+
+/* -------------------------------- MACROS ---------------------------------- */
+# define WIN_WIDTH		800
+# define WIN_HEIGHT		600
+# define MAP_ELEMENTS	"NO SO WE EA F C"
+# define MAP_OBJS		"NO SO WE EA F C"
 
 /* -------------------------------- ERRORS ---------------------------------- */
-# define EXT_ERR	"Invalid file extension"
-# define FD_ERR		"File not found"
-# define MAP_ERR	"Invalid map"
-# define FL_ERR		"Empty file"
+# define EMPTY_FL_ERR		"Empty file"
+# define EXT_ERR			"Invalid file extension"
+# define FD_ERR				"File not found"
+# define MAP_ERR			"Invalid map"
+# define GEN_ERR			"Internal error"
 
 /* -------------------------------- STRUCTS --------------------------------- */
 typedef struct s_gen_data
@@ -41,7 +48,7 @@ typedef struct s_gen_data
 	int32_t	ceil_clr;
 	int32_t	floor_clr;
 	int8_t	**map_arr;
-}	t_gen_data;
+}	t_gen_data;			// general_data
 
 /* --------------------------------- ENUMS ---------------------------------- */
 
