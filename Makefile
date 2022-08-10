@@ -6,7 +6,7 @@
 #    By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 10:53:27 by mnaimi            #+#    #+#              #
-#    Updated: 2022/08/09 13:30:27 by mnaimi           ###   ########.fr        #
+#    Updated: 2022/08/10 17:48:26 by mnaimi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,12 +25,9 @@ CC_OPTS		:= -I /usr/local/include \
 
 # ---------------------------------------------------------------------------- #
 
-SRCS		:= $(shell find srcs -type f -name "*.c" | grep -v "srcs/cub3d.c")
-
-OBJS_DIR	:= .objs/
-OBJS_LST	:= ${patsubst %.c, %.o, ${SRCS_LST}}
-OBJS_FLS	:= ${addprefix ${OBJS_DIR}, ${OBJS_LST}}
-OBJS		:= ${notdir ${OBJS_FLS}}
+SRCS_DIR	:= srcs/
+SRCS_LST	:= map_parsing/file_reader.c
+SRCS		:= ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 NAME		:= cub3d
 MAIN		:= srcs/cub3d.c
@@ -54,5 +51,3 @@ fclean: clean
 	@make -C includes/libft fclean
 
 re: fclean all
-
-#bonus: 

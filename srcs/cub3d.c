@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/08 15:15:34 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/10 18:42:10 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ int	main(int ac, char ** av)
 {
 	t_gen_data	gen_data;
 
-	return (0);
+	if (ac != 2)
+		return (EXIT_FAILURE);
+	process_file_data(av[1], &gen_data);
+	return (EXIT_SUCCESS);
 }
 

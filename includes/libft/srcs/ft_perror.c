@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 14:59:17 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/08 15:01:36 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/10 16:18:32 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	ft_perror(char *msg)
+void	ft_perror(char *msg, int to_exit)
 {
     ft_putstr_fd("Error:\n", STDERR_FILENO);
     ft_putstr_fd(msg, STDERR_FILENO);
     ft_putchar_fd('\n', STDERR_FILENO);
+    if (to_exit)
+        exit(EXIT_FAILURE);
 }
 
 /* -------------------------------------------------------------------------- */

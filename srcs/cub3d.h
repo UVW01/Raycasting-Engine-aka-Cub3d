@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/09 15:11:38 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/10 18:44:01 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 # include "../includes/MLX42/include/MLX42/MLX42.h"
 
 /* -------------------------------- MACROS ---------------------------------- */
-# define WIN_WIDTH		800
-# define WIN_HEIGHT		600
-# define MAP_ELEMENTS	"NO SO WE EA F C"
-# define MAP_OBJS		"NO SO WE EA F C"
+# define WIN_WIDTH		1920
+# define WIN_HEIGHT		1080
+# define MAP_OBJS		"10NEWS"
+# define MAP_DIRECTNS	"NO SO WE EA"
 
 /* -------------------------------- ERRORS ---------------------------------- */
 # define EMPTY_FL_ERR		"Empty file"
@@ -41,24 +41,15 @@
 # define MAP_ERR			"Invalid map"
 # define GEN_ERR			"Internal error"
 
-/* -------------------------------- STRUCTS --------------------------------- */
-typedef struct s_gen_data
-{
-	int		texture_fds[4];
-	int32_t	ceil_clr;
-	int32_t	floor_clr;
-	int8_t	**map_arr;
-}	t_gen_data;			// general_data
-
 /* --------------------------------- ENUMS ---------------------------------- */
 
-typedef enum s_directions
+typedef enum s_dirctn
 {
 	NO,		// North
 	SO,		// South
 	WE,		// West
 	EA		// East
-}	t_directions;
+}	t_dirctn;
 
 typedef enum s_map_objs
 {
@@ -68,10 +59,21 @@ typedef enum s_map_objs
 	P_POS,		// Player_POSition		(player's spawn point)
 }	t_map_objs;
 
+/* -------------------------------- STRUCTS --------------------------------- */
+typedef struct s_gen_data
+{
+	int			texture_fds[4];
+	int32_t		ceil_clr;
+	int32_t		floor_clr;
+	t_dirctn	init_dir;			// Initial player's direction (NO EA WE SO)
+	int8_t		**map_arr;
+}	t_gen_data;						// General Data
+
 /* -------------------------------- TYPEDEFS -------------------------------- */
 typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* ------------------------------- PROTOTYPES ------------------------------- */
+int		process_file_data(char *filename, t_gen_data *gen_data);
 
 #endif

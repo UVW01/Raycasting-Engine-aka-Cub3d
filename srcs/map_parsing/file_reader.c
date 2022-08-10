@@ -6,71 +6,94 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 12:03:20 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/09 15:14:45 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/10 18:52:54 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
-
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
-
-bool	is_valid_map_line(char *line)
+void	check_init_color(char **line_split, t_gen_data *gen_data)
 {
-	char	*tmp_line;
-
-	tmp_line = ft_strtrim(line, MAP_OBJS);
-	if (tmp_line == NULL || tmp_line[0] != '\0')
-		return (free(tmp_line), false);
-	free(tmp_line);
-	return (true);
-}
-
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
-
-bool	is_valid_data(char **line, int8_t *elem_check)
-{
-	char	**elems_ids;
+	char	**a_rgb;
 	int		i;
-	
+	int		j;
+
+	a_rgb = ft_split(line_split[1], ',');
+	if (a_rgb[3] != NULL)
+		ft_perror(MAP_ERR, 1);
 	i = -1;
-	elems_ids = ft_split(MAP_ELEMENTS, ' ');
-	while (++i < 8)
+	while (a_rgb[++i])
 	{
-		if (ft_strcmp(line[0], elems_ids[i]) == 0)
-		{
-			ft_free_2d_char_arr(elems_id);
-			if (elem_check[i] == 0)
-			{
-				elem_check[i] = 1;
-				return (true);
-			}
-			return (false);
-		}
+		if (ft_strlen(a_rgb[i]) > 3 || ft_strlen(a_rgb[i]) == 0)
+			ft_perror(MAP_ERR, 1);
+		j = -1;
+		while (a_rgb[i][++j])
+			if (!ft_isdigit(a_rgb[i][j]))
+				ft_perror(MAP_ERR, 1);
 	}
-	return (is_valid_map_line(line[0]));
 }
 
 /* -- Notes: ---------------------------------------------------------------- *\
 \* -------------------------------------------------------------------------- */
 
-int	check_and_init_data(char *line, t_gen_data *gen_data, int8_t *elem_check)
+void	init_default_values(t_gen_data *gen_data)
 {
-	char	**sep_line;
+	gen_data->texture_fds[0] = -69;
+	gen_data->texture_fds[1] = -69;
+	gen_data->texture_fds[2] = -69;
+	gen_data->texture_fds[3] = -69;
+	gen_data->ceil_clr = -1;
+	gen_data->floor_clr = -1;
+	gen_data->map_arr = NULL;
+}
 
-	sep_line = ft_split(line, ' ');
-	if (sep_line == NULL || *sep_line == '\0')
-		return (ft_free_2d_char_arr(sep_line), EXIT_FAILURE);
-	if (is_valid_data(sep_line, elem_check) == false)
-	{
-		ft_free_2d_char_arr(sep_line);
-		return (ft_perror(MAP_ERR), EXIT_FAILURE);
-	}
-	
+/* -- Notes: ---------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
+
+void	init_texture_fds(int dirctn, t_gen_data *gen_data, int fd)
+{
+	if (gen_data->texture_fds[dirctn] != -69)
+		ft_perror(MAP_ERR, 1);
+	gen_data->texture_fds[dirctn] = fd;
+}
+
+/* -- Notes: ---------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
+
+void	check_init_direction_texture(char **line_split, t_gen_data *gen_data)
+{
+	int	file_fd;
+
+	file_fd = open(line_split[1], O_RDONLY);
+	if (file_fd < 0)
+		ft_perror(FD_ERR, 1);
+	if (!ft_strcmp(line_split[0], "NO"))
+		init_texture_fds(NO, gen_data, file_fd);
+	else if (!ft_strcmp(line_split[0], "SO"))
+		init_texture_fds(SO, gen_data, file_fd);
+	else if (!ft_strcmp(line_split[0], "WE"))
+		init_texture_fds(WE, gen_data, file_fd);
+	else if (!ft_strcmp(line_split[0], "EA"))
+		init_texture_fds(EA, gen_data, file_fd);
+}
+
+/* -- Notes: ---------------------------------------------------------------- *\
+\* -------------------------------------------------------------------------- */
+
+void	check_and_init_data(char *line, t_gen_data *gen_data)
+{
+	char	**line_split;
+
+	line_split = ft_split(line, ' ');
+	if (line_split[2] != NULL || ft_strlen(line_split[0]) > 2)
+		ft_perror(MAP_ERR, 1);
+	if (ft_strstr(MAP_DIRECTNS, line_split[0]))
+		check_init_direction_texture(line_split, gen_data);
+	else if (!ft_strcmp(line_split[0], "F") || !ft_strcmp(line_split[0], "C"))
+		check_init_color(line_split, gen_data);
+	else
+		ft_perror(MAP_ERR, 1);
+		
 }
 
 /* -- Notes: ---------------------------------------------------------------- *\
@@ -80,22 +103,22 @@ int	process_file_data(char *filename, t_gen_data *gen_data)
 {
 	int		map_fd;
 	char	*line;
-	int8_t	elem_check[8];		// Element is checked
 
+	init_default_values(gen_data);
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd < 0)
-		return (ft_perror(FD_ERR), EXIT_FAILURE)
+		ft_perror(FD_ERR, 1);
 	line = get_next_line(map_fd, 1);
 	if (line == NULL)
-		return (ft_perror(EMPTY_FL_ERR), EXIT_FAILURE)
-	ft_bzero(&elem_check, sizeof(int8_t) * 8);
+		ft_perror(EMPTY_FL_ERR, 1);
 	while (line != NULL)
 	{
 		if (line[0] != '\n')
-			check_and_init_data(line, gen_data, &elem_check);
+			check_and_init_data(line, gen_data);
 		free(line);
 		line = get_next_line(map_fd, 1);
 	}
-	return (EXIT_SUCCESS)
+	close(map_fd);
+	return (EXIT_SUCCESS);
 }
 
