@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 16:10:46 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/09 11:53:57 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/12 14:05:31 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	*ft_calloc(size_t count, size_t size)
 
 	ptr = (char *) malloc(count * size);
 	if (ptr == NULL)
-	{
-		ft_perror("Internal error");
-		exit(-1);
-	}
+		ft_perror("Malloc failure", 1);
 	ft_bzero(ptr, count * size);
 	return ((void *) ptr);
 }

@@ -1,10 +1,10 @@
-NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+NO ./text1
+SO ./text2
+WE ./text3
+EA ./text4
 
-F 220,100.0,0
-C 225,30,0
+F 255,255,1
+C 255,255,255
         1111111111111111111111111
         1000000000110000000000001
         1011000001110000000000001

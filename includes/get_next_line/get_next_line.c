@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/21 15:59:35 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/08 12:13:28 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/11 15:28:01 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static char	*final_step(char **the_rest, char **line_ptr)
 		*the_rest = ft_strdup(ft_strchr(*line_ptr, '\n') + 1);
 		if (!*the_rest)
 			return (NULL);
-		ft_bzero(ft_strchr(*line_ptr, '\n') + 1, \
-			ft_strlen(ft_strchr(*line_ptr, '\n') + 1));
+		ft_bzero(ft_strchr(*line_ptr, '\n'), \
+			ft_strlen(ft_strchr(*line_ptr, '\n'))); //removed +1 from both lines 
 		*line_ptr = ft_strdup(*line_ptr);
 		if (!*line_ptr)
 			return (NULL);

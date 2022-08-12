@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/10 18:42:10 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/12 14:09:18 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@
 /* -- Notes: ---------------------------------------------------------------- *\
 \* -------------------------------------------------------------------------- */
 
+void	check_leaks(void)
+{
+	system("leaks cub3d");
+}
 
 /* -- Notes: ---------------------------------------------------------------- *\
 \* -------------------------------------------------------------------------- */
@@ -40,7 +44,18 @@ int	main(int ac, char ** av)
 
 	if (ac != 2)
 		return (EXIT_FAILURE);
+	atexit(check_leaks);
+	printf("filename:\t%s\n\n", av[1]);
 	process_file_data(av[1], &gen_data);
+	printf("NO fd: %d\n", gen_data.texture_fds[NO]);
+	printf("SO fd: %d\n", gen_data.texture_fds[SO]);
+	printf("WE fd: %d\n", gen_data.texture_fds[WE]);
+	printf("EA fd: %d\n", gen_data.texture_fds[EA]);
+	printf("ceil: %#X\n", gen_data.ceil_clr);
+	printf("floor: %#X\n", gen_data.floor_clr);
+	for (int i = 0; gen_data.map_arr[i]; i++)
+		printf("%s\n", gen_data.map_arr[i]);
+	ft_free_2d_char_arr(gen_data.map_arr);
 	return (EXIT_SUCCESS);
 }
 
