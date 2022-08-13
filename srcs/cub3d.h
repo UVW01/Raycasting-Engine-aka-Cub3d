@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/12 17:39:38 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/13 11:21:26 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,6 @@ typedef enum s_dirctn
 	EA		// East
 }	t_dirctn;
 
-/*
-NOT GONNA NEED THESE ANYMORE
-typedef enum s_map_objs
-{
-	NONE,		// Map delimiter		(the last thing on the x-axis of the map)
-	I_SPC,		// Inside_SPaCe			(playable space)
-	O_SPC,		// Outside_SPaCe		(non playable space)
-	WALL,		// (Self-explanatory)
-	P_POS,		// Player_POSition		(player's spawn point)
-}	t_map_objs;
-*/
 /* -------------------------------- STRUCTS --------------------------------- */
 typedef struct s_gen_data
 {

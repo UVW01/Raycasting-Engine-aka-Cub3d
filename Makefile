@@ -6,7 +6,7 @@
 #    By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 10:53:27 by mnaimi            #+#    #+#              #
-#    Updated: 2022/08/13 10:06:24 by mnaimi           ###   ########.fr        #
+#    Updated: 2022/08/13 11:26:01 by mnaimi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,15 +41,21 @@ HEADER		:= srcs/cub3d.h
 all: ${NAME}
 
 ${NAME}: ${HEADER}
-	@make -C includes/libft
+	@echo "Making dependencies, please wait ..."
+	@make -C includes/MLX42 >> /dev/null
+	@make -C includes/libft >> /dev/null
+	@echo "Making ./cub3d executable, please wait ..."
 	@${CC} ${CC_FLAGS} ${CC_OPTS} ${MAIN} ${SRCS} -o ${NAME}
 	@echo "${NAME}: Compiled successfully"
 
 clean:
-	@make -C includes/libft clean
+	@make clean -C includes/libft >> /dev/null
+	@make clean -C includes/MLX42 >> /dev/null
+	
 
 fclean: clean
 	@rm -f ${NAME}
-	@make -C includes/libft fclean
+	@make fclean -C includes/libft >> /dev/null
+	@make fclean -C includes/MLX42 >> /dev/null
 
 re: fclean all

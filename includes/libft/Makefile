@@ -6,20 +6,11 @@
 #    By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by ███████╗██║       #+#    #+#              #
-#    Updated: 2022/08/11 14:47:40 by mnaimi           ###   ########.fr        #
+#    Updated: 2022/08/13 11:22:58 by mnaimi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-# ------------------------------- Color Codes -------------------------------- #
-NC := \033[0m
-RED := \033[31m
-YEL := \033[33m
-GRA := \033[37m
-CYN := \033[36m
-GRN := \033[32m
-MGN := \033[35m
-BLU := \033[34m
 
 # -------------------------------- Variables --------------------------------- #
 CC := gcc
@@ -52,12 +43,9 @@ NAME := libft.a
 # ---------------------------------- Recipes --------------------------------- #
 all: title ${NAME}
 
-title:
-	@printf "\n${YEL}\033[4mEntering ${GRA}${PROJECT}${YEL}'s makefile:${NC} "
-
 ${NAME}: ${OBJS_DIR} ${OBJS} ${HEADER}
 	@ar -rcs ${NAME} ${OBJS}
-	@printf "$(CYN)Archive file $(GRA)$(NAME)$(CYN) created $(NC)\n"
+	@printf "Archive file $(NAME) created\n"
 
 ${OBJS_DIR}%.o: ${SRCS_DIR}%.c ${HEADER}
 	@${CC} ${CC_FLAGS} -c $< -o $@
@@ -67,11 +55,10 @@ $(OBJS_DIR):
 
 clean:
 	@rm -rf ${OBJS_DIR}
-	@echo "${GRA}${PROJECT}${RED}\t\tobject files have been deleted${NC}"
+	@echo "LIBFT Object files deleted"
 
 fclean:
 	@rm -f ${NAME}
-	@echo "${GRA}${PROJECT}${RED}\t\tarchive file ${GRA}${NAME}${RED}\t\t"\
-		"has been deleted${NC}"
+	@echo "${NAME} library file deleted${NC}"
 
 re: fclean all
