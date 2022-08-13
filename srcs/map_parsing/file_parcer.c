@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 12:03:20 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/12 17:39:11 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/13 17:50:49 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,9 @@ int	process_file_data(char *filename, t_gen_data *gen_data)
 		else if (line[0] && mp_obj_found == false)
 			check_and_init_data(line, gen_data);
 		else if (line[0] && mp_obj_found == true)
-			ft_perror(MAP_ERR"Map elements wrongly ordered", 1);
+			ft_perror(MAP_ERR"Check your map again", 1);
 		free(line);
 		line = get_next_line(map_fd, 1);
 	}
-	return (close(map_fd));
+	return (map_is_closed(gen_data->map_arr), only_one_player(gen_data->map_arr), close(map_fd));
 }

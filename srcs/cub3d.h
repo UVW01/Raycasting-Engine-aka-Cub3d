@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/13 11:21:26 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/13 17:42:29 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 // Custom
 # include "../includes/get_next_line/get_next_line.h"
-# include "../includes/MLX42/include/MLX42/MLX42.h"
+# include <mlx.h>
 
 /* -------------------------------- MACROS ---------------------------------- */
 # define WIN_WIDTH		1920
@@ -61,14 +61,24 @@ typedef struct s_gen_data
 	char	**map_arr;
 }	t_gen_data;						// General Data
 
+typedef struct s_coords
+{
+	int		y;
+	int		x;
+}	t_coords;	
+
 /* -------------------------------- TYPEDEFS -------------------------------- */
 typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* ------------------------------- PROTOTYPES ------------------------------- */
-/* data_init.c
-?		These functions are only used in the parsing part (file_parcer.c) 
-?	of the project */ 
+//* check_map.c
+void		map_is_closed(char **map_arr);
+void		only_one_player(char **map_arr);
+
+//* data_init.c
+//*	These functions are only used in the parsing part (file_parcer.c) 
+//*	of the project
 void	check_init_color(char **line_split, t_gen_data *gen_data);
 void	check_init_direction_texture(char **line_split, t_gen_data *gen_data);
 
