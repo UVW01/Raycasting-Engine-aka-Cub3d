@@ -6,7 +6,7 @@
 #    By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 10:53:27 by mnaimi            #+#    #+#              #
-#    Updated: 2022/08/12 13:53:07 by mnaimi           ###   ########.fr        #
+#    Updated: 2022/08/13 10:06:24 by mnaimi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ CC_OPTS		:= -I /usr/local/include \
 # ---------------------------------------------------------------------------- #
 
 SRCS_DIR	:= srcs/
-SRCS_LST	:= map_parsing/file_reader.c
+SRCS_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c
 SRCS		:= ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
 
 NAME		:= cub3d

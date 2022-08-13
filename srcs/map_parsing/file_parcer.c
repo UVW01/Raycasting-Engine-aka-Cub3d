@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_reader.c                                      :+:      :+:    :+:   */
+/*   file_parcer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/08 12:03:20 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/12 16:31:46 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/12 17:39:11 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
+/* -- Notes: ---------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	check_and_init_data(char *line, t_gen_data *gen_data)
 {
@@ -31,8 +31,8 @@ static void	check_and_init_data(char *line, t_gen_data *gen_data)
 	ft_free_2d_char_arr(line_split);
 }
 
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
+/* -- Notes: ---------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static bool	is_map_objs(char *line, bool *is_mp_obj)
 {
@@ -47,8 +47,8 @@ static bool	is_map_objs(char *line, bool *is_mp_obj)
 	return (free(tmp), false);
 }
 
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
+/* -- Notes: ---------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	process_map_arr(t_gen_data *gen_data, char *line)
 {
@@ -70,8 +70,8 @@ static void	process_map_arr(t_gen_data *gen_data, char *line)
 	gen_data->map_arr = tmp_arr;
 }
 
-/* -- Notes: ---------------------------------------------------------------- *\
-\* -------------------------------------------------------------------------- */
+/* -- Notes: ---------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	init_default_values(t_gen_data *gen_data, bool *mp_obj_found)
 {
@@ -85,11 +85,11 @@ static void	init_default_values(t_gen_data *gen_data, bool *mp_obj_found)
 	*mp_obj_found = false;
 }
 
-/* -- Notes: ---------------------------------------------------------------- *\
-* I have modified the get_next_line function so that it trims the trailing 
-*	newline '\n' character, it is more convinient than triming it later with 
-*	'ft_strtrim', it just lowers the code's complexity
-\* -------------------------------------------------------------------------- */
+/* -- Notes: ---------------------------------------------------------------- */
+//* I have modified the get_next_line function so that it trims the trailing 
+//* newline '\n' character, it is more convinient than triming it later with 
+//* 'ft_strtrim', it just lowers the code's complexity
+/* -------------------------------------------------------------------------- */
 
 int	process_file_data(char *filename, t_gen_data *gen_data)
 {
