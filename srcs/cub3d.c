@@ -32,23 +32,28 @@
 /* -- Notes: ---------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
+
+/* -- Notes: this gonna render/or trigger map player etc.. in the window */
+/* -------------------------------------------------------------------------- */
+void	render(t_cub *cub)
+{
+	cub->win.mlx = mlx_init();
+    cub->win.win = mlx_new_window(cub->win.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
+
+	towD_rendering(cub);
+	mlx_loop(cub->win.mlx);
+}
+
+
+
 int	main(int ac, char **av)
 {
-	t_gen_data	gen_data;
-
+	t_cub	cub;
+	
 	if (ac != 2)
 		return (EXIT_FAILURE);
-	// atexit(check_leaks);
-	printf("filename:\t%s\n\n", av[1]);
-	process_file_data(av[1], &gen_data);
-	printf("NO fd: %d\n", gen_data.texture_fds[NO]);
-	printf("SO fd: %d\n", gen_data.texture_fds[SO]);
-	printf("WE fd: %d\n", gen_data.texture_fds[WE]);
-	printf("EA fd: %d\n", gen_data.texture_fds[EA]);
-	printf("ceil: %#X\n", gen_data.ceil_clr);
-	printf("floor: %#X\n", gen_data.floor_clr);
-	for (int i = 0; gen_data.map_arr[i]; i++)
-		printf("%s\n", gen_data.map_arr[i]);
-	ft_free_2d_char_arr(gen_data.map_arr);
+	process_file_data(av[1], &cub.gen_data);
+	render(&cub);
+	ft_free_2d_char_arr(cub.gen_data.map_arr);
 	return (EXIT_SUCCESS);
 }

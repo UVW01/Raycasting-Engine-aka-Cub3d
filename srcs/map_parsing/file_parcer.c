@@ -15,7 +15,7 @@
 /* -- Notes: ---------------------------------------------------------------- */
 /* -------------------------------------------------------------------------- */
 
-static void	check_and_init_data(char *line, t_gen_data *gen_data)
+static void	check_and_init_img_args(char *line, t_gen_data *gen_data)
 {
 	char	**line_split;
 
@@ -109,7 +109,7 @@ int	process_file_data(char *filename, t_gen_data *gen_data)
 		if (line[0] && is_map_objs(line, &mp_obj_found))
 			process_map_arr(gen_data, line);
 		else if (line[0] && mp_obj_found == false)
-			check_and_init_data(line, gen_data);
+			check_and_init_img_args(line, gen_data);
 		else if (line[0] && mp_obj_found == true)
 			ft_perror(MAP_ERR"Check your map again", 1);
 		free(line);
