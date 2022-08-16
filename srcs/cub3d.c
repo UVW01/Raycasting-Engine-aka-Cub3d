@@ -33,7 +33,7 @@
 /* -------------------------------------------------------------------------- */
 
 
-/* -- Notes: this gonna render/or trigger map player etc.. in the window */
+/* -- Notes: this gonna render/trigger map player etc.. in the window */
 /* -------------------------------------------------------------------------- */
 void	render(t_cub *cub)
 {
