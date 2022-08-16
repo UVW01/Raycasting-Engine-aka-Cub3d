@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/13 17:42:29 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/16 10:40:24 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 # include <mlx.h>
 
 /* -------------------------------- MACROS ---------------------------------- */
-# define WIN_WIDTH		1920
 # define WIN_HEIGHT		1080
+# define WIN_WIDTH		1920
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"
 
@@ -46,43 +46,62 @@
 
 typedef enum s_dirctn
 {
-	NO,		// North
-	SO,		// South
-	WE,		// West
-	EA		// East
+	NO,
+	SO,
+	WE,
+	EA
 }	t_dirctn;
 
 /* -------------------------------- STRUCTS --------------------------------- */
-typedef struct s_gen_data
+typedef struct s_input
 {
 	int		texture_fds[4];
 	int		ceil_clr;
 	int		floor_clr;
 	char	**map_arr;
-}	t_gen_data;						// General Data
+}	t_input;
 
 typedef struct s_coords
 {
 	int		y;
 	int		x;
-}	t_coords;	
+}	t_coords;
+
+typedef struct s_img
+{
+	void	*img_ptr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	char	*addr;
+}	t_img;
+
+typedef struct s_display
+{
+	void	*mlx;
+	void	*win;
+	t_img	img;
+	t_input	input;
+}	t_display;
 
 /* -------------------------------- TYPEDEFS -------------------------------- */
 typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* ------------------------------- PROTOTYPES ------------------------------- */
-//* check_map.c
-void		map_is_closed(char **map_arr);
-void		only_one_player(char **map_arr);
+/* - - check_map.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - / /
+These functions are only used in the parsing (file_parcer.c) part of the project
+/ / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	map_is_closed(char **map_arr);
+void	only_one_player(char **map_arr);
 
-//* data_init.c
-//*	These functions are only used in the parsing part (file_parcer.c) 
-//*	of the project
-void	check_init_color(char **line_split, t_gen_data *gen_data);
-void	check_init_direction_texture(char **line_split, t_gen_data *gen_data);
+/* - - data_init.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - / /
+These functions are only used in the parsing (file_parcer.c) part of the project
+/ / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	check_init_color(char **line_split, t_input *gen_data);
+void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
-//	file_parser.c
-int		process_file_data(char *filename, t_gen_data *gen_data);
+/* - - file_parser.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	process_file_data(char *filename, t_input *gen_data);
 
 #endif

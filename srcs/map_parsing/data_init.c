@@ -6,14 +6,14 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/12 16:32:06 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/12 20:28:06 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/16 10:34:36 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/* -- Notes: ---------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
+/* -- Notes: ----------------------------------------------------------------/ /
+/ /------------------------------------------------------------------------- */
 
 static void	error_check_colors(char *a_rgb)
 {
@@ -33,7 +33,7 @@ static void	error_check_colors(char *a_rgb)
 	}
 }
 
-void	check_init_color(char **line_split, t_gen_data *gen_data)
+void	check_init_color(char **line_split, t_input *gen_data)
 {
 	int		i;
 	int		*clr;
@@ -65,19 +65,19 @@ void	check_init_color(char **line_split, t_gen_data *gen_data)
 	ft_free_2d_char_arr(a_rgb);
 }
 
-/* -- Notes: ---------------------------------------------------------------- */
-/* -------------------------------------------------------------------------- */
+/* -- Notes: ----------------------------------------------------------------/ /
+/ /------------------------------------------------------------------------- */
 
-static void	init_texture_fds(int dirctn, t_gen_data *gen_data, int fd)
+static void	init_texture_fds(int dirctn, t_input *gen_data, int fd)
 {
 	if (gen_data->texture_fds[dirctn] != -69)
 		ft_perror(MAP_ERR"Texture redefinition", 1);
 	gen_data->texture_fds[dirctn] = fd;
 }
 
-void	check_init_direction_texture(char **line_split, t_gen_data *gen_data)
+void	check_init_direction_texture(char **line_split, t_input *gen_data)
 {
-	int	file_fd;
+	int		file_fd;
 
 	file_fd = open(line_split[1], O_RDONLY);
 	if (file_fd < 0)

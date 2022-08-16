@@ -3,15 +3,15 @@ This project is inspired by the world-famous Wolfenstein 3D game, which was the 
 
 ## ToDo Lists
 ### Parsing Rules
-- [ ] Program only takes one arguments
-- [ ] Argument must represent the map file
-- [ ] The map file should always end with a `.cub` extension
-- [ ] The map must be closed/surrounded by walls
-- [ ] The map content has to be the last, always
-- [ ] Each type of element can be: 
-  - [ ] separated by one or more empty line(s)
-  - [ ] set in any order in the file.
-- [ ] Each type of information from an element can be separated by one or more space(s) 
+- [x] Program only takes one arguments
+- [x] Argument must represent the map file
+- [x] The map file should always end with a `.cub` extension
+- [x] The map must be closed/surrounded by walls
+- [x] The map content has to be the last, always
+- [x] Each type of element can be: 
+  - [x] separated by one or more empty line(s)
+  - [x] set in any order in the file.
+- [x] Each type of information from an element can be separated by one or more space(s) 
 
 
 
