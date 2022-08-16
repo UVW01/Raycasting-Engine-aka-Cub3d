@@ -50,10 +50,10 @@ void    draw_box(int x, int y, int color, t_img_args *img)
     int     j;
 
     i = 0;
-    while(i < 16)
+    while(i < 20)
     {
         j = 0;
-        while(j < 16)
+        while(j < 20)
         {
             dda.x0 = x;
             dda.y0 = y;

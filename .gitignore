@@ -1,0 +1,6 @@
+includes/MLX42/
+.vscode/
+cub3d
+*.o
+*.a
+*.txt
