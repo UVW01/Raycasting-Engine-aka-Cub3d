@@ -49,14 +49,14 @@ void    draw_box(int x, int y, int color, t_img_args *img)
     int     i;
     int     j;
 
-    i = 0;
-    while(i < 20)
+    dda.x0 = x;
+    dda.y0 = y;
+    i = 1;
+    while(i <= 20)
     {
-        j = 0;
-        while(j < 20)
+        j = 1;
+        while(j <= 20)
         {
-            dda.x0 = x;
-            dda.y0 = y;
             dda.x1 = x + j;
             dda.y1 = y + i;
             dda.color = color;
@@ -67,24 +67,26 @@ void    draw_box(int x, int y, int color, t_img_args *img)
     }
 }
 
-void    draw_player(int x, int y, int color, t_img_args *img)
+void    draw_player(int x, int y, int color, t_cub *cub)
 {
     t_dda  dda;
     int i;
     int j;
 
-    i = 0;
-    while(i < 5)
+    x -= 3;
+    y -= 3;
+    dda.x0 = x;
+    dda.y0 = y;
+    i = 1;
+    while(i <= 6)
     {
-        j = 0;
-        while(j < 5)
+        j = 1;
+        while(j <= 6)
         {
-            dda.x0 = x + 5;
-            dda.y0 = y + 5;
-            dda.x1 = x + j + 5;
-            dda.y1 = y + i + 5;
+            dda.x1 = x + j;
+            dda.y1 = y + i;
             dda.color = color;
-            DDA(dda, img);
+            DDA(dda, &cub->map_img);
             j++;
         }
         i++;

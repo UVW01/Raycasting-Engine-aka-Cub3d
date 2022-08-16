@@ -141,7 +141,7 @@ void	my_mlx_pixel_put(t_img_args *data, int x, int y, int color);
 void	DDA_util(t_dda dda, int *steps, float *Xinc, float *Yinc);
 void	DDA(t_dda dda, t_img_args *img);
 void	draw_box(int x, int y, int color, t_img_args *img);
-void    draw_player(int x, int y, int color, t_img_args *img);
+void    draw_player(int x, int y, int color, t_cub *cub);
 
 /*--------------------------------2D_RENDERING--------------------------------*/
 void    render_2d(t_cub *cub);

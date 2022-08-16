@@ -53,25 +53,25 @@ void    render_2d(t_cub *cub)
             if (ft_strchr("NSWE", cub->gen_data.map_arr[i][j]))
             {
                 color = 0x4D0244;
-                x_player = (j * 20);
-                y_player = (i * 20);
+                x_player = (j * 20) + 10;
+                y_player = (i * 20) + 10;
             }
             draw_box(j * 20, i * 20, color, &cub->map_img);
             j++;
         }
         i++;
     }
-    draw_player(x_player + cub->player.x, y_player + cub->player.y, 0xff6a00, &cub->map_img);
+    draw_player(x_player + cub->player.x, y_player + cub->player.y, 0xff6a00, cub);
     mlx_put_image_to_window(cub->win.mlx, cub->win.win, cub->map_img.img, 0, 0);
 }
 
 /* -- Notes: this used to render/draw player poind to map */
 /* -------------------------------------------------------------------------- */
 
-void    render_player(t_cub *cub)//for drawing player point in the window
-{
-    // player stuff will be added here
-}
+// void    render_player(t_cub *cub)//for drawing player point in the window
+// {
+//     // player stuff will be added here
+// }
 
 /* -- Notes: used to handel movement of the player when a user pressed a key */
 /* -------------------------------------------------------------------------- */
