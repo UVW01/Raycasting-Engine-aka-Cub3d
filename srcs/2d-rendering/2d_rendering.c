@@ -32,14 +32,13 @@ void    render_2d(t_cub *cub)
     int i;
     int j;
     int color;
-    int x_square;
-    int y_square;
+    int x_player;
+    int y_player;
 
     cub->map_img.img = mlx_new_image(cub->win.mlx, WIN_WIDTH, WIN_HEIGHT);// creating 2d map img
-    cub->map_img.addr = mlx_get_data_addr(cub->map_img.img, &cub->map_img.bits_per_pixel, &cub->map_img.line_length, &cub->map_img.endian);// getting img atterbutes
-
-    x_square = (WIN_WIDTH / get_longest_grid(cub->gen_data.map_arr));// gonna use it later
-    y_square = (WIN_HEIGHT / get_longest_grid(cub->gen_data.map_arr));// gonna use it later
+    cub->map_img.addr = mlx_get_data_addr(cub->map_img.img, \
+        &cub->map_img.bits_per_pixel, &cub->map_img.line_length, \
+        &cub->map_img.endian);// getting img atterbutes
     i = 0;
     while(cub->gen_data.map_arr[i])
     {
@@ -47,15 +46,22 @@ void    render_2d(t_cub *cub)
         while(cub->gen_data.map_arr[i][j])
         {
             color = 0x2DC7EF;
-            if (cub->gen_data.map_arr[i][j] == '0' || ft_strchr("NSWE", cub->gen_data.map_arr[i][j]))
+            if (cub->gen_data.map_arr[i][j] == '0')
                 color = 0x4D0244;
             else if (cub->gen_data.map_arr[i][j] == ' ')
                 color = 0x000000;
-            draw_box(j * 15, i * 15, color, &cub->map_img);
+            if (ft_strchr("NSWE", cub->gen_data.map_arr[i][j]))
+            {
+                color = 0x4D0244;
+                x_player = (j * 20);
+                y_player = (i * 20);
+            }
+            draw_box(j * 20, i * 20, color, &cub->map_img);
             j++;
         }
         i++;
     }
+    draw_player(x_player + cub->player.x, y_player + cub->player.y, 0xff6a00, &cub->map_img);
     mlx_put_image_to_window(cub->win.mlx, cub->win.win, cub->map_img.img, 0, 0);
 }
 
@@ -64,32 +70,7 @@ void    render_2d(t_cub *cub)
 
 void    render_player(t_cub *cub)//for drawing player point in the window
 {
-    int i;
-    int j;
-    int color;
-    int x_square;
-    int y_square;
-
-    // cub->player_img.img = mlx_new_image(cub->win.mlx, 3, 3);//init player img
-    // cub->player_img.addr = mlx_get_data_addr(cub->player_img.img, &cub->player_img.bits_per_pixel, &cub->player_img.line_length, &cub->player_img.endian);// getting img atterebutes
-
-    cub->player_img.img = mlx_xpm_file_to_image(cub->win.mlx, "eye.xpm",
-        &cub->player_img.img_width, &cub->player_img.img_height);
-    x_square = (WIN_WIDTH / get_longest_grid(cub->gen_data.map_arr));// gonna use it later
-    y_square = (WIN_HEIGHT / get_longest_grid(cub->gen_data.map_arr));// gonna use it later
-    i = 0;
-    while(cub->gen_data.map_arr[i])
-    {
-        j = 0;
-        while(cub->gen_data.map_arr[i][j])
-        {
-            color = 0xDE0F17;
-            if (ft_strchr("NSWE", cub->gen_data.map_arr[i][j]))
-                mlx_put_image_to_window(cub->win.mlx, cub->win.win, cub->player_img.img, (j * 15) + cub->player.x, (i * 15) + cub->player.y);
-            j++;
-        }
-        i++;
-    }
+    // player stuff will be added here
 }
 
 /* -- Notes: used to handel movement of the player when a user pressed a key */
@@ -106,7 +87,8 @@ int	player_move(int keycode, t_cub *cub) // This stuff not working well
         cub->player.y--;
     else if (keycode == 125)
         cub->player.y++;
-	render_player(cub);
+    mlx_destroy_image(cub->win.mlx, cub->map_img.img);
+	render_2d(cub);
 	return (0);
 }
 
@@ -119,6 +101,5 @@ void towD_rendering(t_cub *cub)
     cub->player.y = 1;
 
     render_2d(cub);
-    render_player(cub);
     mlx_hook(cub->win.win, 2, 1L<<0, player_move, cub);
 }
