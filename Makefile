@@ -24,9 +24,11 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 
 # ---------------------------------------------------------------------------- #
 
-SRCS_DIR	:= srcs/
-SRCS_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c
-SRCS		:= ${addprefix ${SRCS_DIR}, ${SRCS_LST}}
+GEN_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c
+TOWD_RENDRING_LIST = 2d_rendering.c drawing_algo.c
+
+SRCS		:= ${addprefix srcs/, ${GEN_LST}} \
+				${addprefix srcs/2d-rendering/, ${TOWD_RENDRING_LIST}}
 
 NAME		:= cub3d
 MAIN		:= srcs/cub3d.c
@@ -38,7 +40,7 @@ HEADER		:= srcs/cub3d.h
 
 all: ${NAME}
 
-${NAME}: ${HEADER}
+${NAME}: ${HEADER} ${MAIN} ${SRCS}
 	@echo "Making dependencies, please wait ..."
 	@make -C includes/libft >> /dev/null
 	@echo "Making ./cub3d executable, please wait ..."
