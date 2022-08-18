@@ -15,15 +15,15 @@
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
 
-static void	check_horizontally(char **map_arr, t_coords *coords)
+static void	check_horizontally(char **map_arr, t_coords *pixel)
 {
 	char	*elems;
 	int		len;
 	int		x;
 
-	elems = map_arr[coords->y];
+	elems = map_arr[pixel->y];
 	len = ft_strlen(elems);
-	x = coords->x;
+	x = pixel->x;
 	while (--x >= 0)
 	{
 		if (elems[x] == '1')
@@ -31,7 +31,7 @@ static void	check_horizontally(char **map_arr, t_coords *coords)
 		else if ((x == 0 && elems[x] != '1') || elems[x] == ' ')
 			ft_perror(MAP_ERR"Unclosed/Invalid map elements", 1);
 	}
-	x = coords->x;
+	x = pixel->x;
 	while (elems[++x])
 	{
 		if (elems[x] == '1')
@@ -43,26 +43,26 @@ static void	check_horizontally(char **map_arr, t_coords *coords)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static void	check_vertically(char **map_arr, t_coords *coords)
+static void	check_vertically(char **map_arr, t_coords *pixel)
 {
 	int		y;
 
-	y = coords->y;
+	y = pixel->y;
 	while (--y >= 0)
 	{
-		if (map_arr[y][coords->x] == '1')
+		if (map_arr[y][pixel->x] == '1')
 			break ;
-		else if ((y == 0 && map_arr[y][coords->x] != '1') || \
-			map_arr[y][coords->x] == ' ')
+		else if ((y == 0 && map_arr[y][pixel->x] != '1') || \
+			map_arr[y][pixel->x] == ' ')
 			ft_perror(MAP_ERR"Unclosed/Invalid map elements", 1);
 	}
-	y = coords->y;
+	y = pixel->y;
 	while (map_arr[++y])
 	{
-		if (map_arr[y][coords->x] == '1')
+		if (map_arr[y][pixel->x] == '1')
 			break ;
-		else if ((map_arr[y + 1] == NULL && map_arr[y][coords->x] != '1') || \
-			map_arr[y][coords->x] == ' ')
+		else if ((map_arr[y + 1] == NULL && map_arr[y][pixel->x] != '1') || \
+			map_arr[y][pixel->x] == ' ')
 			ft_perror(MAP_ERR"Unclosed/Invalid map elements", 1);
 	}
 }
@@ -71,22 +71,22 @@ static void	check_vertically(char **map_arr, t_coords *coords)
 
 void	map_is_closed(char **map_arr)
 {
-	t_coords	coords;
+	t_coords	pixel;
 
-	coords.y = -1;
-	while (map_arr[++coords.y])
+	pixel.y = -1;
+	while (map_arr[++pixel.y])
 	{
-		coords.x = -1;
-		while (map_arr[coords.y][++coords.x])
+		pixel.x = -1;
+		while (map_arr[pixel.y][++pixel.x])
 		{
-			if ((map_arr[coords.y][coords.x] == '0' ||
-				map_arr[coords.y][coords.x] == 'N' ||
-				map_arr[coords.y][coords.x] == 'E' ||
-				map_arr[coords.y][coords.x] == 'W' ||
-				map_arr[coords.y][coords.x] == 'S'))
+			if ((map_arr[pixel.y][pixel.x] == '0' ||
+				map_arr[pixel.y][pixel.x] == 'N' ||
+				map_arr[pixel.y][pixel.x] == 'E' ||
+				map_arr[pixel.y][pixel.x] == 'W' ||
+				map_arr[pixel.y][pixel.x] == 'S'))
 			{
-				check_vertically(map_arr, &coords);
-				check_horizontally(map_arr, &coords);
+				check_vertically(map_arr, &pixel);
+				check_horizontally(map_arr, &pixel);
 			}
 		}
 	}
@@ -98,19 +98,19 @@ void	map_is_closed(char **map_arr)
 void	only_one_player(char **map_arr)
 {
 	int			count;
-	t_coords	coords;
+	t_coords	pixel;
 
 	count = 0;
-	coords.y = -1;
-	while (map_arr[++coords.y])
+	pixel.y = -1;
+	while (map_arr[++pixel.y])
 	{
-		coords.x = -1;
-		while (map_arr[coords.y][++coords.x])
+		pixel.x = -1;
+		while (map_arr[pixel.y][++pixel.x])
 		{
-			if (map_arr[coords.y][coords.x] == 'N' ||
-				map_arr[coords.y][coords.x] == 'E' ||
-				map_arr[coords.y][coords.x] == 'W' ||
-				map_arr[coords.y][coords.x] == 'S')
+			if (map_arr[pixel.y][pixel.x] == 'N' ||
+				map_arr[pixel.y][pixel.x] == 'E' ||
+				map_arr[pixel.y][pixel.x] == 'W' ||
+				map_arr[pixel.y][pixel.x] == 'S')
 				++count;
 		}
 	}

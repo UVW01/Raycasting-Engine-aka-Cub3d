@@ -24,11 +24,12 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 
 # ---------------------------------------------------------------------------- #
 
-GEN_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c
-TOWD_RENDRING_LIST = 2d_rendering.c drawing_algo.c
+GEN_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c \
+	minimap_dislay/draw_minimap.c minimap_dislay/draw_line.c
+#TOWD_RENDRING_LIST = 2d_rendering.c drawing_algo.c
 
-SRCS		:= ${addprefix srcs/, ${GEN_LST}} \
-				${addprefix srcs/2d-rendering/, ${TOWD_RENDRING_LIST}}
+SRCS		:= ${addprefix srcs/, ${GEN_LST}}
+#				${addprefix srcs/2d-rendering/, ${TOWD_RENDRING_LIST}}
 
 NAME		:= cub3d
 MAIN		:= srcs/cub3d.c

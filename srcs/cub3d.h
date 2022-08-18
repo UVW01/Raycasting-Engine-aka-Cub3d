@@ -41,9 +41,33 @@
 # define FD_ERR				"File not found"
 # define MAP_ERR			"Invalid map: "
 # define GEN_ERR			"Internal error: "
+# define MLX_ERR			"Minilibx error"
+# define WIN_ERR			"Window error"
 
+/* -------------------------------- EVENTS ---------------------------------- */
+# define NO_EVENT_MASK		0L
+# define KEY_PRESS_MASK		(1L<<0)
+# define KEY_RELEASE_MASK	(1L<<1)
+
+# define KEY_PRESS			2
+# define DESTROY_NOTIFY		17
+
+# define KEY_ESCAPE		53
+# define KEY_UP			126
+# define KEY_DOWN		125
+# define KEY_RIGHT		124
+# define KEY_LEFT		123
+# define KEY_C			8
+# define KEY_R			15
+# define KEY_P			35
+# define KEY_X			7
+# define KEY_Y			16
+# define KEY_Z			6
+# define KEY_PAD_SUB	78
+# define KEY_PAD_ADD	69
+# define KEY_PAGE_UP	116
+# define KEY_PAGE_DOWN	121
 /* --------------------------------- ENUMS ---------------------------------- */
-
 typedef enum s_dirctn
 {
 	NO,
@@ -51,6 +75,10 @@ typedef enum s_dirctn
 	WE,
 	EA
 }	t_dirctn;
+
+/* -------------------------------- TYPEDEFS -------------------------------- */
+typedef unsigned char	t_uchar;
+typedef unsigned int	t_uint;
 
 /* -------------------------------- STRUCTS --------------------------------- */
 typedef struct s_input
@@ -67,88 +95,66 @@ typedef struct s_coords
 	int		x;
 }	t_coords;
 
-/* ------------------------------- mlx stuff ------------------------------- */
- 
-// window stuff
-typedef struct	s_win {
-	void	*mlx;
-	void	*win;
-}				t_win;
+typedef struct s_brsnhm
+{
+	t_coords	dlta;
+	t_coords	pxl;
+	t_coords	s;
+	int			err;
+	int			e2;
+}	t_brsnhm;
 
-// drawing stuff
-typedef struct	s_data {
-	void	*img;
-    int     img_height;
-    int     img_width;
+typedef struct s_player
+{
+	t_coords	position;
+	int			updown;
+	int			rotation;
+}	t_player;
+
+typedef struct s_img
+{
+	void	*img_ptr;
 	char	*addr;
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-}				t_img_args;
-
-/* ----------------------------- dda algo stuff --------------------------- */
-typedef struct s_dda
+    int     height;
+    int     width;
+}	t_img;
+ 
+typedef struct s_display
 {
-    int x0;
-    int x1;
-    int y0;
-    int y1;
-    int color;
-}   t_dda;
-
-typedef struct s_player
-{
-	int x;
-	int	y;
-	int updown;
-	int	rotation;
-}	t_player;
-
-/* ------------------- struct that conteans all data ------------------------ */
+	void	*mlx;
+	void	*win;
+	t_img	img;
+}	t_display;
 
 typedef struct s_cub
 {
-	t_input		gen_data;
-	t_win		win;
-	t_img_args	map_img;
-	t_img_args	player_img;
-	t_player	player;
+	t_input		input;
+	t_display	display;
 }	t_cub;
 
-/* -------------------------------- TYPEDEFS -------------------------------- */
-typedef unsigned char	t_uchar;
-typedef unsigned int	t_uint;
-
 /* ------------------------------- PROTOTYPES ------------------------------- */
-/* - - check_map.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - / /
+/* -  - check_map.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
 These functions are only used in the parsing (file_parcer.c) part of the project
-/ / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/ / -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
 void	map_is_closed(char **map_arr);
 void	only_one_player(char **map_arr);
 
-/* - - data_init.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - / /
+/* -  - data_init.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
 These functions are only used in the parsing (file_parcer.c) part of the project
-/ / - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/ / -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
 void	check_init_color(char **line_split, t_input *gen_data);
 void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
 /* - - file_parser.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void	process_file_data(char *filename, t_input *gen_data);
 
-/*--------------------------------DRAWING LOGIC--------------------------------*/
+/* - - draw_line.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
 
-void	my_mlx_pixel_put(t_img_args *data, int x, int y, int color);
-void	DDA_util(t_dda dda, int *steps, float *Xinc, float *Yinc);
-void	DDA(t_dda dda, t_img_args *img);
-void	draw_box(int x, int y, int color, t_img_args *img);
-void    draw_player(int x, int y, int color, t_cub *cub);
-
-/*--------------------------------2D_RENDERING--------------------------------*/
-void    render_2d(t_cub *cub);
-void	render_player(t_cub *cub);
-void	towD_rendering(t_cub *cub);
-
-/*--------------------------------RENDER--------------------------------*/
-void	render(t_cub *cub);
+/* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void	draw_minimap(t_img *img, char **map_arr, int size, t_coords start);
 
 #endif

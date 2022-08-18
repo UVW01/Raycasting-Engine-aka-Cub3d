@@ -13,6 +13,7 @@ This project is inspired by the world-famous Wolfenstein 3D game, which was the 
   - [x] set in any order in the file.
 - [x] Each type of information from an element can be separated by one or more space(s) 
 
+###/
 
 
 ### DisplayRules
