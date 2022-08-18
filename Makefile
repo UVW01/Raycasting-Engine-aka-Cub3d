@@ -25,11 +25,11 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 # ---------------------------------------------------------------------------- #
 
 #TOWD_RENDRING_LIST = 2d_rendering.c drawing_algo.c
-GEN_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c
+GEN_LST	:= file_parcer.c data_init.c check_map.c
 MINI_MAP :=	draw_minimap.c draw_line.c draw_background.c window_manag.c
 EVENTS	:= 	handle_keypress.c handle_mouse_events.c handle_misc_events.c
 
-SRCS		:= ${addprefix srcs/, ${GEN_LST}} \
+SRCS		:= ${addprefix srcs/map_parsing/, ${GEN_LST}} \
 				${addprefix srcs/display_management/, ${MINI_MAP}} \
 				${addprefix srcs/event_handling/, ${EVENTS}}
 
