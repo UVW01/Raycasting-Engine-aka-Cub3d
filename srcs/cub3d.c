@@ -29,19 +29,7 @@ void	init_mlx_params(t_display *display)
 		&display->img.endian);
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
 
-int	xclose(void *v_cub)
-{
-	t_cub	*cub;
-
-	cub = (t_cub *)v_cub;
-	ft_free_2d_char_arr(cub->input.map_arr);
-	mlx_destroy_image(cub->display.mlx, cub->display.img.img_ptr);
-	mlx_destroy_window(cub->display.mlx, cub->display.win);
-	return (exit(0), 0);
-}
 
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
@@ -54,7 +42,8 @@ void	init_display_params(t_cub *cub)
 	init_mlx_params(disp);
 	draw_minimap(&cub->display.img, cub->input.map_arr, 15, (t_coords){.x = 25, .y = 25});
 	mlx_put_image_to_window(disp->mlx, disp->win, disp->img.img_ptr, 0, 0);
-	mlx_hook(disp->win, KEY_PRESS, NO_EVENT_MASK, NULL, (void *)cub);
+	mlx_hook(disp->win, MOUSE_MOVEMENT, NO_EVENT_MASK, &mouse_move, (void *)cub);
+	mlx_hook(disp->win, KEY_PRESS, NO_EVENT_MASK, &key_press, (void *)cub);
 	mlx_hook(disp->win, DESTROY_NOTIFY, NO_EVENT_MASK, &xclose, (void *)cub);
 	mlx_loop(disp->mlx);
 }
@@ -65,7 +54,7 @@ void	init_display_params(t_cub *cub)
 int	main(int ac, char **av)
 {
 	t_cub	cub;
-
+	
 	if (ac != 2)
 		return (EXIT_FAILURE);
 	process_file_data(av[1], &cub.input);
