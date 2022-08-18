@@ -27,16 +27,16 @@ void	reset_window(void *mlx, void *win, t_img *img)
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
 
-static int	xclose(void *v_cub)
-{
-	t_cub	*cub;
+// static int	xclose(void *v_cub)
+// {
+// 	t_cub	*cub;
 
-	cub = (t_cub *)v_cub;
-	ft_free_2d_char_arr(cub->input.map_arr);
-	mlx_destroy_image(cub->display.mlx, cub->display.img.img_ptr);
-	mlx_destroy_window(cub->display.mlx, cub->display.win);
-	return (exit(0), 0);
-}
+// 	cub = (t_cub *)v_cub;
+// 	ft_free_2d_char_arr(cub->input.map_arr);
+// 	mlx_destroy_image(cub->display.mlx, cub->display.img.img_ptr);
+// 	mlx_destroy_window(cub->display.mlx, cub->display.win);
+// 	return (exit(0), 0);
+// }
 
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
@@ -71,6 +71,6 @@ void	init_display_params(t_cub *cub)
 	draw_minimap(&cub->display.img, cub->input.map_arr, 15, minimap);
 	mlx_put_image_to_window(disp->mlx, disp->win, disp->img.img_ptr, 0, 0);
 	mlx_hook(disp->win, KEY_PRESS, NO_EVENT_MASK, NULL, (void *)cub);
-	mlx_hook(disp->win, DESTROY_NOTIFY, NO_EVENT_MASK, &xclose, (void *)cub);
+	//mlx_hook(disp->win, DESTROY_NOTIFY, NO_EVENT_MASK, &xclose, (void *)cub);
 	mlx_loop(disp->mlx);
 }

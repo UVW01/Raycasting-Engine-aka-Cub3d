@@ -18,7 +18,7 @@
 int	main(int ac, char **av)
 {
 	t_cub	cub;
-
+	
 	if (ac != 2)
 		return (EXIT_FAILURE);
 	process_file_data(av[1], &cub.input);

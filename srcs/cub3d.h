@@ -6,7 +6,7 @@
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 06:53:32 by mnaimi            #+#    #+#             */
-/*   Updated: 2022/08/16 10:58:50 by mnaimi           ###   ########.fr       */
+/*   Updated: 2022/08/18 18:14:15 by mnaimi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,28 @@
 # define WIN_ERR			"Window error"
 
 /* -------------------------------- EVENTS ---------------------------------- */
+// ---------- Event masks --------/
 # define NO_EVENT_MASK		0L
 # define KEY_PRESS_MASK		(1L<<0)
 # define KEY_RELEASE_MASK	(1L<<1)
 
+// ---------- Event type --------/
 # define KEY_PRESS			2
 # define DESTROY_NOTIFY		17
+# define MOUSE_MOVEMENT		6
 
-# define KEY_ESCAPE		53
+// ---------- Event keys (directions) --------/
 # define KEY_UP			126
 # define KEY_DOWN		125
 # define KEY_RIGHT		124
 # define KEY_LEFT		123
+# define KEY_W			13
+# define KEY_S			1
+# define KEY_A			0
+# define KEY_D			2
+
+// ---------- Event keys (others) --------/
+# define KEY_ESCAPE		53
 # define KEY_C			8
 # define KEY_R			15
 # define KEY_P			35
@@ -107,7 +117,7 @@ typedef struct s_brsnhm
 
 typedef struct s_player
 {
-	t_coords	pos;		// Position
+	t_coords	position;		// Position
 	int			rot;		// Rotation
 }	t_player;
 
@@ -133,6 +143,7 @@ typedef struct s_cub
 {
 	t_input		input;
 	t_display	display;
+	t_player	player;
 }	t_cub;
 
 /* ------------------------------- PROTOTYPES ------------------------------- */
@@ -163,5 +174,20 @@ void	draw_background(t_img *img, t_input *input);
 /* - - window_manag.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	reset_window(void *mlx, void *win, t_img *img);
 void	init_display_params(t_cub *cub);
+/* -------------------------- EVENTS HANDLING ------------------------------- */
+
+/* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void    player_movement(int keycode, t_cub *cub);
+void	esc_close(int keycode, t_cub *cub);
+int		key_press(int keycode, void *_cub);
+
+/* - - cub3d.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+int		xclose(void *v_cub);
+
+/* - - handle_mouse_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
+int		mouse_move(int x, int y, void *_cub);
+
+/* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
+int	xclose(void *v_cub);
 
 #endif
