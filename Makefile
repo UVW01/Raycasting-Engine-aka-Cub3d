@@ -24,8 +24,14 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 
 # ---------------------------------------------------------------------------- #
 
-GEN_LST	:= map_parsing/file_parcer.c map_parsing/data_init.c map_parsing/check_map.c \
-	minimap_dislay/draw_minimap.c minimap_dislay/draw_line.c
+GEN_LST	:= \
+	map_parsing/file_parcer.c \
+	map_parsing/data_init.c   \
+	map_parsing/check_map.c   \
+	display_management/draw_minimap.c     \
+	display_management/draw_line.c        \
+	display_management/draw_background.c  \
+	display_management/window_manag.c
 #TOWD_RENDRING_LIST = 2d_rendering.c drawing_algo.c
 
 SRCS		:= ${addprefix srcs/, ${GEN_LST}}

@@ -84,6 +84,7 @@ typedef unsigned int	t_uint;
 typedef struct s_input
 {
 	int		texture_fds[4];
+
 	int		ceil_clr;
 	int		floor_clr;
 	char	**map_arr;
@@ -106,9 +107,8 @@ typedef struct s_brsnhm
 
 typedef struct s_player
 {
-	t_coords	position;
-	int			updown;
-	int			rotation;
+	t_coords	pos;		// Position
+	int			rot;		// Rotation
 }	t_player;
 
 typedef struct s_img
@@ -118,10 +118,10 @@ typedef struct s_img
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
-    int     height;
-    int     width;
+	int		height;
+	int		width;
 }	t_img;
- 
+
 typedef struct s_display
 {
 	void	*mlx;
@@ -144,11 +144,11 @@ void	only_one_player(char **map_arr);
 
 /* -  - data_init.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
 These functions are only used in the parsing (file_parcer.c) part of the project
-/ / -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
+/ /-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
 void	check_init_color(char **line_split, t_input *gen_data);
 void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
-/* - - file_parser.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+/* - - file_parser.c- - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	process_file_data(char *filename, t_input *gen_data);
 
 /* - - draw_line.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
@@ -156,5 +156,12 @@ void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
 
 /* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	draw_minimap(t_img *img, char **map_arr, int size, t_coords start);
+
+/* - - draw_background.c- - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void	draw_background(t_img *img, t_input *input);
+
+/* - - window_manag.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void	reset_window(void *mlx, void *win, t_img *img);
+void	init_display_params(t_cub *cub);
 
 #endif

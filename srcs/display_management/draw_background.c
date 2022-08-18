@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window_manag.c                                     :+:      :+:    :+:   */
+/*   draw_background.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,28 @@
 
 #include "../cub3d.h"
 
-/* -------------------------------------------------------------------------- */
+/* -- Notes: ----------------------------------------------------------------/ /
+/ /------------------------------------------------------------------------- */
 
-void	reset_window(void *mlx, void *win, t_img *img)
+void	draw_background(t_img *img, t_input *input)
 {
-	mlx_clear_window(mlx, win);
-	mlx_destroy_image(mlx, img->img_ptr);
-	img->img_ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-	img->addr = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel, \
-		&img->line_length, &img->endian);
-}
+	int	y0;
+	int	y1;
 
-/* -------------------------------------------------------------------------- */
+	y0 = 0;
+	y1 = WIN_HEIGHT / 2;
+	while (y0 <= y1)
+	{
+		draw_line(img, (t_coords){.x = 0, .y = y0}, \
+			(t_coords){.x = WIN_WIDTH, .y = y0}, input->ceil_clr);
+		++y0;
+	}
+	y0 = WIN_HEIGHT / 2;
+	y1 = WIN_HEIGHT;
+	while (y0 <= y1)
+	{
+		draw_line(img, (t_coords){.x = 0, .y = y0},	\
+			(t_coords){.x = WIN_WIDTH, .y = y0}, input->floor_clr);
+		++y0;
+	}
+}

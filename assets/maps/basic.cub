@@ -3,8 +3,8 @@ SO ./assets/textures/text2
 WE ./assets/textures/text3
 EA ./assets/textures/text4
 
-F 255,255,1
-C 255,255,255
+F 34,75,12
+C 172,68,37
 
         1111111111111111111111111
         1000000000110000000000001
