@@ -15,13 +15,15 @@
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
 
-void	reset_window(void *mlx, void *win, t_img *img)
+void	reset_window(t_cub *cub)
 {
-	mlx_clear_window(mlx, win);
-	mlx_destroy_image(mlx, img->img_ptr);
-	img->img_ptr = mlx_new_image(mlx, WIN_WIDTH, WIN_HEIGHT);
-	img->addr = mlx_get_data_addr(img->img_ptr, &img->bits_per_pixel, \
-		&img->line_length, &img->endian);
+	mlx_clear_window(cub->display.mlx, cub->display.win);
+	mlx_destroy_image(cub->display.mlx, cub->display.img.img_ptr);
+	cub->display.img.img_ptr = mlx_new_image(cub->display.mlx, WIN_WIDTH,\
+		WIN_HEIGHT);
+	cub->display.img.addr = mlx_get_data_addr(cub->display.img.img_ptr, \
+		&cub->display.img.bits_per_pixel, &cub->display.img.line_length, \
+		&cub->display.img.endian);
 }
 
 /* -- Notes: ----------------------------------------------------------------/ /
@@ -47,14 +49,11 @@ static void	init_mlx_params(t_display *display)
 void	init_display_params(t_cub *cub)
 {
 	t_display	*disp;
-	t_coords	minimap;
 
 	disp = &cub->display;
 	init_mlx_params(disp);
-	minimap.x = 25;
-	minimap.y = 25;
-	draw_background(&cub->display.img, &cub->input);
-	draw_minimap(&cub->display.img, cub->input.map_arr, 15, minimap);
+	draw_minimap(cub);
+	draw_player(cub->player.pos, &cub->display.img, 8);
 	mlx_put_image_to_window(disp->mlx, disp->win, disp->img.img_ptr, 0, 0);
 	mlx_hook(disp->win, KEY_PRESS, NO_EVENT_MASK, &key_press, (void *)cub);
 	mlx_hook(disp->win, DESTROY_NOTIFY, NO_EVENT_MASK, &xclose, (void *)cub);

@@ -15,7 +15,7 @@
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
 
-static void	img_pixel_put(t_img *img, t_coords pxl, int color)
+void	img_pixel_put(t_img *img, t_coords pxl, int color)
 {
 	char	*pxl_ptr;
 
@@ -24,7 +24,7 @@ static void	img_pixel_put(t_img *img, t_coords pxl, int color)
 		pxl_ptr = img->addr;
 		pxl_ptr += pxl.y * img->line_length;
 		pxl_ptr += pxl.x * (img->bits_per_pixel / 8);
-		*(unsigned int *)pxl_ptr = color;
+		*(t_uint *)pxl_ptr = color;
 	}
 }
 

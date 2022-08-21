@@ -1,20 +1,36 @@
+
 #include "../cub3d.h"
+
+/* -------------------------------------------------------------------------- */
+
+void    redraw_and_output_image(t_cub *cub)
+{
+    reset_window(cub);
+    draw_minimap(cub);
+    draw_player(cub->player.pos, &cub->display.img, 8);
+    draw_fov(cub);
+    mlx_put_image_to_window(cub->display.mlx, cub->display.win, \
+        cub->display.img.img_ptr, 0, 0);
+}
+
+/* -------------------------------------------------------------------------- */
 
 void    player_movement(int keycode, t_cub *cub)
 {
     if (keycode == KEY_UP || keycode == KEY_W)
-        cub->player.position.y--;
+        cub->player.walk_dir = 1;
     else if (keycode == KEY_DOWN || keycode == KEY_S)
-        cub->player.position.y++;
-    else if (keycode == KEY_LEFT || keycode == KEY_A)
-        cub->player.position.x--;// we'll update this line degree of rotaion later
+        cub->player.walk_dir = -1;
     else if (keycode == KEY_RIGHT || keycode == KEY_D)
-        cub->player.position.x++;// we'll update this line degree of rotaion later
-    // printf("PlayerX:%d\nPlayerY:%d\n\n", cub->player.position.x, cub->player.position.y);
+        cub->player.turn_dir = 1;
+    else if (keycode == KEY_LEFT || keycode == KEY_A)
+        cub->player.turn_dir = -1;
+    redraw_and_output_image(cub);
+    cub->player.walk_dir = 0;
+    cub->player.turn_dir = 0;
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 void	esc_close(int keycode, t_cub *cub)
 {
@@ -26,6 +42,8 @@ void	esc_close(int keycode, t_cub *cub)
         exit(0);
     }
 }
+
+/* -------------------------------------------------------------------------- */
 
 int key_press(int keycode, void *_cub)
 {

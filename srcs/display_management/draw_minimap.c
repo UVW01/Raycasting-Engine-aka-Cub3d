@@ -12,58 +12,68 @@
 
 #include "../cub3d.h"
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-static void	draw_square(t_img *img, t_coords sq_center, int size, int clr)
+void	draw_player(t_coords point, t_img *img, int size)
 {
-	t_coords	pxl;
+	t_coords	p;
 
-	pxl.x = sq_center.x - (size / 2);
-	pxl.y = sq_center.y - (size / 2);
-	while (pxl.y++ <= sq_center.y + (size / 2))
-		draw_line(img, pxl, (t_coords){.x = (pxl.x + size), .y = pxl.y}, clr);
-}
-
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
-
-static void	draw_rows(t_img *img, char *map_row, t_coords square, int size)
-{
-	int	color;
-	int	x;
-
-	x = 0;
-	while (map_row[x])
+	p.x = (point.x - (size / 2));
+	p.y = (point.y - (size / 2));
+	while (p.y <= point.y + (size / 2))
 	{
-		color = 0xc9c9c7;
-		if (map_row[x] == '1')
-			color = 0x4f2607;
-		else if (map_row[x] == ' ')
-			color = 0x2b2b2b;
-		draw_square(img, square, size, color);
-		if (ft_strchr("NEWS", map_row[x]))
-			draw_square(img, square, size / 4, 0x053ea1);
-		square.x += size;
-		++x;
+		draw_line(img, p, (t_coords){.x = p.x + size, .y = p.y}, 0xFF0000);
+		p.y++;
 	}
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-void	draw_minimap(t_img *img, char **map_arr, int size, t_coords start)
+static void	draw_square(t_coords point, t_img *img, int color)
 {
-	t_coords	square;
-	int			y;
+	t_coords	p0;
+	t_coords	p1;
 
-	y = 0;
-	square.y = start.y + (size / 2);
-	while (map_arr[y])
+	p0.x = point.x * 64;
+	p0.y = point.y * 64;
+	p1.x = p0.x;
+	p1.y = p0.y + 64;
+	while (++p.y <= (point.y * 64) + 63)
 	{
-		square.x = start.x + (size / 2);
-		draw_rows(img, map_arr[y], square, size);
-		square.y += size;
-		++y;
+		draw_line(img, p, (t_coords){.x =( p.x + 64) - 1, .y = p.y}, color);
+		p.y++;
 	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	draw_minimap(t_cub *cub)
+{
+	t_coords	loop;
+	int			color;
+
+	loop.y = -1;
+	while (cub->input.map_arr[++loop.y])
+	{
+		loop.x = -1;
+		while (cub->input.map_arr[loop.y][++loop.x])
+		{
+			color = 0xF0F0F0;
+			if (cub->input.map_arr[loop.y][loop.x] == ' ')
+				continue ;
+			else if (cub->input.map_arr[loop.y][loop.x] == '1')
+				color = 0x3F3F3F;
+			draw_square((t_coords){.x = loop.x, .y = loop.y},\
+				&cub->display.img, color);
+		}
+	}
+}
+
+void	draw_fov(t_cub *cub)
+{
+	t_coords	new_pos;
+
+	new_pos.x = cub->player.pos.x * cos(cub->player.rot);
+	new_pos.y = cub->player.pos.y * sin(cub->player.rot);
+	draw_line(&cub->display.img, cub->player.pos, new_pos, 0x00FF00);
 }

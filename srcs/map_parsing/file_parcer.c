@@ -91,16 +91,12 @@ newline '\n' character, it is more convinient than triming it later with
 'ft_strtrim', it just lowers the code's complexity
 ///-------------------------------------------------------------------------- */
 
-void	process_file_data(char *filename, t_input *gen_data)
+void	process_file_data(char *filename, t_input *gen_data, t_player *player)
 {
 	bool	mp_obj_found;
 	int		map_fd;
 	char	*line;
-	char	*ext;
 
-	ext = ft_strrchr(filename, '.');
-	if (ext == NULL || ft_strcmp(ext, ".cub"))
-		ft_perror(EXT_ERR, 1);
 	init_default_values(gen_data, &mp_obj_found);
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd < 0)
@@ -120,6 +116,6 @@ void	process_file_data(char *filename, t_input *gen_data)
 		line = get_next_line(map_fd, 1);
 	}
 	map_is_closed(gen_data->map_arr);
-	only_one_player(gen_data->map_arr);
+	only_one_player(gen_data->map_arr, player);
 	close(map_fd);
 }

@@ -79,11 +79,7 @@ void	map_is_closed(char **map_arr)
 		pixel.x = -1;
 		while (map_arr[pixel.y][++pixel.x])
 		{
-			if ((map_arr[pixel.y][pixel.x] == '0' ||
-				map_arr[pixel.y][pixel.x] == 'N' ||
-				map_arr[pixel.y][pixel.x] == 'E' ||
-				map_arr[pixel.y][pixel.x] == 'W' ||
-				map_arr[pixel.y][pixel.x] == 'S'))
+			if (ft_strchr("0NEWS", map_arr[pixel.y][pixel.x]))
 			{
 				check_vertically(map_arr, &pixel);
 				check_horizontally(map_arr, &pixel);
@@ -95,7 +91,7 @@ void	map_is_closed(char **map_arr)
 /* -- Notes: ----------------------------------------------------------------/ /
 / /------------------------------------------------------------------------- */
 
-void	only_one_player(char **map_arr)
+void	only_one_player(char **map_arr, t_player *player)
 {
 	int			count;
 	t_coords	pixel;
@@ -107,13 +103,20 @@ void	only_one_player(char **map_arr)
 		pixel.x = -1;
 		while (map_arr[pixel.y][++pixel.x])
 		{
-			if (map_arr[pixel.y][pixel.x] == 'N' ||
-				map_arr[pixel.y][pixel.x] == 'E' ||
-				map_arr[pixel.y][pixel.x] == 'W' ||
-				map_arr[pixel.y][pixel.x] == 'S')
-				++count;
+			if (!ft_strchr("NEWS", map_arr[pixel.y][pixel.x]))
+				continue ;
+			else if (map_arr[pixel.y][pixel.x] == 'N')
+				player->rot = deg2rad(90);
+			else if (map_arr[pixel.y][pixel.x] == 'E')
+				player->rot = deg2rad(0);
+			else if (map_arr[pixel.y][pixel.x] == 'W')
+				player->rot = deg2rad(180);
+			else if (map_arr[pixel.y][pixel.x] == 'S')
+				player->rot = deg2rad(270);
+			player->pos = (t_coords){.x = (pixel.x * 64) + 32, \
+				.y = (pixel.y * 64) + 32};
+			if (++count != 1)
+				ft_perror(MAP_ERR"More than one player spawn point", 1);
 		}
 	}
-	if (count != 1)
-		ft_perror(MAP_ERR"More than one player spawn point", 1);
 }

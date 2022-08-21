@@ -18,10 +18,14 @@
 int	main(int ac, char **av)
 {
 	t_cub	cub;
+	char	*ext;
 	
 	if (ac != 2)
 		return (EXIT_FAILURE);
-	process_file_data(av[1], &cub.input);
+	ext = ft_strrchr(av[1], '.');
+	if (ext == NULL || ft_strcmp(ext, ".cub"))
+		ft_perror(EXT_ERR, 1);
+	process_file_data(av[1], &cub.input, &cub.player);
 	init_display_params(&cub);
 	return (EXIT_SUCCESS);
 }

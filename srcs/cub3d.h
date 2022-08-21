@@ -30,8 +30,8 @@
 # include <mlx.h>
 
 /* -------------------------------- MACROS ---------------------------------- */
-# define WIN_HEIGHT		1080
-# define WIN_WIDTH		1920
+# define WIN_HEIGHT		1440
+# define WIN_WIDTH		2560
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"
 
@@ -77,6 +77,7 @@
 # define KEY_PAD_ADD	69
 # define KEY_PAGE_UP	116
 # define KEY_PAGE_DOWN	121
+
 /* --------------------------------- ENUMS ---------------------------------- */
 typedef enum s_dirctn
 {
@@ -94,7 +95,6 @@ typedef unsigned int	t_uint;
 typedef struct s_input
 {
 	int		texture_fds[4];
-
 	int		ceil_clr;
 	int		floor_clr;
 	char	**map_arr;
@@ -117,8 +117,10 @@ typedef struct s_brsnhm
 
 typedef struct s_player
 {
-	t_coords	position;		// Position
-	int			rot;		// Rotation
+	t_coords	pos;
+	double		rot;
+	char		turn_dir;
+    char		walk_dir;
 }	t_player;
 
 typedef struct s_img
@@ -134,9 +136,10 @@ typedef struct s_img
 
 typedef struct s_display
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	t_coords	minimap;
 }	t_display;
 
 typedef struct s_cub
@@ -151,7 +154,7 @@ typedef struct s_cub
 These functions are only used in the parsing (file_parcer.c) part of the project
 / / -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
 void	map_is_closed(char **map_arr);
-void	only_one_player(char **map_arr);
+void	only_one_player(char **map_arr, t_player *player);
 
 /* -  - data_init.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
 These functions are only used in the parsing (file_parcer.c) part of the project
@@ -160,23 +163,27 @@ void	check_init_color(char **line_split, t_input *gen_data);
 void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
 /* - - file_parser.c- - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	process_file_data(char *filename, t_input *gen_data);
+void	process_file_data(char *filename, t_input *gen_data, t_player *player);
 
 /* - - draw_line.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	img_pixel_put(t_img *img, t_coords pxl, int color);
 void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
 
 /* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	draw_minimap(t_img *img, char **map_arr, int size, t_coords start);
+void	draw_player(t_coords point, t_img *img, int size);
+void	draw_minimap(t_cub *cub);
+void	draw_fov(t_cub *cub);
 
 /* - - draw_background.c- - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	draw_background(t_img *img, t_input *input);
 
 /* - - window_manag.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	reset_window(void *mlx, void *win, t_img *img);
+void	reset_window(t_cub *cub);
 void	init_display_params(t_cub *cub);
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void    redraw_and_output_image(t_cub *cub);
 void    player_movement(int keycode, t_cub *cub);
 void	esc_close(int keycode, t_cub *cub);
 int		key_press(int keycode, void *_cub);
@@ -187,7 +194,12 @@ int		xclose(void *v_cub);
 /* - - handle_mouse_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
 int		mouse_move(int x, int y, void *_cub);
 
-/* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
-int	xclose(void *v_cub);
+/* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
+int		xclose(void *v_cub);
+
+
+/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+double	deg2rad(int deg);
+int		rad2deg(double rad);
 
 #endif

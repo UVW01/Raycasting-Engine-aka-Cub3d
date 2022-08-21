@@ -31,7 +31,8 @@ EVENTS	:= 	handle_keypress.c handle_mouse_events.c handle_misc_events.c
 
 SRCS		:= ${addprefix srcs/map_parsing/, ${GEN_LST}} \
 				${addprefix srcs/display_management/, ${MINI_MAP}} \
-				${addprefix srcs/event_handling/, ${EVENTS}}
+				${addprefix srcs/event_handling/, ${EVENTS}} \
+				srcs/raycast_calculs/misc_functs.c
 
 NAME		:= cub3d
 MAIN		:= srcs/cub3d.c
