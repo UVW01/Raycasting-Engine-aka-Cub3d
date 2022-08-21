@@ -31,16 +31,13 @@ void	draw_player(t_coords point, t_img *img, int size)
 
 static void	draw_square(t_coords point, t_img *img, int color)
 {
-	t_coords	p0;
-	t_coords	p1;
+	t_coords	p;
 
-	p0.x = point.x * 64;
-	p0.y = point.y * 64;
-	p1.x = p0.x;
-	p1.y = p0.y + 64;
-	while (++p.y <= (point.y * 64) + 63)
+	p.x = point.x * 64;
+	p.y = point.y * 64;
+	while (p.y <= (point.y * 64) + 64)
 	{
-		draw_line(img, p, (t_coords){.x =( p.x + 64) - 1, .y = p.y}, color);
+		draw_line(img, p, (t_coords){.x = p.x + 64, .y = p.y}, color);
 		p.y++;
 	}
 }
@@ -64,16 +61,21 @@ void	draw_minimap(t_cub *cub)
 			else if (cub->input.map_arr[loop.y][loop.x] == '1')
 				color = 0x3F3F3F;
 			draw_square((t_coords){.x = loop.x, .y = loop.y},\
-				&cub->display.img, color);
+				 &cub->display.img, color);
 		}
 	}
 }
 
-void	draw_fov(t_cub *cub)
+void	update_player_position(t_player *player, t_img *img)
 {
 	t_coords	new_pos;
+	int			steps;
 
-	new_pos.x = cub->player.pos.x * cos(cub->player.rot);
-	new_pos.y = cub->player.pos.y * sin(cub->player.rot);
-	draw_line(&cub->display.img, cub->player.pos, new_pos, 0x00FF00);
+	steps = player->walk_dir * 4;
+	player->rot += deg2rad(player->turn_dir * 4);
+	player->pos.x = player->pos.x + (cos(player->rot) * steps);
+	player->pos.y = player->pos.y + (sin(player->rot) * steps);
+	new_pos.x = player->pos.x + (cos(player->rot) * 40);
+	new_pos.y = player->pos.y + (sin(player->rot) * 40);
+	draw_line(img, player->pos, new_pos, 0x00FF00);
 }

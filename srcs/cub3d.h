@@ -172,7 +172,7 @@ void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
 /* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	draw_player(t_coords point, t_img *img, int size);
 void	draw_minimap(t_cub *cub);
-void	draw_fov(t_cub *cub);
+void	update_player_position(t_player *player, t_img *img);
 
 /* - - draw_background.c- - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	draw_background(t_img *img, t_input *input);

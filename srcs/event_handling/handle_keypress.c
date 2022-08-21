@@ -8,7 +8,7 @@ void    redraw_and_output_image(t_cub *cub)
     reset_window(cub);
     draw_minimap(cub);
     draw_player(cub->player.pos, &cub->display.img, 8);
-    draw_fov(cub);
+    update_player_position(&cub->player, &cub->display.img);
     mlx_put_image_to_window(cub->display.mlx, cub->display.win, \
         cub->display.img.img_ptr, 0, 0);
 }
