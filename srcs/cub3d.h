@@ -30,8 +30,12 @@
 # include <mlx.h>
 
 /* -------------------------------- MACROS ---------------------------------- */
-# define WIN_HEIGHT		1440
-# define WIN_WIDTH		2560
+# define WIN_HEIGHT		600
+# define WIN_WIDTH		1000
+# define CUB_SIZE		32
+# define FOV_ANGLE		60 * (M_PI /180)
+# define NUM_RAYS		1
+
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"
 

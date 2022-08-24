@@ -52,9 +52,9 @@ void	init_display_params(t_cub *cub)
 
 	disp = &cub->display;
 	init_mlx_params(disp);
-	draw_minimap(cub);
+	draw_minimap(cub); 
 	update_player_position(&cub->player, &cub->display.img, cub->input.map_arr);
-	draw_player(cub->player.pos, &cub->display.img, 8);
+	draw_player(cub->player.pos, &cub->display.img, (CUB_SIZE / 6));
 	mlx_put_image_to_window(disp->mlx, disp->win, disp->img.img_ptr, 0, 0);
 	mlx_hook(disp->win, KEY_PRESS, NO_EVENT_MASK, &key_press, (void *)cub);
 	mlx_hook(disp->win, DESTROY_NOTIFY, NO_EVENT_MASK, &xclose, (void *)cub);
