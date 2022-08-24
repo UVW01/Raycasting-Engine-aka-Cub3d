@@ -172,7 +172,8 @@ void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
 /* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	draw_player(t_coords point, t_img *img, int size);
 void	draw_minimap(t_cub *cub);
-void	move_horizontally(t_player *player, t_img *img, int walk_dir);
+void	move_horizontally(t_player *player, t_img *img, int walk_dir, \
+	char **map_arr);
 void	update_player_position(t_player *player, t_img *img, char **map_arr);
 int		check_wall_colision(t_coords pos, char **map_arr);
 

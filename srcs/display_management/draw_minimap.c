@@ -79,15 +79,19 @@ static void	draw_fov(t_player *player, t_img *img)
 
 /* -------------------------------------------------------------------------- */
 
-void	move_horizontally(t_player *player, t_img *img, int walk_dir)
+void	move_horizontally(t_player *player, t_img *img, int walk_dir, \
+	char **map_arr)
 {
-	double	new_rot;
-	int		steps;
+	double		new_rot;
+	t_coords	tmp;
+	int			steps;
 
-	steps = walk_dir * 8;
+	steps = walk_dir * 4;
 	new_rot = player->rot + deg2rad(90);
-	player->pos.x += cos(new_rot) * steps;
-	player->pos.y += sin(new_rot) * steps;
+	tmp.x = player->pos.x + (cos(new_rot) * steps);
+	tmp.y = player->pos.y + (sin(new_rot) * steps);
+	if (!check_wall_colision(tmp, map_arr))
+		player->pos = tmp;
 	draw_fov(player, img);
 }
 
@@ -102,7 +106,7 @@ int multiple_of_n(int number, int n)
 
 // static double	normalize_angle(double rotation)
 // {
-// 	rotation = deg2rad(multiple_of_n(rad2deg(rotation), 10) % 360);
+// 	rotation = deg2rad(rad2deg(rotation) % 360);
 // 	if (rotation < 0)
 // 		rotation += M_PI * 2;
 // 	return (rotation);
@@ -129,9 +133,8 @@ void	update_player_position(t_player *player, t_img *img, char **map_arr)
 	int			steps;
 	t_coords	tmp;
 
-	steps = player->walk_dir * 8;
+	steps = player->walk_dir * 4;
 	player->rot += deg2rad(player->turn_dir * 10);
-	printf("Rad: %lf\tDeg: %d\n", player->rot, rad2deg(player->rot));
 	tmp.x = player->pos.x + (cos(player->rot) * steps);
 	tmp.y = player->pos.y + (sin(player->rot) * steps);
 	if (!check_wall_colision(tmp, map_arr))

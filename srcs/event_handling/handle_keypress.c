@@ -26,9 +26,9 @@ void    player_movement(int keycode, t_cub *cub)
     else if (keycode == KEY_A)
         cub->player.turn_dir = -1;
     else if (keycode == KEY_RIGHT)
-        move_horizontally(&cub->player, &cub->display.img, 1);
+        move_horizontally(&cub->player, &cub->display.img, 1, cub->input.map_arr);
     else if (keycode == KEY_LEFT)
-        move_horizontally(&cub->player, &cub->display.img, -1);
+        move_horizontally(&cub->player, &cub->display.img, -1, cub->input.map_arr);
     redraw_and_output_image(cub);
     cub->player.walk_dir = 0;
     cub->player.turn_dir = 0;
