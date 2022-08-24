@@ -13,8 +13,8 @@
 # ---------------------------------------------------------------------------- #
 
 CC			:= gcc
-CC_FLAGS	:= -Wall -Wextra -Werror --std=c99 --pedantic \
-	-Ofast -march=native -fno-signed-zeros -fno-trapping-math
+CC_FLAGS	:= -Wall -Wextra -Werror --std=c99 --pedantic
+# -Ofast -march=native -fno-signed-zeros -fno-trapping-math
 #-fsanitize=address -static-libsan							// Debugging flags
 
 CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \

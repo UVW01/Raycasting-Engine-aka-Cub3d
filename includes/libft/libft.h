@@ -74,7 +74,6 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 int		ft_lstsize(t_list *lst);
 
 char	*ft_strcpy(char *dest, const char *src);
-double	ft_abs(double nb);
 size_t	ft_intlen(long nb);
 long	ft_atol(const char *str);
 void	ft_free(void **ptr);

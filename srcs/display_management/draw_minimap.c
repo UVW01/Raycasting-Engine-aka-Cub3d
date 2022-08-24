@@ -33,11 +33,11 @@ static void	draw_square(t_coords point, t_img *img, int color)
 {
 	t_coords	p;
 
-	p.x = point.x * 64;
-	p.y = point.y * 64;
-	while (p.y <= (point.y * 64) + 64)
+	p.x = (point.x * 64) + 1; // should remove the + 1
+	p.y = (point.y * 64) + 1; // also here
+	while (p.y <= (point.y * 64) + 63) // should be 64
 	{
-		draw_line(img, p, (t_coords){.x = p.x + 64, .y = p.y}, color);
+		draw_line(img, p, (t_coords){.x = p.x + 63, .y = p.y}, color); // 64 !62
 		p.y++;
 	}
 }
@@ -61,21 +61,84 @@ void	draw_minimap(t_cub *cub)
 			else if (cub->input.map_arr[loop.y][loop.x] == '1')
 				color = 0x3F3F3F;
 			draw_square((t_coords){.x = loop.x, .y = loop.y},\
-				 &cub->display.img, color);
+				&cub->display.img, color);
 		}
 	}
 }
 
-void	update_player_position(t_player *player, t_img *img)
+/* -------------------------------------------------------------------------- */
+
+static void	draw_fov(t_player *player, t_img *img)
 {
 	t_coords	new_pos;
-	int			steps;
 
-	steps = player->walk_dir * 4;
-	player->rot += deg2rad(player->turn_dir * 4);
-	player->pos.x = player->pos.x + (cos(player->rot) * steps);
-	player->pos.y = player->pos.y + (sin(player->rot) * steps);
-	new_pos.x = player->pos.x + (cos(player->rot) * 40);
-	new_pos.y = player->pos.y + (sin(player->rot) * 40);
-	draw_line(img, player->pos, new_pos, 0x00FF00);
+	new_pos.x = player->pos.x + (cos(player->rot) * 160);
+	new_pos.y = player->pos.y + (sin(player->rot) * 160);
+	draw_line(img, player->pos, new_pos, 0x0000FF);
 }
+
+/* -------------------------------------------------------------------------- */
+
+void	move_horizontally(t_player *player, t_img *img, int walk_dir)
+{
+	double	new_rot;
+	int		steps;
+
+	steps = walk_dir * 8;
+	new_rot = player->rot + deg2rad(90);
+	player->pos.x += cos(new_rot) * steps;
+	player->pos.y += sin(new_rot) * steps;
+	draw_fov(player, img);
+}
+
+/* -------------------------------------------------------------------------- */
+
+int multiple_of_n(int number, int n)
+{
+	return (ceil(number / n) * n);
+}
+
+/* -------------------------------------------------------------------------- */
+
+// static double	normalize_angle(double rotation)
+// {
+// 	rotation = deg2rad(multiple_of_n(rad2deg(rotation), 10) % 360);
+// 	if (rotation < 0)
+// 		rotation += M_PI * 2;
+// 	return (rotation);
+// }
+
+/* -------------------------------------------------------------------------- */
+
+int	check_wall_colision(t_coords pos, char **map_arr)
+{
+	t_coords	temp;
+
+	temp.x = pos.x / 64;
+	temp.y = pos.y / 64;
+	if (map_arr[temp.y][temp.x] == '1')
+		return (1);
+	return (0);
+}
+//!	should check if the resulting number exists as a dimension in map_arr
+
+/* -------------------------------------------------------------------------- */
+
+void	update_player_position(t_player *player, t_img *img, char **map_arr)
+{
+	int			steps;
+	t_coords	tmp;
+
+	steps = player->walk_dir * 8;
+	player->rot += deg2rad(player->turn_dir * 10);
+	printf("Rad: %lf\tDeg: %d\n", player->rot, rad2deg(player->rot));
+	tmp.x = player->pos.x + (cos(player->rot) * steps);
+	tmp.y = player->pos.y + (sin(player->rot) * steps);
+	if (!check_wall_colision(tmp, map_arr))
+		player->pos = tmp;
+	draw_fov(player, img);
+}
+
+/* -------------------------------------------------------------------------- */
+
+

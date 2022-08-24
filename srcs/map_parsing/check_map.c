@@ -106,17 +106,18 @@ void	only_one_player(char **map_arr, t_player *player)
 			if (!ft_strchr("NEWS", map_arr[pixel.y][pixel.x]))
 				continue ;
 			else if (map_arr[pixel.y][pixel.x] == 'N')
+				player->rot = deg2rad(270);
+			else if (map_arr[pixel.y][pixel.x] == 'S')
 				player->rot = deg2rad(90);
 			else if (map_arr[pixel.y][pixel.x] == 'E')
-				player->rot = deg2rad(0);
-			else if (map_arr[pixel.y][pixel.x] == 'W')
 				player->rot = deg2rad(180);
-			else if (map_arr[pixel.y][pixel.x] == 'S')
-				player->rot = deg2rad(270);
+			else if (map_arr[pixel.y][pixel.x] == 'W')
+				player->rot = deg2rad(0);
 			player->pos = (t_coords){.x = (pixel.x * 64) + 32, \
 				.y = (pixel.y * 64) + 32};
-			if (++count != 1)
-				ft_perror(MAP_ERR"More than one player spawn point", 1);
+			++count;
 		}
 	}
+	if (count != 1)
+		ft_perror(MAP_ERR"More than one player spawn point", 1);
 }

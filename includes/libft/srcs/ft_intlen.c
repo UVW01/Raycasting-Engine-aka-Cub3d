@@ -21,7 +21,7 @@ size_t	ft_intlen(long nb)
 	i = 0;
 	if (nb < 0)
 		++i;
-	nb = ft_abs(nb);
+	nb = abs((int)nb);
 	while (nb > 0 && ++i)
 		nb /= 10;
 	return (i);
