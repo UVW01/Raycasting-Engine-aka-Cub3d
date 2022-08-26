@@ -28,8 +28,33 @@ int	rad2deg(double rad)
 
 /* -------------------------------------------------------------------------- */
 
+double	normalize_angle(double rotation)
+{
+	rotation = fmod(rotation, (M_PI * 2));
+	if (rotation < 0)
+		rotation += M_PI * 2;
+	return (rotation);
+}
 /* -------------------------------------------------------------------------- */
 
+bool    hasWallAtPos(char **map_arr, float x, float y)
+{
+    int exactX = floor(x / CUB_SIZE);
+    int exactY = floor(y / CUB_SIZE);
+    // if ((x < 0 || x > WIN_WIDTH) || (y < 0 || y > WIN_HEIGHT))
+    //     return (true);
+   
+        printf("+++++++++ X:%d Y:%d +++++++\n", exactX, exactY);
+        // printf("\n");
+
+    if (map_arr[exactY][exactX] == '1')
+    {
+
+        printf("hasWallAt|X:%d| |Y:%d|\n", exactX, exactY);
+        return (true);
+    }
+    return (false);
+}
 /* -------------------------------------------------------------------------- */
 
 /* -------------------------------------------------------------------------- */

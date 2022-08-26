@@ -8,6 +8,7 @@ void    redraw_and_output_image(t_cub *cub)
     reset_window(cub);
     draw_minimap(cub);
     update_player_position(&cub->player, &cub->display.img, cub->input.map_arr);
+    casting_rays(cub);
     draw_player(cub->player.pos, &cub->display.img, (CUB_SIZE / 6));
     mlx_put_image_to_window(cub->display.mlx, cub->display.win, \
         cub->display.img.img_ptr, 0, 0);

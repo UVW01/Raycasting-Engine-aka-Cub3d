@@ -30,12 +30,11 @@
 # include <mlx.h>
 
 /* -------------------------------- MACROS ---------------------------------- */
-# define WIN_HEIGHT		600
-# define WIN_WIDTH		1000
-# define CUB_SIZE		32
+# define WIN_HEIGHT		1080
+# define WIN_WIDTH		1900
+# define CUB_SIZE		64
 # define FOV_ANGLE		60 * (M_PI /180)
-# define NUM_RAYS		1
-
+# define RAYS_LENGTH	(WIN_WIDTH)
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"
 
@@ -110,6 +109,12 @@ typedef struct s_coords
 	int		x;
 }	t_coords;
 
+typedef struct s_fCoords
+{
+	float		y;
+	float		x;
+}	t_fCoords;
+
 typedef struct s_brsnhm
 {
 	t_coords	dlta;
@@ -127,6 +132,24 @@ typedef struct s_player
     char		walk_dir;
 }	t_player;
 
+typedef struct s_intersection
+{
+	float	pointX;
+	float	pointY;
+	char	isIntersected;
+}	t_intersection;
+
+typedef struct s_ray
+{
+	double	rayAngle;
+	float	wallHitX;
+	float	wallHitY;
+	float	distance;
+	char	isFacingDown;
+	char	isFacingUp;
+	char	isFacingRight;
+	char	isFacingLeft;
+}	t_ray;
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -203,8 +226,15 @@ int		mouse_move(int x, int y, void *_cub);
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);
 
+/* --------------------- Ray-Casting calculations --------------------------- */
+
 /* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 double	deg2rad(int deg);
 int		rad2deg(double rad);
+double	normalize_angle(double rotation);
+bool	hasWallAtPos(char **map_arr, float x, float y);
+/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void    casting_rays(t_cub *cub);
+void    cast(t_cub *cub, t_ray ray);
 
 #endif
