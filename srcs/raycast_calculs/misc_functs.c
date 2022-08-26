@@ -39,22 +39,17 @@ float	normalize_angle(float rotation)
 
 bool    hasWallAtPos(char **map_arr, float x, float y)
 {
-    int exactX = floor(x / CUB_SIZE);
-    int exactY = floor(y / CUB_SIZE);
+    int exactX = (int)(x / CUB_SIZE);
+    int exactY = (int)(y / CUB_SIZE);
     // if ((x < 0 || x > WIN_WIDTH) || (y < 0 || y > WIN_HEIGHT))
     //     return (true);
-   
-        printf("+++++++++ X:%d Y:%d +++++++\n", exactX, exactY);
-        // printf("\n");
-
     if (map_arr[exactY][exactX] == '1')
-    {
-
-        printf("hasWallAt|X:%d| |Y:%d|\n", exactX, exactY);
         return (true);
-    }
     return (false);
 }
 /* -------------------------------------------------------------------------- */
-
+double dstnce_btwn_points(float x1, float y1, float x2, float y2)
+{
+    return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+}
 /* -------------------------------------------------------------------------- */

@@ -18,20 +18,21 @@ static int	check_wall_colision(t_fcoords pos, char **map_arr)
 {
 	t_icoords	map_index;
 	t_icoords	map_size;
-
-	map_index.x = pos.x / CUB_SIZE;
-	map_index.y = pos.y / CUB_SIZE;
+	// if (!map_arr)
+	map_index.x = (int)pos.x / CUB_SIZE;
+	map_index.y = (int)pos.y / CUB_SIZE;
 	map_size.y = 0;
 	if (!map_arr)
 		return (-1);
 	while (map_arr[map_size.y])
 		++map_size.y;
-	if (map_index.y >= map_size.y)
+	if (map_index.y >= map_size.y || map_index.y < 0)
 		return (-1);
 	map_size.x = 0;
 	while (map_arr[map_index.y][map_size.x])
 		++map_size.x;
-	if (map_index.x >= map_size.x || map_index.y >= map_size.y)
+	if (map_index.x >= map_size.x || map_index.y >= map_size.y \
+		|| map_index.x < 0 || map_index.y < 0)
 		return (-1);
 	if (map_arr[map_index.y][map_index.x] == '1')
 		return (1);

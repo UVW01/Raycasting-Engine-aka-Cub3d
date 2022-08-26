@@ -52,12 +52,6 @@ typedef struct s_input
 	char	**map_arr;
 }	t_input;
 
-typedef struct s_fcoords
-{
-	float	y;
-	float	x;
-}	t_fcoords;
-
 typedef struct s_icoords
 {
 	int	y;
@@ -68,7 +62,7 @@ typedef struct s_fCoords
 {
 	float		y;
 	float		x;
-}	t_fCoords;
+}	t_fcoords;
 
 typedef struct s_brsnhm
 {
@@ -89,21 +83,21 @@ typedef struct s_player
 
 typedef struct s_intersection
 {
-	float	pointX;
-	float	pointY;
-	char	isIntersected;
-}	t_intersection;
+	float	x_point;
+	float	y_point;
+	char	is_intersected;
+}	t_intrsctn;
 
 typedef struct s_ray
 {
-	float	rayAngle;
-	float	wallHitX;
-	float	wallHitY;
+	float	ray_angle;
+	float	wall_hit_x;
+	float	wall_hit_y;
 	float	distance;
-	char	isFacingDown;
-	char	isFacingUp;
-	char	isFacingRight;
-	char	isFacingLeft;
+	char	is_facing_down;
+	char	is_facing_up;
+	char	is_facing_right;
+	char	is_facing_left;
 }	t_ray;
 typedef struct s_img
 {
@@ -175,6 +169,7 @@ float	deg2rad(int deg);
 int		rad2deg(float rad);
 float	normalize_angle(float rotation);
 bool	hasWallAtPos(char **map_arr, float x, float y);
+double	dstnce_btwn_points(float x1, float y1, float x2, float y2);
 /* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void    casting_rays(t_cub *cub);
 void    cast(t_cub *cub, t_ray ray);

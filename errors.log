@@ -106,7 +106,7 @@ srcs/raycast_calculs/../cub3d.h:159:7: note: previous declaration is here
 float   normalize_angle(float rotation);
         ^
 srcs/raycast_calculs/casting_rays.c:31:38: error: use of undeclared identifier 'RAYS_LENGTH'
-        ray.rayAngle += (FOV_ANGLE / RAYS_LENGTH);
+        ray.ray_angle += (FOV_ANGLE / RAYS_LENGTH);
                                      ^
 2 errors generated.
 In file included from srcs/raycast_calculs/cast.c:1:

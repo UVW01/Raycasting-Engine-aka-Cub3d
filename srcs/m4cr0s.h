@@ -19,7 +19,6 @@
 # define CUB_SIZE		64
 # define FOV_ANGLE		60 * (M_PI /180)
 # define RAYS_LENGTH	WIN_WIDTH
-# define NUM_RAYS		1
 
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"

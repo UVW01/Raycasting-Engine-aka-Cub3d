@@ -3,13 +3,13 @@
 static void    init_ray_infos(t_ray *ray, t_player player)
 {
     if (player.rot > 0 && player.rot < M_PI)
-        ray->isFacingDown = true;
+        ray->is_facing_down = true;
     else
-        ray->isFacingUp = true;
+        ray->is_facing_up = true;
     if (player.rot < (0.5 * M_PI) || player.rot > (1.5 * M_PI))
-        ray->isFacingRight = true;
+        ray->is_facing_right = true;
     else
-        ray->isFacingLeft = true;
+        ray->is_facing_left = true;
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -20,16 +20,14 @@ void    casting_rays(t_cub *cub)
     int     i;
 
     ft_bzero(&ray, sizeof(t_ray));
-    ray.rayAngle = (cub->player.rot - (FOV_ANGLE / 2));
-    ray.rayAngle = normalize_angle(ray.rayAngle);
+    ray.ray_angle = (cub->player.rot - (FOV_ANGLE / 2));
+    ray.ray_angle = normalize_angle(ray.ray_angle);
     i = -1;
-    // while(++i < RAYS_LENGTH)
-    while(++i < 1)
+    while(++i < 10)
     {
         init_ray_infos(&ray, cub->player);
         cast(cub, ray);
-        ray.rayAngle += (FOV_ANGLE / RAYS_LENGTH);
-        printf("____________________________________________________________\n");
+        ray.ray_angle += (FOV_ANGLE / 10);
     }
 
 }

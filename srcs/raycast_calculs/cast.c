@@ -1,14 +1,14 @@
 #include "../cub3d.h"
 
-static void horizIntersectionUtil(t_fCoords intrcpt, t_fCoords step, t_icoords *wallHit, t_cub *cub)
+static void cast_until_hit_wall(t_fcoords intrcpt, t_fcoords step, t_intrsctn *wall_hit, t_cub *cub)
 {
     while ((intrcpt.x > 0 && intrcpt.x < WIN_WIDTH) && (intrcpt.y > 0 && intrcpt.y < WIN_HEIGHT))
     {
         if (hasWallAtPos(cub->input.map_arr, intrcpt.x, intrcpt.y))
         {
-            wallHit->x = floor(intrcpt.x);
-            wallHit->y = floor(intrcpt.y);
-            printf("H-intersept |X%d| |Y%d|\n", wallHit->x, wallHit->y);
+            wall_hit->x_point = floor(intrcpt.x);
+            wall_hit->y_point = floor(intrcpt.y);
+            wall_hit->is_intersected = true;
             break ;
         }
         else
@@ -19,68 +19,104 @@ static void horizIntersectionUtil(t_fCoords intrcpt, t_fCoords step, t_icoords *
     }
 }
 
-static void horizIntersection(t_cub *cub, t_ray *ray)
+static void horizi_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
 {
-    t_fCoords    intrcpt;
-    t_fCoords    step;
-    t_icoords    wallHit;
+    t_fcoords    intrcpt;
+    t_fcoords    step;
 
     intrcpt.y = floor(cub->player.pos.y / CUB_SIZE) * CUB_SIZE;
-    if (ray->isFacingDown)
+    if (ray->is_facing_down)
         intrcpt.y += CUB_SIZE;
-    intrcpt.x = cub->player.pos.x + (intrcpt.y - cub->player.pos.y) / tan(ray->rayAngle);
+    intrcpt.x = cub->player.pos.x + (intrcpt.y - cub->player.pos.y) / tan(ray->ray_angle);
     step.y = CUB_SIZE;
-    if (ray->isFacingUp)
+    if (ray->is_facing_up)
         step.y *= -1;
-    step.x = CUB_SIZE / tan(ray->rayAngle);
-    if (ray->isFacingLeft && step.x > 0)
+    step.x = CUB_SIZE / tan(ray->ray_angle);
+    if (ray->is_facing_left && step.x > 0)
         step.x *= -1;
-    if (ray->isFacingRight && step.x < 0)
+    if (ray->is_facing_right && step.x < 0)
         step.x *= -1;
-    if (ray->isFacingUp)
+    if (ray->is_facing_up)
         intrcpt.y--;
-    horizIntersectionUtil(intrcpt, step, &wallHit, cub);
-    // while ((intrcpt.x > 0 && intrcpt.x < WIN_WIDTH) && (intrcpt.y > 0 && intrcpt.y < WIN_HEIGHT))
-    // {
-    //     if (hasWallAtPos(cub->input.map_arr, intrcpt.x, intrcpt.y))
-    //     {
-    //         wallHit.x = floor(intrcpt.x);
-    //         wallHit.y = floor(intrcpt.y);
-    //         printf("H-intersept |X%d| |Y%d|\n", wallHit.x, wallHit.y);
-    //         break ;
-    //     }
-    //     else
-    //     {
-    //         intrcpt.x += step.x;
-    //         intrcpt.y += step.y;
-    //     }
-    // }
+    cast_until_hit_wall(intrcpt, step, wall_hit, cub);
+    // draw_line(&cub->display.img, cub->player.pos, wall_hit, 0xFF0000);
+    
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-// static t_intersection vertIntersection(t_cub *cub, t_ray *ray)
-// {
+static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
+{
+    t_fcoords    intrcpt;
+    t_fcoords    step;
 
-// }
+    intrcpt.x = floor(cub->player.pos.x / CUB_SIZE) * CUB_SIZE;
+    if (ray->is_facing_right)
+        intrcpt.x += CUB_SIZE;
+    intrcpt.y = cub->player.pos.y + (intrcpt.x - cub->player.pos.x) * tan(ray->ray_angle);
+
+    step.x = CUB_SIZE;
+    if (ray->is_facing_left)
+        step.x *= -1;
+    step.y = CUB_SIZE * tan(ray->ray_angle);
+    if (ray->is_facing_up && step.x > 0)
+        step.y *= -1;
+    if (ray->is_facing_down && step.x < 0)
+        step.y *= -1;
+    if (ray->is_facing_left)
+        intrcpt.x--;
+    cast_until_hit_wall(intrcpt, step, wall_hit, cub);
+    // draw_line(&cub->display.img, cub->player.pos, wall_hit, 0xFF0000);
+    
+}
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+static void store_distance(t_ray *ray, float distnce, t_intrsctn intersectin)
+{
+        ray->distance = distnce;
+        ray->wall_hit_x = intersectin.x_point;
+        ray->wall_hit_y = intersectin.y_point;
+    
+}
 
-// static void    calcul_distance(t_ray *ray)
-// {
 
-// }
+static void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, t_intrsctn vert)
+{
+    t_fcoords   distance;
+
+    ft_bzero(&distance, sizeof(t_fcoords));
+    distance.x = (float)dstnce_btwn_points(p.pos.x, p.pos.y, horiz.x_point, horiz.y_point);
+    distance.y = (float)dstnce_btwn_points(p.pos.x, p.pos.y, vert.x_point, vert.y_point);
+    if (horiz.is_intersected && vert.is_intersected)
+    {
+        if (distance.x < distance.y)
+            store_distance(ray, distance.x, horiz);
+        else
+            store_distance(ray, distance.y, vert);
+    }
+    else if (horiz.is_intersected)
+        store_distance(ray, distance.x, horiz);
+    else if (vert.is_intersected)
+        store_distance(ray, distance.y, vert);
+}
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 void    cast(t_cub *cub, t_ray ray)
 {
-    t_intersection  H_Intersect;
-    t_intersection  V_Intersect;
-    // ray.rayAngle = normalize_angle(ray.rayAngle);
-    ft_bzero(&H_Intersect, sizeof(t_intersection));
-    ft_bzero(&V_Intersect, sizeof(t_intersection));
-    horizIntersection(cub, &ray);
-    // V_Intersect = vertIntersection(cub, &ray);
-    // calcul_distance(&ray);
+    t_intrsctn  h_ntersect;
+    t_intrsctn  v_intersect;
+    t_fcoords   new_ray_pos;
+    
+    // ray.ray_angle = normalize_angle(ray.ray_angle);
+    ft_bzero(&h_ntersect, sizeof(t_intrsctn));
+    ft_bzero(&v_intersect, sizeof(t_intrsctn));
+    horizi_intrsctn(cub, &ray, &h_ntersect);
+    vert_intrsctn(cub, &ray, &v_intersect);
+
+    calcul_distance(cub->player, &ray, h_ntersect, v_intersect);
+    new_ray_pos.x = ray.wall_hit_x;
+    new_ray_pos.y = ray.wall_hit_y;
+    draw_line(&cub->display.img, cub->player.pos, new_ray_pos, 0xFF0000);
+    printf("_________Y(%f)-----X(%f)-----D(%f)________\n", ray.wall_hit_y, ray.wall_hit_x, ray.distance);
 }
