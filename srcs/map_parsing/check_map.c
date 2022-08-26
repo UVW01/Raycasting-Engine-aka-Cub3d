@@ -12,10 +12,9 @@
 
 #include "../cub3d.h"
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-static void	check_horizontally(char **map_arr, t_coords *pixel)
+static void	check_horizontally(char **map_arr, t_icoords *pixel)
 {
 	char	*elems;
 	int		len;
@@ -43,7 +42,7 @@ static void	check_horizontally(char **map_arr, t_coords *pixel)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static void	check_vertically(char **map_arr, t_coords *pixel)
+static void	check_vertically(char **map_arr, t_icoords *pixel)
 {
 	int		y;
 
@@ -71,7 +70,7 @@ static void	check_vertically(char **map_arr, t_coords *pixel)
 
 void	map_is_closed(char **map_arr)
 {
-	t_coords	pixel;
+	t_icoords	pixel;
 
 	pixel.y = -1;
 	while (map_arr[++pixel.y])
@@ -88,13 +87,12 @@ void	map_is_closed(char **map_arr)
 	}
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 void	only_one_player(char **map_arr, t_player *player)
 {
 	int			count;
-	t_coords	pixel;
+	t_icoords	pixel;
 
 	count = 0;
 	pixel.y = -1;
@@ -110,14 +108,14 @@ void	only_one_player(char **map_arr, t_player *player)
 			else if (map_arr[pixel.y][pixel.x] == 'S')
 				player->rot = deg2rad(90);
 			else if (map_arr[pixel.y][pixel.x] == 'E')
-				player->rot = deg2rad(180);
-			else if (map_arr[pixel.y][pixel.x] == 'W')
 				player->rot = deg2rad(0);
-			player->pos = (t_coords){.x = (pixel.x * 64) + 32, \
-				.y = (pixel.y * 64) + 32};
+			else if (map_arr[pixel.y][pixel.x] == 'W')
+				player->rot = deg2rad(180);
+			player->pos = (t_fcoords){.x = (pixel.x * CUB_SIZE) + CUB_SIZE / 2, \
+				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;
 		}
-	}
+	}	// line number 25
 	if (count != 1)
 		ft_perror(MAP_ERR"More than one player spawn point", 1);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.c                                        :+:      :+:    :+:   */
+/*   bresenham_line_algo.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,10 +12,9 @@
 
 #include "../cub3d.h"
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-void	img_pixel_put(t_img *img, t_coords pxl, int color)
+void	img_pixel_put(t_img *img, t_icoords pxl, int color)
 {
 	char	*pxl_ptr;
 
@@ -28,14 +27,13 @@ void	img_pixel_put(t_img *img, t_coords pxl, int color)
 	}
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-static void	dl_continued(t_img *img, t_coords p1, int clr, t_brsnhm brsnhm)
+static void	dl_continued(t_img *img, t_icoords p1, int color, t_brsnhm brsnhm)
 {
 	while (brsnhm.pxl.x != p1.x || brsnhm.pxl.y != p1.y)
 	{
-		img_pixel_put(img, brsnhm.pxl, clr);
+		img_pixel_put(img, brsnhm.pxl, color);
 		brsnhm.e2 = 2 * brsnhm.err;
 		if (brsnhm.e2 >= brsnhm.dlta.y)
 		{
@@ -50,13 +48,16 @@ static void	dl_continued(t_img *img, t_coords p1, int clr, t_brsnhm brsnhm)
 	}
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
-void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr)
+void	draw_line(t_img *img, t_fcoords fp0, t_fcoords fp1, int color)
 {
 	t_brsnhm	brsnhm;
+	t_icoords	p0;
+	t_icoords	p1;
 
+	p0 = (t_icoords){.x = (int)fp0.x, .y = (int)fp0.y};
+	p1 = (t_icoords){.x = (int)fp1.x, .y = (int)fp1.y};
 	brsnhm.dlta.x = abs(p1.x - p0.x);
 	brsnhm.dlta.y = -abs(p1.y - p0.y);
 	brsnhm.s.x = -1;
@@ -66,6 +67,6 @@ void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr)
 	if (p0.y < p1.y)
 		brsnhm.s.y = 1;
 	brsnhm.err = brsnhm.dlta.x + brsnhm.dlta.y;
-	brsnhm.pxl = p0;
-	dl_continued(img, p1, clr, brsnhm);
+	brsnhm.pxl = (t_icoords){.x = p0.x, .y = p0.y};
+	dl_continued(img, p1, color, brsnhm);
 }

@@ -12,8 +12,7 @@
 
 #include "../cub3d.h"
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	check_and_init_data(char *line, t_input *data)
 {
@@ -31,8 +30,7 @@ static void	check_and_init_data(char *line, t_input *data)
 	ft_free_2d_char_arr(line_split);
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
 static bool	is_map_objs(char *line, bool *is_mp_obj)
 {
@@ -47,8 +45,7 @@ static bool	is_map_objs(char *line, bool *is_mp_obj)
 	return (free(tmp), false);
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
 static void	process_map_arr(t_input *data, char *line)
 {
@@ -70,8 +67,7 @@ static void	process_map_arr(t_input *data, char *line)
 	data->map_arr = tmp_arr;
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
@@ -85,11 +81,11 @@ static void	init_default_values(t_input *data, bool *mp_obj_found)
 	*mp_obj_found = false;
 }
 
-/* -- Notes: ----------------------------------------------------------------///
-I have modified the get_next_line function so that it trims the trailing 
+/* -  -  Notes:  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  ///
+  I have modified the get_next_line function so that it trims the trailing 
 newline '\n' character, it is more convinient than triming it later with 
 'ft_strtrim', it just lowers the code's complexity
-///-------------------------------------------------------------------------- */
+///  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
 
 void	process_file_data(char *filename, t_input *gen_data, t_player *player)
 {

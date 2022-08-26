@@ -27,56 +27,8 @@
 
 // Custom
 # include "../includes/get_next_line/get_next_line.h"
+# include "m4cr0s.h"
 # include <mlx.h>
-
-/* -------------------------------- MACROS ---------------------------------- */
-# define WIN_HEIGHT		1440
-# define WIN_WIDTH		2560
-# define MAP_OBJS		"10NEWS "
-# define MAP_DIRECTNS	"NO SO WE EA"
-
-/* -------------------------------- ERRORS ---------------------------------- */
-# define EMPTY_FL_ERR		"Empty file"
-# define EXT_ERR			"Invalid file extension"
-# define FD_ERR				"File not found"
-# define MAP_ERR			"Invalid map: "
-# define GEN_ERR			"Internal error: "
-# define MLX_ERR			"Minilibx error"
-# define WIN_ERR			"Window error"
-
-/* -------------------------------- EVENTS ---------------------------------- */
-// ---------- Event masks --------/
-# define NO_EVENT_MASK		0L
-# define KEY_PRESS_MASK		(1L<<0)
-# define KEY_RELEASE_MASK	(1L<<1)
-
-// ---------- Event type --------/
-# define KEY_PRESS			2
-# define DESTROY_NOTIFY		17
-# define MOUSE_MOVEMENT		6
-
-// ---------- Event keys (directions) --------/
-# define KEY_UP			126
-# define KEY_DOWN		125
-# define KEY_RIGHT		124
-# define KEY_LEFT		123
-# define KEY_W			13
-# define KEY_S			1
-# define KEY_A			0
-# define KEY_D			2
-
-// ---------- Event keys (others) --------/
-# define KEY_ESCAPE		53
-# define KEY_C			8
-# define KEY_R			15
-# define KEY_P			35
-# define KEY_X			7
-# define KEY_Y			16
-# define KEY_Z			6
-# define KEY_PAD_SUB	78
-# define KEY_PAD_ADD	69
-# define KEY_PAGE_UP	116
-# define KEY_PAGE_DOWN	121
 
 /* --------------------------------- ENUMS ---------------------------------- */
 typedef enum s_dirctn
@@ -100,27 +52,33 @@ typedef struct s_input
 	char	**map_arr;
 }	t_input;
 
-typedef struct s_coords
+typedef struct s_fcoords
 {
-	int		y;
-	int		x;
-}	t_coords;
+	float	y;
+	float	x;
+}	t_fcoords;
+
+typedef struct s_icoords
+{
+	int	y;
+	int	x;
+}	t_icoords;
 
 typedef struct s_brsnhm
 {
-	t_coords	dlta;
-	t_coords	pxl;
-	t_coords	s;
+	t_icoords	dlta;
+	t_icoords	pxl;
+	t_icoords	s;
 	int			err;
 	int			e2;
 }	t_brsnhm;
 
 typedef struct s_player
 {
-	t_coords	pos;
-	double		rot;
+	t_fcoords	pos;
+	float		rot;
 	char		turn_dir;
-    char		walk_dir;
+	char		walk_dir;
 }	t_player;
 
 typedef struct s_img
@@ -139,55 +97,46 @@ typedef struct s_display
 	void		*mlx;
 	void		*win;
 	t_img		img;
-	t_coords	minimap;
 }	t_display;
 
 typedef struct s_cub
 {
-	t_input		input;
 	t_display	display;
 	t_player	player;
+	t_input		input;
 }	t_cub;
 
 /* ------------------------------- PROTOTYPES ------------------------------- */
-/* -  - check_map.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
-These functions are only used in the parsing (file_parcer.c) part of the project
-/ / -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
+/* DISPLAY */
+void	img_pixel_put(t_img *img, t_icoords pxl, int color);
+void	draw_line(t_img *img, t_fcoords p0, t_fcoords p1, int color);
+
+void	move_horizontally(t_cub *cub, int walk_dir);
+void	update_player_position(t_cub *cub);
+
+void	draw_background(t_img *img, t_input *input);
+void	draw_player(t_player *player, t_img *img, int size);
+void	draw_minimap(t_cub *cub);
+
+void	reset_window(t_cub *cub);
+void	init_display_params(t_cub *cub);
+
+/* PARSING */
 void	map_is_closed(char **map_arr);
 void	only_one_player(char **map_arr, t_player *player);
 
-/* -  - data_init.c -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  / /
-These functions are only used in the parsing (file_parcer.c) part of the project
-/ /-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  - */
 void	check_init_color(char **line_split, t_input *gen_data);
 void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
-/* - - file_parser.c- - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	process_file_data(char *filename, t_input *gen_data, t_player *player);
 
-/* - - draw_line.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void	img_pixel_put(t_img *img, t_coords pxl, int color);
-void	draw_line(t_img *img, t_coords p0, t_coords p1, int clr);
-
-/* - - draw_minimap.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	draw_player(t_coords point, t_img *img, int size);
-void	draw_minimap(t_cub *cub);
-void	move_horizontally(t_player *player, t_img *img, int walk_dir, \
-	char **map_arr);
-void	update_player_position(t_player *player, t_img *img, char **map_arr);
-int		check_wall_colision(t_coords pos, char **map_arr);
-
-/* - - draw_background.c- - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	draw_background(t_img *img, t_input *input);
-
-/* - - window_manag.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void	reset_window(t_cub *cub);
-void	init_display_params(t_cub *cub);
+float	deg2rad(int deg);
+int		rad2deg(float rad);
+float	normalize_angle(float rotation);
 /* -------------------------- EVENTS HANDLING ------------------------------- */
-
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void    redraw_and_output_image(t_cub *cub);
-void    player_movement(int keycode, t_cub *cub);
+void	redraw_and_output_image(t_cub *cub);
+void	player_movement(int keycode, t_cub *cub);
 void	esc_close(int keycode, t_cub *cub);
 int		key_press(int keycode, void *_cub);
 
@@ -199,9 +148,5 @@ int		mouse_move(int x, int y, void *_cub);
 
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);
-
-/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-double	deg2rad(int deg);
-int		rad2deg(double rad);
 
 #endif

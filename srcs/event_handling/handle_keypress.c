@@ -6,9 +6,9 @@
 void    redraw_and_output_image(t_cub *cub)
 {
     reset_window(cub);
-    draw_minimap(cub);
-    update_player_position(&cub->player, &cub->display.img, cub->input.map_arr);
-    draw_player(cub->player.pos, &cub->display.img, 8);
+    draw_minimap(cub); 
+	update_player_position(cub);
+	draw_player(&cub->player, &cub->display.img, (CUB_SIZE / 10));
     mlx_put_image_to_window(cub->display.mlx, cub->display.win, \
         cub->display.img.img_ptr, 0, 0);
 }
@@ -26,9 +26,9 @@ void    player_movement(int keycode, t_cub *cub)
     else if (keycode == KEY_A)
         cub->player.turn_dir = -1;
     else if (keycode == KEY_RIGHT)
-        move_horizontally(&cub->player, &cub->display.img, 1, cub->input.map_arr);
+        move_horizontally(cub, 1);
     else if (keycode == KEY_LEFT)
-        move_horizontally(&cub->player, &cub->display.img, -1, cub->input.map_arr);
+        move_horizontally(cub, -1);
     redraw_and_output_image(cub);
     cub->player.walk_dir = 0;
     cub->player.turn_dir = 0;

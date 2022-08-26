@@ -12,8 +12,7 @@
 
 #include "../cub3d.h"
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	error_check_colors(char *a_rgb)
 {
@@ -32,6 +31,8 @@ static void	error_check_colors(char *a_rgb)
 			ft_perror(MAP_ERR"Invalid color format", 1);
 	}
 }
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
 void	check_init_color(char **line_split, t_input *gen_data)
 {
@@ -65,8 +66,7 @@ void	check_init_color(char **line_split, t_input *gen_data)
 	ft_free_2d_char_arr(a_rgb);
 }
 
-/* -- Notes: ----------------------------------------------------------------/ /
-/ /------------------------------------------------------------------------- */
+/* -------------------------------------------------------------------------- */
 
 static void	init_texture_fds(int dirctn, t_input *gen_data, int fd)
 {
@@ -74,6 +74,8 @@ static void	init_texture_fds(int dirctn, t_input *gen_data, int fd)
 		ft_perror(MAP_ERR"Texture redefinition", 1);
 	gen_data->texture_fds[dirctn] = fd;
 }
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
 void	check_init_direction_texture(char **line_split, t_input *gen_data)
 {
