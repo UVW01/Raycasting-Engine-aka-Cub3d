@@ -64,6 +64,12 @@ typedef struct s_icoords
 	int	x;
 }	t_icoords;
 
+typedef struct s_fCoords
+{
+	float		y;
+	float		x;
+}	t_fCoords;
+
 typedef struct s_brsnhm
 {
 	t_icoords	dlta;
@@ -81,6 +87,24 @@ typedef struct s_player
 	char		walk_dir;
 }	t_player;
 
+typedef struct s_intersection
+{
+	float	pointX;
+	float	pointY;
+	char	isIntersected;
+}	t_intersection;
+
+typedef struct s_ray
+{
+	float	rayAngle;
+	float	wallHitX;
+	float	wallHitY;
+	float	distance;
+	char	isFacingDown;
+	char	isFacingUp;
+	char	isFacingRight;
+	char	isFacingLeft;
+}	t_ray;
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -130,9 +154,6 @@ void	check_init_direction_texture(char **line_split, t_input *gen_data);
 
 void	process_file_data(char *filename, t_input *gen_data, t_player *player);
 
-float	deg2rad(int deg);
-int		rad2deg(float rad);
-float	normalize_angle(float rotation);
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 void	redraw_and_output_image(t_cub *cub);
@@ -148,5 +169,14 @@ int		mouse_move(int x, int y, void *_cub);
 
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);
+
+/* --------------------- Ray-Casting calculations --------------------------- */
+float	deg2rad(int deg);
+int		rad2deg(float rad);
+float	normalize_angle(float rotation);
+bool	hasWallAtPos(char **map_arr, float x, float y);
+/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void    casting_rays(t_cub *cub);
+void    cast(t_cub *cub, t_ray ray);
 
 #endif

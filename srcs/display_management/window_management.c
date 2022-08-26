@@ -56,6 +56,7 @@ void	init_display_params(t_cub *cub)
 	// Reconsider the following
 	draw_minimap(cub);
 	update_player_position(cub);
+	casting_rays(cub);
 	draw_player(&cub->player, &cub->display.img, (CUB_SIZE / 10));
 	// ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
 	mlx_put_image_to_window(disp->mlx, disp->win, disp->img.img_ptr, 0, 0);
