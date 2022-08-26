@@ -104,13 +104,13 @@ void	only_one_player(char **map_arr, t_player *player)
 			if (!ft_strchr("NEWS", map_arr[pixel.y][pixel.x]))
 				continue ;
 			else if (map_arr[pixel.y][pixel.x] == 'N')
-				player->rot = (3 * M_PI) / 2;
+				player->rot = deg2rad(270);
 			else if (map_arr[pixel.y][pixel.x] == 'S')
-				player->rot = (M_2_PI);
+				player->rot = deg2rad(90);
 			else if (map_arr[pixel.y][pixel.x] == 'E')
-				player->rot = 0;
+				player->rot = deg2rad(180);
 			else if (map_arr[pixel.y][pixel.x] == 'W')
-				player->rot = M_PI;
+				player->rot = deg2rad(0);
 			player->pos = (t_fcoords){.x = (pixel.x * CUB_SIZE) + CUB_SIZE / 2, \
 				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;

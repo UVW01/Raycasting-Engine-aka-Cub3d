@@ -29,7 +29,7 @@ void    casting_rays(t_cub *cub)
         init_ray_infos(&ray, cub->player);
         cast(cub, ray);
         ray.rayAngle += (FOV_ANGLE / RAYS_LENGTH);
-        printf("____________________________________________________________\n");
+        //printf("____________________________________________________________\n");
     }
 
 }

@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-static void horizIntersectionUtil(t_fCoords intrcpt, t_fCoords step, t_icoords *wallHit, t_cub *cub)
+static void horizIntersectionUtil(t_fcoords intrcpt, t_fcoords step, t_icoords *wallHit, t_cub *cub)
 {
     while ((intrcpt.x > 0 && intrcpt.x < WIN_WIDTH) && (intrcpt.y > 0 && intrcpt.y < WIN_HEIGHT))
     {
@@ -8,7 +8,7 @@ static void horizIntersectionUtil(t_fCoords intrcpt, t_fCoords step, t_icoords *
         {
             wallHit->x = floor(intrcpt.x);
             wallHit->y = floor(intrcpt.y);
-            printf("H-intersept |X%d| |Y%d|\n", wallHit->x, wallHit->y);
+            //printf("H-intersept |X%d| |Y%d|\n", wallHit->x, wallHit->y);
             break ;
         }
         else
@@ -21,8 +21,8 @@ static void horizIntersectionUtil(t_fCoords intrcpt, t_fCoords step, t_icoords *
 
 static void horizIntersection(t_cub *cub, t_ray *ray)
 {
-    t_fCoords    intrcpt;
-    t_fCoords    step;
+    t_fcoords    intrcpt;
+    t_fcoords    step;
     t_icoords    wallHit;
 
     intrcpt.y = floor(cub->player.pos.y / CUB_SIZE) * CUB_SIZE;

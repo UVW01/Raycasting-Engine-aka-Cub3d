@@ -14,21 +14,21 @@
 
 /* -------------------------------------------------------------------------- */
 
-float	deg2rad(int deg)
+double	deg2rad(int deg)
 {
     return (deg * (M_PI / 180));
 }
 
 /* -------------------------------------------------------------------------- */
 
-int	rad2deg(float rad)
+int	rad2deg(double rad)
 {
     return (rad * (180 / M_PI));
 }
 
 /* -------------------------------------------------------------------------- */
 
-float	normalize_angle(float rotation)
+double	normalize_angle(double rotation)
 {
 	rotation = fmodf(rotation, (M_PI * 2));
 	if (rotation < 0)
@@ -44,13 +44,13 @@ bool    hasWallAtPos(char **map_arr, float x, float y)
     // if ((x < 0 || x > WIN_WIDTH) || (y < 0 || y > WIN_HEIGHT))
     //     return (true);
    
-        printf("+++++++++ X:%d Y:%d +++++++\n", exactX, exactY);
+        //printf("+++++++++ X:%d Y:%d +++++++\n", exactX, exactY);
         // printf("\n");
 
     if (map_arr[exactY][exactX] == '1')
     {
 
-        printf("hasWallAt|X:%d| |Y:%d|\n", exactX, exactY);
+        //printf("hasWallAt|X:%d| |Y:%d|\n", exactX, exactY);
         return (true);
     }
     return (false);
