@@ -4,10 +4,10 @@ static void cast_until_hit_wall(t_fcoords intrcpt, t_fcoords step, t_intrsctn *w
 {
     while ((intrcpt.x > 0 && intrcpt.x < WIN_WIDTH) && (intrcpt.y > 0 && intrcpt.y < WIN_HEIGHT))
     {
-        if (hasWallAtPos(cub->input.map_arr, intrcpt.x, intrcpt.y))
+        if (check_wall_colision(intrcpt, cub->input.map_arr))
         {
-            wall_hit->x_point = floor(intrcpt.x);
-            wall_hit->y_point = floor(intrcpt.y);
+            wall_hit->x_point = intrcpt.x;
+            wall_hit->y_point = intrcpt.y;
             wall_hit->is_intersected = true;
             break ;
         }
@@ -24,7 +24,7 @@ static void horizi_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
     t_fcoords    intrcpt;
     t_fcoords    step;
 
-    intrcpt.y = floor(cub->player.pos.y / CUB_SIZE) * CUB_SIZE;
+    intrcpt.y = (float)floor(cub->player.pos.y / CUB_SIZE) * CUB_SIZE;
     if (ray->is_facing_down)
         intrcpt.y += CUB_SIZE;
     intrcpt.x = cub->player.pos.x + (intrcpt.y - cub->player.pos.y) / tan(ray->ray_angle);
@@ -50,7 +50,7 @@ static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
     t_fcoords    intrcpt;
     t_fcoords    step;
 
-    intrcpt.x = floor(cub->player.pos.x / CUB_SIZE) * CUB_SIZE;
+    intrcpt.x = (float)floor(cub->player.pos.x / CUB_SIZE) * CUB_SIZE;
     if (ray->is_facing_right)
         intrcpt.x += CUB_SIZE;
     intrcpt.y = cub->player.pos.y + (intrcpt.x - cub->player.pos.x) * tan(ray->ray_angle);
@@ -59,9 +59,9 @@ static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
     if (ray->is_facing_left)
         step.x *= -1;
     step.y = CUB_SIZE * tan(ray->ray_angle);
-    if (ray->is_facing_up && step.x > 0)
+    if (ray->is_facing_up && step.y > 0)
         step.y *= -1;
-    if (ray->is_facing_down && step.x < 0)
+    if (ray->is_facing_down && step.y < 0)
         step.y *= -1;
     if (ray->is_facing_left)
         intrcpt.x--;

@@ -39,7 +39,7 @@ void	draw_background(t_img *img, t_input *input)
 
 /* -------------------------------------------------------------------------- */
 
-static void	draw_fov(t_fcoords pos, float rot, t_img *img)
+static void	draw_center_of_fov(t_fcoords pos, double rot, t_img *img)
 {
 	t_fcoords	new_pos;
 
@@ -59,7 +59,7 @@ void	draw_player(t_player *player, t_img *img, int size)
 	point = player->pos;
 	new_pxl.x = point.x - (size / 2);
 	new_pxl.y = point.y - (size / 2);
-	draw_fov(player->pos, player->rot, img);
+	draw_center_of_fov(player->pos, player->rot, img);
 	while (new_pxl.y <= point.y + (size / 2))
 	{
 		tmp_pxl = (t_fcoords){.x = new_pxl.x + size, .y = new_pxl.y};

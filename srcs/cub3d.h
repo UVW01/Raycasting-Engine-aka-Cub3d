@@ -52,17 +52,17 @@ typedef struct s_input
 	char	**map_arr;
 }	t_input;
 
+typedef struct s_fcoords
+{
+	double	y;
+	double	x;
+}	t_fcoords;
+
 typedef struct s_icoords
 {
 	int	y;
 	int	x;
 }	t_icoords;
-
-typedef struct s_fCoords
-{
-	float		y;
-	float		x;
-}	t_fcoords;
 
 typedef struct s_brsnhm
 {
@@ -76,7 +76,7 @@ typedef struct s_brsnhm
 typedef struct s_player
 {
 	t_fcoords	pos;
-	float		rot;
+	double		rot;
 	char		turn_dir;
 	char		walk_dir;
 }	t_player;
@@ -99,6 +99,7 @@ typedef struct s_ray
 	char	is_facing_right;
 	char	is_facing_left;
 }	t_ray;
+
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -165,10 +166,10 @@ int		mouse_move(int x, int y, void *_cub);
 int		xclose(void *v_cub);
 
 /* --------------------- Ray-Casting calculations --------------------------- */
-float	deg2rad(int deg);
-int		rad2deg(float rad);
-float	normalize_angle(float rotation);
-bool	hasWallAtPos(char **map_arr, float x, float y);
+double	deg2rad(int deg);
+int		rad2deg(double rad);
+double	normalize_angle(double rotation);
+int		check_wall_colision(t_fcoords pos, char **map_arr);
 double	dstnce_btwn_points(float x1, float y1, float x2, float y2);
 /* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void    casting_rays(t_cub *cub);

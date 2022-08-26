@@ -23,11 +23,11 @@ void    casting_rays(t_cub *cub)
     ray.ray_angle = (cub->player.rot - (FOV_ANGLE / 2));
     ray.ray_angle = normalize_angle(ray.ray_angle);
     i = -1;
-    while(++i < 10)
+    while(++i < RAYS_LENGTH)
     {
         init_ray_infos(&ray, cub->player);
         cast(cub, ray);
-        ray.ray_angle += (FOV_ANGLE / 10);
+        ray.ray_angle += (FOV_ANGLE / RAYS_LENGTH);
     }
 
 }

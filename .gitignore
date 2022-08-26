@@ -4,3 +4,4 @@ cub3d
 *.o
 *.a
 *.txt
+.gitignore
