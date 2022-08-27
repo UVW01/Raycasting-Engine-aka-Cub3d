@@ -1,12 +1,16 @@
 #include "../cub3d.h"
 
-static void    init_ray_infos(t_ray *ray, t_player player)
+static void    init_ray_infos(t_ray *ray)
 {
-    if (player.rot > 0 && player.rot < M_PI)
-        ray->is_facing_down = true;
-    else
+    ray->is_facing_down = false;
+    ray->is_facing_up = false;
+    ray->is_facing_right = false;
+    ray->is_facing_left = false;
+    if (ray->ray_angle > M_PI && ray->ray_angle < (2 * M_PI))
         ray->is_facing_up = true;
-    if (player.rot < (0.5 * M_PI) || player.rot > (1.5 * M_PI))
+    else
+        ray->is_facing_down = true;
+    if (ray->ray_angle < (0.5 * M_PI) || ray->ray_angle > (1.5 * M_PI))
         ray->is_facing_right = true;
     else
         ray->is_facing_left = true;
@@ -25,7 +29,7 @@ void    casting_rays(t_cub *cub)
     i = -1;
     while(++i < RAYS_LENGTH)
     {
-        init_ray_infos(&ray, cub->player);
+        init_ray_infos(&ray);
         cast(cub, ray);
         ray.ray_angle += (FOV_ANGLE / RAYS_LENGTH);
     }

@@ -3,7 +3,7 @@ srcs/cub3d.h:178:8: error: conflicting types for 'normalize_angle'
 double  normalize_angle(double rotation);
         ^
 srcs/cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/map_parsing/file_parcer.c:13:
@@ -11,7 +11,7 @@ srcs/map_parsing/../cub3d.h:178:8: error: conflicting types for 'normalize_angle
 double  normalize_angle(double rotation);
         ^
 srcs/map_parsing/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/map_parsing/data_init.c:13:
@@ -19,7 +19,7 @@ srcs/map_parsing/../cub3d.h:178:8: error: conflicting types for 'normalize_angle
 double  normalize_angle(double rotation);
         ^
 srcs/map_parsing/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/map_parsing/check_map.c:13:
@@ -27,7 +27,7 @@ srcs/map_parsing/../cub3d.h:178:8: error: conflicting types for 'normalize_angle
 double  normalize_angle(double rotation);
         ^
 srcs/map_parsing/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/display_management/bresenham_line_algo.c:13:
@@ -35,7 +35,7 @@ srcs/display_management/../cub3d.h:178:8: error: conflicting types for 'normaliz
 double  normalize_angle(double rotation);
         ^
 srcs/display_management/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/display_management/coordinates_calculs.c:13:
@@ -43,7 +43,7 @@ srcs/display_management/../cub3d.h:178:8: error: conflicting types for 'normaliz
 double  normalize_angle(double rotation);
         ^
 srcs/display_management/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/display_management/objects_drawing.c:13:
@@ -51,7 +51,7 @@ srcs/display_management/../cub3d.h:178:8: error: conflicting types for 'normaliz
 double  normalize_angle(double rotation);
         ^
 srcs/display_management/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/display_management/window_management.c:13:
@@ -59,7 +59,7 @@ srcs/display_management/../cub3d.h:178:8: error: conflicting types for 'normaliz
 double  normalize_angle(double rotation);
         ^
 srcs/display_management/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/event_handling/handle_keypress.c:2:
@@ -67,7 +67,7 @@ srcs/event_handling/../cub3d.h:178:8: error: conflicting types for 'normalize_an
 double  normalize_angle(double rotation);
         ^
 srcs/event_handling/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 srcs/event_handling/handle_keypress.c:10:42: error: too many arguments to function call, expected single argument 'cub', have 3 arguments
     update_player_position(&cub->player, &cub->display.img, cub->input.map_arr);
@@ -87,7 +87,7 @@ srcs/event_handling/../cub3d.h:178:8: error: conflicting types for 'normalize_an
 double  normalize_angle(double rotation);
         ^
 srcs/event_handling/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/event_handling/handle_misc_events.c:1:
@@ -95,7 +95,7 @@ srcs/event_handling/../cub3d.h:178:8: error: conflicting types for 'normalize_an
 double  normalize_angle(double rotation);
         ^
 srcs/event_handling/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/raycast_calculs/casting_rays.c:1:
@@ -103,7 +103,7 @@ srcs/raycast_calculs/../cub3d.h:178:8: error: conflicting types for 'normalize_a
 double  normalize_angle(double rotation);
         ^
 srcs/raycast_calculs/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 srcs/raycast_calculs/casting_rays.c:31:38: error: use of undeclared identifier 'RAYS_LENGTH'
         ray.ray_angle += (FOV_ANGLE / RAYS_LENGTH);
@@ -114,7 +114,7 @@ srcs/raycast_calculs/../cub3d.h:178:8: error: conflicting types for 'normalize_a
 double  normalize_angle(double rotation);
         ^
 srcs/raycast_calculs/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 1 error generated.
 In file included from srcs/raycast_calculs/misc_functs.c:13:
@@ -122,7 +122,7 @@ srcs/raycast_calculs/../cub3d.h:178:8: error: conflicting types for 'normalize_a
 double  normalize_angle(double rotation);
         ^
 srcs/raycast_calculs/../cub3d.h:159:7: note: previous declaration is here
-float   normalize_angle(float rotation);
+double   normalize_angle(double rotation);
         ^
 srcs/raycast_calculs/misc_functs.c:31:1: error: version control conflict marker in file
 <<<<<<< HEAD

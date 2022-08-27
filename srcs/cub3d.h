@@ -83,17 +83,17 @@ typedef struct s_player
 
 typedef struct s_intersection
 {
-	float	x_point;
-	float	y_point;
+	double	x_point;
+	double	y_point;
 	char	is_intersected;
 }	t_intrsctn;
 
 typedef struct s_ray
 {
-	float	ray_angle;
-	float	wall_hit_x;
-	float	wall_hit_y;
-	float	distance;
+	double	ray_angle;
+	double	wall_hit_x;
+	double	wall_hit_y;
+	double	distance;
 	char	is_facing_down;
 	char	is_facing_up;
 	char	is_facing_right;
@@ -170,7 +170,7 @@ double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
 int		check_wall_colision(t_fcoords pos, char **map_arr);
-double	dstnce_btwn_points(float x1, float y1, float x2, float y2);
+double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
 /* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void    casting_rays(t_cub *cub);
 void    cast(t_cub *cub, t_ray ray);
