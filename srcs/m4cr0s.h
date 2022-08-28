@@ -14,10 +14,10 @@
 # define M4CR0S_H
 
 /* -------------------------------- WINDOW ---------------------------------- */
-# define WIN_HEIGHT		1080
 # define WIN_WIDTH		2400
+# define WIN_HEIGHT		1080
 # define CUB_SIZE		64
-# define FOV_ANGLE		60 * (M_PI /180)
+# define FOV_ANGLE		1.0472
 # define RAYS_LENGTH	WIN_WIDTH
 
 # define MAP_OBJS		"10NEWS "

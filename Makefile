@@ -14,8 +14,8 @@
 
 CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror --std=c99 --pedantic \
-	-fsanitize=address -static-libsan
-# -Ofast -march=native -fno-signed-zeros -fno-trapping-math
+	-fsanitize=address -static-libsan \
+	-Ofast -march=native -fno-signed-zeros -fno-trapping-math
 
 CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 	-framework OpenGL -framework AppKit -lft -L includes/libft \
