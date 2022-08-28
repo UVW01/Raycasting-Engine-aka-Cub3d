@@ -46,7 +46,7 @@ typedef unsigned int	t_uint;
 /* -------------------------------- STRUCTS --------------------------------- */
 typedef struct s_input
 {
-	int		texture_fds[4];
+	void	*texture_imgs[4];
 	int		ceil_clr;
 	int		floor_clr;
 	char	**map_arr;
@@ -79,6 +79,7 @@ typedef struct s_player
 	double		rot;
 	char		turn_dir;
 	char		walk_dir;
+	char		walk_horizon;
 }	t_player;
 
 typedef struct s_intersection
@@ -130,12 +131,12 @@ typedef struct s_cub
 void	img_pixel_put(t_img *img, t_icoords pxl, int color);
 void	draw_line(t_img *img, t_fcoords p0, t_fcoords p1, int color);
 
-void	move_horizontally(t_cub *cub, int walk_dir);
 void	update_player_position(t_cub *cub);
 
 void	draw_background(t_img *img, t_input *input);
 void	draw_player(t_player *player, t_img *img, int size);
-void	draw_minimap(t_cub *cub);
+void	draw_game_map(t_cub *cub);
+void	draw_minimap(t_cub *cub, int size);
 
 void	reset_window(t_cub *cub);
 void	init_display_params(t_cub *cub);
@@ -145,25 +146,21 @@ void	map_is_closed(char **map_arr);
 void	only_one_player(char **map_arr, t_player *player);
 
 void	check_init_color(char **line_split, t_input *gen_data);
-void	check_init_direction_texture(char **line_split, t_input *gen_data);
+void	check_init_direction_texture(char **line_split, t_input *gen_data, \
+	void *mlx);
 
-void	process_file_data(char *filename, t_input *gen_data, t_player *player);
+void	process_file_data(char *filename, t_cub *cub);
 
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-void	redraw_and_output_image(t_cub *cub);
-void	player_movement(int keycode, t_cub *cub);
-void	esc_close(int keycode, t_cub *cub);
-int		key_press(int keycode, void *_cub);
+int		draw_and_output_image(t_cub *cub);
+void	handle_keys(t_cub *cub);
 
 /* - - cub3d.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 int		xclose(void *v_cub);
 
 /* - - handle_mouse_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
 int		mouse_move(int x, int y, void *_cub);
-
-/* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
-int		xclose(void *v_cub);
 
 /* --------------------- Ray-Casting calculations --------------------------- */
 double	deg2rad(int deg);

@@ -86,7 +86,7 @@ static void	draw_square(t_icoords point, t_img *img, int color)
 
 /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
-void	draw_minimap(t_cub *cub)
+void	draw_game_map(t_cub *cub)
 {
 	t_icoords	loop;
 	int			color;
@@ -105,5 +105,31 @@ void	draw_minimap(t_cub *cub)
 			draw_square((t_icoords){.x = loop.x, .y = loop.y}, \
 				&cub->display.img, color);
 		}
+	}
+}
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+
+void	draw_minimap(t_cub *cub, int size)
+{
+	t_icoords	pixel;
+	int			offset;
+
+	pixel.y = WIN_HEIGHT - size;
+	while (pixel.y < WIN_HEIGHT)
+	{
+		pixel.x = -1;
+		while (++pixel.x < size)
+			img_pixel_put(&cub->display.img, pixel, 0xFFFFFF);
+		pixel.y++;
+	}
+	offset = size / 30;
+	pixel.y = (WIN_HEIGHT - size) + offset;
+	while (pixel.y < WIN_HEIGHT - offset)
+	{
+		pixel.x = offset - 1;
+		while (++pixel.x < size - offset)
+			img_pixel_put(&cub->display.img, pixel, 0);
+		pixel.y++;
 	}
 }

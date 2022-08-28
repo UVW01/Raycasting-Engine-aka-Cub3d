@@ -68,28 +68,32 @@ void	check_init_color(char **line_split, t_input *gen_data)
 
 /* -------------------------------------------------------------------------- */
 
-static void	init_texture_fds(int dirctn, t_input *gen_data, int fd)
+static void	init_texture_imgs(int dirctn, t_input *gen_data, void *img_ptr)
 {
-	if (gen_data->texture_fds[dirctn] != -69)
+	if (gen_data->texture_imgs[dirctn] != NULL)
 		ft_perror(MAP_ERR"Texture redefinition", 1);
-	gen_data->texture_fds[dirctn] = fd;
+	gen_data->texture_imgs[dirctn] = img_ptr;
 }
 
 /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
-void	check_init_direction_texture(char **line_split, t_input *gen_data)
+void	check_init_direction_texture(char **line_split, t_input *gen_data, \
+	void *mlx)
 {
-	int		file_fd;
+	void		*img_ptr;
+	t_icoords	dimensions;
 
-	file_fd = open(line_split[1], O_RDONLY);
-	if (file_fd < 0)
+	dimensions = (t_icoords){.x = CUB_SIZE, .y = CUB_SIZE};
+	img_ptr = mlx_xpm_file_to_image(mlx, line_split[1], &dimensions.x, \
+		&dimensions.y);
+	if (img_ptr == NULL)
 		ft_perror(FD_ERR, 1);
 	if (!ft_strcmp(line_split[0], "NO"))
-		init_texture_fds(NO, gen_data, file_fd);
+		init_texture_imgs(NO, gen_data, img_ptr);
 	else if (!ft_strcmp(line_split[0], "SO"))
-		init_texture_fds(SO, gen_data, file_fd);
+		init_texture_imgs(SO, gen_data, img_ptr);
 	else if (!ft_strcmp(line_split[0], "WE"))
-		init_texture_fds(WE, gen_data, file_fd);
+		init_texture_imgs(WE, gen_data, img_ptr);
 	else if (!ft_strcmp(line_split[0], "EA"))
-		init_texture_fds(EA, gen_data, file_fd);
+		init_texture_imgs(EA, gen_data, img_ptr);
 }

@@ -35,9 +35,9 @@
 
 /* -------------------------------- EVENTS ---------------------------------- */
 // ---------- Event masks -------- //
-# define NO_EVENT_MASK		0L
-# define KEY_PRESS_MASK		0b00000001
-# define KEY_RELEASE_MASK	0b00000010
+# define NO_MASK		0L
+# define KP_MASK		(1L<<0)
+# define KR_MASK	(1L<<1)
 
 // ---------- Event type -------- //
 typedef enum s_event_types {

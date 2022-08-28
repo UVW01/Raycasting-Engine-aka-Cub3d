@@ -24,7 +24,11 @@ int	main(int ac, char **av)
 	ext = ft_strrchr(av[1], '.');
 	if (ext == NULL || ft_strcmp(ext, ".cub"))
 		ft_perror(EXT_ERR, 1);
-	process_file_data(av[1], &cub.input, &cub.player);
+	ft_bzero(&cub, sizeof(cub));
+	cub.display.mlx = mlx_init();
+	if (cub.display.mlx == NULL)
+		ft_perror(MLX_ERR, 1);
+	process_file_data(av[1], &cub);
 	init_display_params(&cub);
 	return (EXIT_SUCCESS);
 }
