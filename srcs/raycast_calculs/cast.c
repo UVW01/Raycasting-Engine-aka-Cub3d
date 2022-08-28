@@ -75,8 +75,8 @@ static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
 static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin)
 {
     ray->distance = distnce;
-    ray->wall_hit_x = intersectin.x_point;
-    ray->wall_hit_y = intersectin.y_point;
+    ray->wall_hit.x = (float)intersectin.x_point;
+    ray->wall_hit.y = (float)intersectin.y_point;
 }
 
 
@@ -104,24 +104,14 @@ static void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-static int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-
-void    cast(t_cub *cub, t_ray ray)
+void    cast(t_cub *cub, t_ray *ray)
 {
     t_intrsctn  h_intersect;
     t_intrsctn  v_intersect;
-    t_fcoords   new_ray_pos;
     
     ft_bzero(&h_intersect, sizeof(t_intrsctn));
     ft_bzero(&v_intersect, sizeof(t_intrsctn));
-    horizi_intrsctn(cub, &ray, &h_intersect);
-    vert_intrsctn(cub, &ray, &v_intersect);
-    calcul_distance(cub->player, &ray, h_intersect, v_intersect);
-    new_ray_pos.x = ray.wall_hit_x;
-    new_ray_pos.y = ray.wall_hit_y;
-    draw_line(&cub->display.img, cub->player.pos, new_ray_pos, create_trgb(9, 255, 0, 0));
+    horizi_intrsctn(cub, ray, &h_intersect);
+    vert_intrsctn(cub, ray, &v_intersect);
+    calcul_distance(cub->player, ray, h_intersect, v_intersect);
 }

@@ -90,16 +90,21 @@ typedef struct s_intersection
 
 typedef struct s_ray
 {
-	double	ray_angle;
-	double	wall_hit_x;
-	double	wall_hit_y;
-	double	distance;
-	char	is_facing_down;
-	char	is_facing_up;
-	char	is_facing_right;
-	char	is_facing_left;
+	int			id;
+	double		ray_angle;
+	t_fcoords	wall_hit;
+	double		distance;
+	char		is_facing_down;
+	char		is_facing_up;
+	char		is_facing_right;
+	char		is_facing_left;
 }	t_ray;
 
+typedef struct s_wall
+{
+	double	ds_proj_plane;
+	double	walls_height;
+}	t_wall;
 typedef struct s_img
 {
 	void	*img_ptr;
@@ -165,14 +170,21 @@ int		mouse_move(int x, int y, void *_cub);
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);
 
-/* --------------------- Ray-Casting calculations --------------------------- */
+/* --------------------- RAY-CASTING CALCULATIONS --------------------------- */
+/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
 int		check_wall_colision(t_fcoords pos, char **map_arr);
 double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
-/* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+/* - - casting_rays.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void    casting_rays(t_cub *cub);
-void    cast(t_cub *cub, t_ray ray);
+/* - - cast.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void    cast(t_cub *cub, t_ray *ray);
+
+/* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
+
+void    render_walls(t_cub *cub, t_ray ray, t_wall walls);
 
 #endif
