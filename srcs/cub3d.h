@@ -185,6 +185,6 @@ void    cast(t_cub *cub, t_ray *ray);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
 
-void    render_walls(t_cub *cub, t_ray ray, t_wall walls);
+void    render_walls(t_cub *cub, t_ray ray);
 
 #endif
