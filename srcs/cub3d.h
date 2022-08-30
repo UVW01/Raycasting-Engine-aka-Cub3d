@@ -122,6 +122,7 @@ typedef struct s_img
 	int		endian;
 	int		height;
 	int		width;
+	int		m_offset;
 }	t_img;
 
 typedef struct s_display
@@ -146,9 +147,10 @@ void	draw_line(t_img *img, t_fcoords p0, t_fcoords p1, int color);
 void	update_player_position(t_cub *cub);
 
 void	draw_background(t_cub *cub);
-void	draw_player(t_player *player, t_img *img, int size);
-void	draw_game_map(t_cub *cub);
+
+void	draw_minimap_player(t_cub *cub, int scale);
 void	draw_minimap(t_cub *cub);
+void	draw_limited_line(t_img *img, t_fcoords fp0, t_fcoords fp1, int color);
 
 void	init_display_params(t_cub *cub);
 
@@ -184,12 +186,13 @@ int		check_wall_colision(t_fcoords pos, char **map_arr);
 double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
 
 /* - - casting_rays.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void    casting_rays(t_cub *cub);
+void	casting_rays(t_cub *cub);
+
 /* - - cast.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void    cast(t_cub *cub, t_ray *ray);
+void	cast(t_cub *cub, t_ray *ray);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
 
-void    render_walls(t_cub *cub, t_ray ray);
+void	render_walls(t_cub *cub, t_ray ray);
 
 #endif
