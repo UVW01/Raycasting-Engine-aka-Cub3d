@@ -33,15 +33,18 @@ MINI_MAP :=	bresenham_line_algo.c \
 
 EVENTS	:= 	handle_keypress.c handle_mouse_events.c handle_misc_events.c
 CASTING_RAYS := casting_rays.c cast.c misc_functs.c
+RENDERING_WALLS := render_walls.c
+#  draw_walls_utils.c calcul_walls.c
 
 SRCS		:= ${addprefix srcs/map_parsing/, ${GEN_LST}} \
 				${addprefix srcs/display_management/, ${MINI_MAP}} \
 				${addprefix srcs/event_handling/, ${EVENTS}} \
-				${addprefix srcs/raycast_calculs/, ${CASTING_RAYS}}
+				${addprefix srcs/raycast_calculs/, ${CASTING_RAYS}} \
+				${addprefix srcs/rendering_walls/, ${RENDERING_WALLS}}
 
 NAME		:= cub3d
 MAIN		:= srcs/cub3d.c
-HEADER		:= srcs/cub3d.h
+HEADER		:= srcs/cub3d.h srcs/m4cr0s.h
 
 # ---------------------------------------------------------------------------- #
 
