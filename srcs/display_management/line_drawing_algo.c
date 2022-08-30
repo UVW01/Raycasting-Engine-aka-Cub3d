@@ -33,6 +33,9 @@ static void	dl_continued(t_img *img, t_icoords p1, int color, t_brsnhm brsnhm)
 {
 	while (brsnhm.pxl.x != p1.x || brsnhm.pxl.y != p1.y)
 	{
+		if ((brsnhm.pxl.x < 0 || brsnhm.pxl.x > WIN_WIDTH) || \
+			(brsnhm.pxl.y < 0 || brsnhm.pxl.y > WIN_HEIGHT))
+			break ;
 		img_pixel_put(img, brsnhm.pxl, color);
 		brsnhm.e2 = 2 * brsnhm.err;
 		if (brsnhm.e2 >= brsnhm.dlta.y)

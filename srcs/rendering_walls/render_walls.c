@@ -18,17 +18,18 @@ static void	draw_square(t_icoords p0, t_icoords p1, t_img *img, int color)
 	}
 }
 
-
 void    render_walls(t_cub *cub, t_ray ray)
 {
-    t_wall  walls;
-    t_icoords   p0;
-    t_icoords   p1;
-    int color = 0;
+    t_wall		walls;
+    t_icoords	p0;
+    t_icoords	p1;
+    int			color = 0;
 
     ray.distance = (ray.distance * cos(ray.ray_angle - cub->player.rot));
     walls.ds_proj_plane = (WIN_WIDTH / 2) / tan(FOV_ANGLE / 2);
     walls.walls_height = (CUB_SIZE / ray.distance) * walls.ds_proj_plane;
+    if (walls.walls_height > WIN_HEIGHT)
+        walls.walls_height = WIN_HEIGHT;
     p0.x = ray.id;
     p0.y = (int)(WIN_HEIGHT / 2) - (walls.walls_height / 2);
     p1.x = ray.id + 1;
@@ -38,5 +39,5 @@ void    render_walls(t_cub *cub, t_ray ray)
         color = 0xFF0000;
     if (ray.is_facing_up)
         color = 0x00FF00;
-    draw_square(p0, p1, &cub->display.img, color);
+    draw_square(p0, p1, &cub->display.img, 0x171010);
 }

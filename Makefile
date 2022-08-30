@@ -31,7 +31,7 @@ DISPLAY	:=	line_drawing_algo.c \
 	coordinates_calculs.c
 DRAWING	:=	minimap.c minimap_player.c misc_drawing.c custom_line_algo.c
 
-EVENTS			:=	handle_keypress.c handle_mouse_events.c
+EVENTS			:=	handle_keypress.c
 CASTING_RAYS	:=	casting_rays.c cast.c misc_functs.c
 RENDERING_WALLS	:=	render_walls.c
 

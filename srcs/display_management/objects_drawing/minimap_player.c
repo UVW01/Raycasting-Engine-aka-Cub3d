@@ -34,7 +34,7 @@ static void	draw_fov(t_fcoords start_pos, t_fcoords end_pos, t_cub *cub)
 	start_pos.y += minimap_half_size;
 	end_pos.x += minimap_half_size;
 	end_pos.y += minimap_half_size;
-	draw_limited_line(&cub->display.img, start_pos, end_pos, 0xFFAF00);
+	draw_limited_line(cub, start_pos, end_pos, 0x20FFAF00);
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

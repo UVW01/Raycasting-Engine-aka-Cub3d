@@ -27,20 +27,20 @@ static int	close_window(void *v_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int	key_press(int keycode, void *_cub)
+static int	key_press(int keycode, void *v_cub)
 {
 	t_cub *cub;
 
-	cub = (t_cub *)_cub;
+	cub = (t_cub *)v_cub;
 	if (keycode == KEY_ESCAPE)
-		return (close_window(_cub));
+		return (close_window(v_cub));
 	else if (keycode == KEY_RIGHT)
 		cub->player.turn_dir = 1;
 	else if (keycode == KEY_LEFT)
 		cub->player.turn_dir = -1;
-	else if (keycode == KEY_W)
+	else if (keycode == KEY_W || keycode == KEY_UP)
 		cub->player.walk_dir = 1;
-	else if (keycode == KEY_S)
+	else if (keycode == KEY_S || keycode == KEY_DOWN)
 		cub->player.walk_dir = -1;
 	else if (keycode == KEY_D)
 		cub->player.walk_horizon = 1;
@@ -51,14 +51,41 @@ static int	key_press(int keycode, void *_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int	key_release(int keycode, t_cub *cub)
+static int	key_release(int keycode, t_cub *v_cub)
 {
-	if (keycode == KEY_W || keycode == KEY_S)
+	t_cub *cub;
+
+	cub = (t_cub *)v_cub;
+	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_UP || \
+		keycode == KEY_DOWN)
 		cub->player.walk_dir = 0;
 	else if (keycode == KEY_RIGHT || keycode == KEY_LEFT)
 		cub->player.turn_dir = 0;
 	else if (keycode == KEY_D || keycode == KEY_A)
 		cub->player.walk_horizon = 0;
+	return (0);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+static int mouse_hook(int x, int y, void *v_cub)
+{
+	static int	old_x = 0;
+	t_cub		*cub;
+
+	(void)y;
+	cub = (t_cub *)v_cub;
+	if (old_x == 0)
+		old_x = x;
+	else if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
+	{
+		if (x > old_x)
+			cub->player.rot += deg2rad(3);
+		if (x < old_x)
+			cub->player.rot -= deg2rad(3);
+		normalize_angle(cub->player.rot);
+		old_x = x;
+	}
 	return (0);
 }
 
@@ -72,5 +99,6 @@ void	handle_keys(t_cub *cub)
 	mlx_hook(disp->win, KEY_PRESS, KP_MASK, &key_press, (void *)cub);
 	mlx_hook(disp->win, KEY_RELEASE, KR_MASK, &key_release, (void *)cub);
 	mlx_hook(disp->win, DESTROY_NOTIFY, NO_MASK, &close_window, (void *)cub);
+	mlx_hook(disp->win, 6, 0, &mouse_hook, (void *)cub);
 	mlx_loop_hook(disp->mlx, &draw_and_output_image, (void *)cub);
 }

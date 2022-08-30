@@ -16,6 +16,7 @@
 
 static void	dll_continued(t_img *img, t_icoords p1, int color, t_brsnhm brsnhm)
 {
+	(void)color;
 	while (brsnhm.pxl.x != p1.x || brsnhm.pxl.y != p1.y)
 	{
 		if (brsnhm.pxl.x > img->m_offset && brsnhm.pxl.y > img->m_offset \
@@ -40,12 +41,14 @@ static void	dll_continued(t_img *img, t_icoords p1, int color, t_brsnhm brsnhm)
 
 /* -------------------------------------------------------------------------- */
 
-void	draw_limited_line(t_img *img, t_fcoords fp0, t_fcoords fp1, int color)
+void	draw_limited_line(t_cub *cub, t_fcoords fp0, t_fcoords fp1, int color)
 {
 	t_brsnhm	brsnhm;
 	t_icoords	p0;
 	t_icoords	p1;
+	t_img	*img;
 
+	img = &cub->display.img;
 	p0 = (t_icoords){.x = (int)fp0.x, .y = (int)fp0.y};
 	p1 = (t_icoords){.x = (int)fp1.x, .y = (int)fp1.y};
 	brsnhm.dlta.x = abs(p1.x - p0.x);
