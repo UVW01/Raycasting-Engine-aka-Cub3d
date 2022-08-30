@@ -30,12 +30,12 @@ static void reset_window(t_cub *cub)
 int	draw_and_output_image(t_cub *cub)
 {
 	reset_window(cub);
-	draw_background(cub);
-	//draw_game_map(cub);
 	update_player_position(cub);
+	// draw
+	draw_background(cub);
 	casting_rays(cub);
-	//draw_player(&cub->player, &cub->display.img, 1);
-	// draw_minimap(cub);
+	draw_minimap(cub);
+	// end draw
 	mlx_put_image_to_window(cub->display.mlx, cub->display.win,
 		cub->display.img.img_ptr, 0, 0);
 	return (0);
