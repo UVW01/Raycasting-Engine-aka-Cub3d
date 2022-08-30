@@ -102,6 +102,7 @@ typedef struct s_ray
 	double		ray_angle;
 	t_fcoords	wall_hit;
 	double		distance;
+	char		grid_direction;
 	char		is_facing_down;
 	char		is_facing_up;
 	char		is_facing_right;

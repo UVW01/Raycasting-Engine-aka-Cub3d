@@ -72,11 +72,13 @@ static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin)
+static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin, \
+    char grid_dir)
 {
     ray->distance = distnce;
     ray->wall_hit.x = (float)intersectin.x_point;
     ray->wall_hit.y = (float)intersectin.y_point;
+    ray->grid_direction = grid_dir;
 }
 
 
@@ -93,14 +95,14 @@ static void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
     if (horiz.is_intersected && vert.is_intersected)
     {
         if (distance.x < distance.y)
-            store_distance(ray, distance.x, horiz);
+            store_distance(ray, distance.x, horiz, HORIZONTAL);
         else
-            store_distance(ray, distance.y, vert);
+            store_distance(ray, distance.y, vert, VERTICAL);
     }
     else if (horiz.is_intersected)
-        store_distance(ray, distance.x, horiz);
+        store_distance(ray, distance.x, horiz, HORIZONTAL);
     else if (vert.is_intersected)
-        store_distance(ray, distance.y, vert);
+        store_distance(ray, distance.y, vert, VERTICAL);
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
