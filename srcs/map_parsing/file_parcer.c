@@ -22,7 +22,7 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 	if (line_split[2] != NULL || ft_strlen(line_split[0]) > 2)
 		ft_perror(MAP_ERR"Too many values", 1);
 	if (ft_strstr(MAP_DIRECTNS, line_split[0]))
-		check_init_direction_texture(line_split, data, mlx);
+		check_init_texture(line_split, data, mlx);
 	else if (!ft_strcmp(line_split[0], "F") || !ft_strcmp(line_split[0], "C"))
 		check_init_color(line_split, data);
 	else
@@ -71,10 +71,10 @@ static void	process_map_arr(t_input *data, char *line)
 
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
-	data->texture_imgs[0] = NULL;
-	data->texture_imgs[1] = NULL;
-	data->texture_imgs[2] = NULL;
-	data->texture_imgs[3] = NULL;
+	ft_bzero(&data->textures[NO], sizeof(t_texture));
+	ft_bzero(&data->textures[SO], sizeof(t_texture));
+	ft_bzero(&data->textures[EA], sizeof(t_texture));
+	ft_bzero(&data->textures[WE], sizeof(t_texture));
 	data->ceil_clr = -1;
 	data->floor_clr = -1;
 	data->map_arr = NULL;

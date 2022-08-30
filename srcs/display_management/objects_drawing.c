@@ -14,26 +14,22 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	draw_background(t_img *img, t_input *input)
+void	draw_background(t_cub *cub)
 {
-	int	y0;
-	int	y1;
+	int		color;
+	int		y;
+	int		x;
 
-	y0 = 0;
-	y1 = WIN_HEIGHT / 2;
-	while (y0 <= y1)
+	y = -1;
+	while (++y < WIN_HEIGHT)
 	{
-		draw_line(img, (t_fcoords){.x = 0, .y = y0}, \
-			(t_fcoords){.x = WIN_WIDTH, .y = y0}, input->ceil_clr);
-		++y0;
-	}
-	y0 = WIN_HEIGHT / 2;
-	y1 = WIN_HEIGHT;
-	while (y0 <= y1)
-	{
-		draw_line(img, (t_fcoords){.x = 0, .y = y0}, \
-			(t_fcoords){.x = WIN_WIDTH, .y = y0}, input->floor_clr);
-		++y0;
+		color = cub->input.ceil_clr;
+		if (y >= WIN_HEIGHT / 2)
+			color = cub->input.floor_clr;
+		x = -1;
+		while (++x < WIN_WIDTH)
+			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
+				color);
 	}
 }
 
@@ -70,21 +66,21 @@ void	draw_player(t_player *player, t_img *img, int size)
 
 /* -------------------------------------------------------------------------- */
 
-static void	draw_square(t_icoords point, t_img *img, int color)
+static void	draw_square(t_icoords point, t_img *img, int color, int size)
 {
-	t_icoords	p;
+	int	y;
+	int	x;
 
-	p.x = (point.x * CUB_SIZE) + 1; // should remove the + 1
-	p.y = (point.y * CUB_SIZE) + 1; // also here
-	while (p.y <= (point.y * CUB_SIZE) + (CUB_SIZE - 1)) // should be 64
+	y = (point.y * size) - 1;
+	while (++y <= (point.y * size) + size)
 	{
-		draw_line(img, (t_fcoords){.x = p.x, .y = p.y}, \
-			(t_fcoords){.x = p.x + (CUB_SIZE - 1), .y = p.y}, color);
-		p.y++;
+		x = (point.x * size) - 1;
+		while (++x <= (point.x * size) + size)
+			img_pixel_put(img, (t_icoords){.x = x, .y = y}, color);
 	}
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
 void	draw_game_map(t_cub *cub)
 {
@@ -102,30 +98,28 @@ void	draw_game_map(t_cub *cub)
 				continue ;
 			else if (cub->input.map_arr[loop.y][loop.x] == '1')
 				color = 0x3F3F3F;
-			draw_square((t_icoords){.x = loop.x, .y = loop.y}, \
-				&cub->display.img, color);
+			draw_square(loop, &cub->display.img, color, CUB_SIZE);
 		}
 	}
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* -------------------------------------------------------------------------- */
 
-void	draw_minimap(t_cub *cub, int size)
+static void	draw_minimap_base(t_cub *cub, int scale, int offset)
 {
 	t_icoords	pixel;
-	int			offset;
+	int			size;
 
-	pixel.y = WIN_HEIGHT - size;
-	while (pixel.y < WIN_HEIGHT)
+	size = WIN_HEIGHT / scale;
+	pixel.y = -1;
+	while (++pixel.y < size)
 	{
 		pixel.x = -1;
 		while (++pixel.x < size)
-			img_pixel_put(&cub->display.img, pixel, 0xFFFFFF);
-		pixel.y++;
+			img_pixel_put(&cub->display.img, pixel, 0x303030);
 	}
-	offset = size / 30;
-	pixel.y = (WIN_HEIGHT - size) + offset;
-	while (pixel.y < WIN_HEIGHT - offset)
+	pixel.y = offset;
+	while (pixel.y < size - offset)
 	{
 		pixel.x = offset - 1;
 		while (++pixel.x < size - offset)
@@ -133,3 +127,107 @@ void	draw_minimap(t_cub *cub, int size)
 		pixel.y++;
 	}
 }
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+static void	draw_minimap_player(t_cub *cub, int scale)
+{
+	t_icoords	new_pos;
+	int			size;
+
+	size = WIN_HEIGHT / scale;
+	new_pos = (t_icoords){.x = (size / 2), .y = (size / 2)};
+	img_pixel_put(&cub->display.img, new_pos, 0xFF0000);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+static void	draw_object_square(t_icoords p, t_img *img, int color, int size, \
+	int offset)
+{
+	int	y;
+	int	x;
+
+	y = (p.y * size) - 1;
+	while (++y <= (p.y * size) + size)
+	{
+		x = (p.x * size) - 1;
+		while (++x <= (p.x * size) + size)
+		{
+			img_pixel_put(img, (t_icoords){.x = x + offset, .y = y + offset}, \
+				color);
+		}
+	}
+}
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+
+static void	loop_vertically(t_cub *cub, int size, int offset)
+{
+	t_icoords	loop;
+	t_icoords	player;
+	int			color;
+
+	player.x = cub->player.pos.x / CUB_SIZE;
+	player.y = cub->player.pos.y / CUB_SIZE;
+	loop.y = player.y;
+	while (loop.y >= 0 && player.y - loop.y <= 6)
+	{
+		loop.x = player.x;
+		while (--loop.x >= 0 && player.x - loop.x <= 5)
+		{
+			color = 0xFFFFFF;
+			if (cub->input.map_arr[loop.y][loop.x] == '1')
+				color = 0x303030;
+			else if (cub->input.map_arr[loop.y][loop.x] == ' ')
+				color = 0;
+			draw_object_square((t_icoords){.x = abs(loop.x - player.x), \
+				.y = loop.y}, &cub->display.img, color, size / 11, offset);
+		}
+		loop.y--;
+	}
+
+}
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+
+static void	draw_minimap_objects(t_cub *cub, int scale, int offset)
+{
+	//t_icoords	loop;
+	//int			color;
+	int			size;
+
+	size = WIN_HEIGHT / scale;
+	loop_vertically(cub, size, offset);
+	// loop.y = -1;
+	// while (cub->input.map_arr[++loop.y])
+	// {
+	// 	loop.x = -1;
+	// 	while (cub->input.map_arr[loop.y][++loop.x])
+	// 	{
+	// 		color = 0xF0F0F0;
+	// 		if (cub->input.map_arr[loop.y][loop.x] == ' ')
+	// 			continue ;
+	// 		else if (cub->input.map_arr[loop.y][loop.x] == '1')
+	// 			color = 0x3F3F3F;
+	// 		draw_object_square(loop, &cub->display.img, color, size / 11, \
+	// 			offset);
+	// 	}
+	// }
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	draw_minimap(t_cub *cub)
+{
+	int scale;
+	int	offset;
+
+	scale = 4;
+	offset = (WIN_HEIGHT / scale) / 30;
+	draw_minimap_base(cub, scale, offset);
+	draw_minimap_objects(cub, scale, offset);
+	draw_minimap_player(cub, scale);
+}
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

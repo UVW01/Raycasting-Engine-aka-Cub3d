@@ -14,7 +14,7 @@
 
 /* -------------------------------------------------------------------------- */
 
-void reset_window(t_cub *cub)
+static void reset_window(t_cub *cub)
 {
 	mlx_clear_window(cub->display.mlx, cub->display.win);
 	mlx_destroy_image(cub->display.mlx, cub->display.img.img_ptr);
@@ -23,6 +23,21 @@ void reset_window(t_cub *cub)
 	cub->display.img.addr = mlx_get_data_addr(cub->display.img.img_ptr,
 		&cub->display.img.bits_per_pixel, &cub->display.img.line_length,
 		&cub->display.img.endian);
+}
+
+/* -------------------------------------------------------------------------- */
+
+int	draw_and_output_image(t_cub *cub)
+{
+	reset_window(cub);
+	draw_background(cub);
+	//draw_game_map(cub);
+	update_player_position(cub);
+	//draw_player(&cub->player, &cub->display.img, 1);
+	draw_minimap(cub);
+	mlx_put_image_to_window(cub->display.mlx, cub->display.win,
+		cub->display.img.img_ptr, 0, 0);
+	return (0);
 }
 
 /* -------------------------------------------------------------------------- */

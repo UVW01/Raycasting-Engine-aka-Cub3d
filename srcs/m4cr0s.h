@@ -14,12 +14,11 @@
 # define M4CR0S_H
 
 /* -------------------------------- WINDOW ---------------------------------- */
-# define WIN_HEIGHT		1080
 # define WIN_WIDTH		2400
+# define WIN_HEIGHT		1440
 # define CUB_SIZE		64
-# define FOV_ANGLE		60 * (M_PI /180)
+# define FOV_ANGLE		1.0472
 # define RAYS_LENGTH	WIN_WIDTH
-# define NUM_RAYS		1
 
 # define MAP_OBJS		"10NEWS "
 # define MAP_DIRECTNS	"NO SO WE EA"
@@ -35,8 +34,8 @@
 
 /* -------------------------------- EVENTS ---------------------------------- */
 // ---------- Event masks -------- //
-# define NO_MASK		0L
-# define KP_MASK		(1L<<0)
+# define NO_MASK	0L
+# define KP_MASK	(1L<<0)
 # define KR_MASK	(1L<<1)
 
 // ---------- Event type -------- //

@@ -3,19 +3,6 @@
 
 /* -------------------------------------------------------------------------- */
 
-int	draw_and_output_image(t_cub *cub)
-{
-	reset_window(cub);
-	draw_game_map(cub);
-	update_player_position(cub);
-	draw_player(&cub->player, &cub->display.img, (CUB_SIZE / 10));
-	mlx_put_image_to_window(cub->display.mlx, cub->display.win,
-		cub->display.img.img_ptr, 0, 0);
-	return (0);
-}
-
-/* -------------------------------------------------------------------------- */
-
 static int	close_window(void *v_cub)
 {
 	t_cub	*cub;

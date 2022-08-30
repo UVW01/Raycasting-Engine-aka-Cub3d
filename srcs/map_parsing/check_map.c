@@ -108,9 +108,9 @@ void	only_one_player(char **map_arr, t_player *player)
 			else if (map_arr[pixel.y][pixel.x] == 'S')
 				player->rot = deg2rad(90);
 			else if (map_arr[pixel.y][pixel.x] == 'E')
-				player->rot = deg2rad(180);
-			else if (map_arr[pixel.y][pixel.x] == 'W')
 				player->rot = deg2rad(0);
+			else if (map_arr[pixel.y][pixel.x] == 'W')
+				player->rot = deg2rad(180);
 			player->pos = (t_fcoords){.x = (pixel.x * CUB_SIZE) + CUB_SIZE / 2, \
 				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;

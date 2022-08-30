@@ -68,32 +68,33 @@ void	check_init_color(char **line_split, t_input *gen_data)
 
 /* -------------------------------------------------------------------------- */
 
-static void	init_texture_imgs(int dirctn, t_input *gen_data, void *img_ptr)
+static void	init_texture(int direction, t_input *data, void *img_ptr, \
+	t_icoords size)
 {
-	if (gen_data->texture_imgs[dirctn] != NULL)
+	if (data->textures[direction].img_ptr != NULL)
 		ft_perror(MAP_ERR"Texture redefinition", 1);
-	gen_data->texture_imgs[dirctn] = img_ptr;
+	data->textures[direction].img_ptr = img_ptr;
+	data->textures[direction].height = size.y;
+	data->textures[direction].width = size.x;
 }
 
 /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
-void	check_init_direction_texture(char **line_split, t_input *gen_data, \
-	void *mlx)
+void	check_init_texture(char **line_split, t_input *data, void *mlx)
 {
 	void		*img_ptr;
-	t_icoords	dimensions;
+	t_icoords	size;
 
-	dimensions = (t_icoords){.x = CUB_SIZE, .y = CUB_SIZE};
-	img_ptr = mlx_xpm_file_to_image(mlx, line_split[1], &dimensions.x, \
-		&dimensions.y);
+	size = (t_icoords){.x = 0, .y = 0};
+	img_ptr = mlx_xpm_file_to_image(mlx, line_split[1], &size.x, &size.y);
 	if (img_ptr == NULL)
 		ft_perror(FD_ERR, 1);
 	if (!ft_strcmp(line_split[0], "NO"))
-		init_texture_imgs(NO, gen_data, img_ptr);
+		init_texture(NO, data, img_ptr, size);
 	else if (!ft_strcmp(line_split[0], "SO"))
-		init_texture_imgs(SO, gen_data, img_ptr);
+		init_texture(SO, data, img_ptr, size);
 	else if (!ft_strcmp(line_split[0], "WE"))
-		init_texture_imgs(WE, gen_data, img_ptr);
+		init_texture(WE, data, img_ptr, size);
 	else if (!ft_strcmp(line_split[0], "EA"))
-		init_texture_imgs(EA, gen_data, img_ptr);
+		init_texture(EA, data, img_ptr, size);
 }

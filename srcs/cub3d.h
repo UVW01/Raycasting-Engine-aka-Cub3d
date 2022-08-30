@@ -44,12 +44,19 @@ typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* -------------------------------- STRUCTS --------------------------------- */
+typedef struct s_texture
+{
+	void	*img_ptr;
+	int		height;
+	int		width;
+}	t_texture;
+
 typedef struct s_input
 {
-	void	*texture_imgs[4];
-	int		ceil_clr;
-	int		floor_clr;
-	char	**map_arr;
+	t_texture	textures[4];
+	int			ceil_clr;
+	int			floor_clr;
+	char		**map_arr;
 }	t_input;
 
 typedef struct s_fcoords
@@ -84,21 +91,21 @@ typedef struct s_player
 
 typedef struct s_intersection
 {
-	float	pointX;
-	float	pointY;
-	char	isIntersected;
-}	t_intersection;
+	double	x_point;
+	double	y_point;
+	char	is_intersected;
+}	t_intrsctn;
 
 typedef struct s_ray
 {
-	float	rayAngle;
-	float	wallHitX;
-	float	wallHitY;
-	float	distance;
-	char	isFacingDown;
-	char	isFacingUp;
-	char	isFacingRight;
-	char	isFacingLeft;
+	double	ray_angle;
+	double	wall_hit_x;
+	double	wall_hit_y;
+	double	distance;
+	char	is_facing_down;
+	char	is_facing_up;
+	char	is_facing_right;
+	char	is_facing_left;
 }	t_ray;
 
 typedef struct s_img
@@ -133,12 +140,11 @@ void	draw_line(t_img *img, t_fcoords p0, t_fcoords p1, int color);
 
 void	update_player_position(t_cub *cub);
 
-void	draw_background(t_img *img, t_input *input);
+void	draw_background(t_cub *cub);
 void	draw_player(t_player *player, t_img *img, int size);
 void	draw_game_map(t_cub *cub);
-void	draw_minimap(t_cub *cub, int size);
+void	draw_minimap(t_cub *cub);
 
-void	reset_window(t_cub *cub);
 void	init_display_params(t_cub *cub);
 
 /* PARSING */
@@ -146,8 +152,7 @@ void	map_is_closed(char **map_arr);
 void	only_one_player(char **map_arr, t_player *player);
 
 void	check_init_color(char **line_split, t_input *gen_data);
-void	check_init_direction_texture(char **line_split, t_input *gen_data, \
-	void *mlx);
+void	check_init_texture(char **line_split, t_input *gen_data, void *mlx);
 
 void	process_file_data(char *filename, t_cub *cub);
 
@@ -166,7 +171,8 @@ int		mouse_move(int x, int y, void *_cub);
 double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
-bool	hasWallAtPos(char **map_arr, float x, float y);
+int		check_wall_colision(t_fcoords pos, char **map_arr);
+double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
 /* - - misc_calculs.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void    casting_rays(t_cub *cub);
 void    cast(t_cub *cub, t_ray ray);
