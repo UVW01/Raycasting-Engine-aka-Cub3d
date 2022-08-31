@@ -19,6 +19,7 @@ static void cast_until_hit_wall(t_fcoords intrcpt, t_fcoords step, \
     while ((intrcpt.x > 0 && intrcpt.x < WIN_WIDTH) && \
         (intrcpt.y > 0 && intrcpt.y < WIN_HEIGHT))
     {
+        // printf("y_intercept=>(%f), x_intercept=>(%f)\n", intrcpt.y, intrcpt.x);
         if (check_wall_colision(intrcpt, cub->input.map_arr))
         {
             wall_hit->x_point = intrcpt.x;

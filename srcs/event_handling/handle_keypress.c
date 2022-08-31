@@ -78,7 +78,7 @@ static int mouse_hover(int x, int y, void *v_cub)
 		return (0);
 	else if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 	{
-		write(1, "world\n", 6);
+		//write(1, "world\n", 6);
 		if (x > cub->player.mouse_prev_x)
 			cub->player.rot += deg2rad(3);
 		else if (x < cub->player.mouse_prev_x)
@@ -99,7 +99,7 @@ static int mouse_click(int keycode, int x, int y, void *v_cub)
 	cub = (t_cub *)v_cub;
 	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 	{
-		write(1, "hello\n", 6);
+		//write(1, "hello\n", 6);
 		cub->player.mouse_prev_x = x;
 		cub->player.mouse_click = 1;
 	}
