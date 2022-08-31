@@ -89,8 +89,8 @@ static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin, \
     char grid_dir)
 {
     ray->distance = distnce;
-    ray->wall_hit.x = (float)intersectin.x_point;
-    ray->wall_hit.y = (float)intersectin.y_point;
+    ray->wall_hit.x = intersectin.x_point;
+    ray->wall_hit.y = intersectin.y_point;
     ray->grid_direction = grid_dir;
 }
 
