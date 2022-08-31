@@ -5,3 +5,4 @@ cub3d
 *.a
 *.txt
 .gitignore
+.DS_Store

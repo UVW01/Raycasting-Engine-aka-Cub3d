@@ -42,6 +42,8 @@
 typedef enum s_event_types {
 	KEY_PRESS = 2,
 	KEY_RELEASE = 3,
+	MOUSE_CLICK = 4,
+	MOUSE_RELEASE = 5,
 	MOUSE_MOVEMENT = 6,
 	DESTROY_NOTIFY = 17,
 }	t_event_types;
@@ -78,5 +80,5 @@ typedef enum s_direction {
 	VERTICAL = 1,
 }	t_directon;
 
-
 #endif
+

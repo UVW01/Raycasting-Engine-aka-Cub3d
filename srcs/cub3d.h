@@ -84,6 +84,8 @@ typedef struct s_player
 {
 	t_fcoords	pos;
 	double		rot;
+	int			mouse_prev_x;		
+	char		mouse_click;
 	char		turn_dir;
 	char		walk_dir;
 	char		walk_horizon;
