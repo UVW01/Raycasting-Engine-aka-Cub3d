@@ -114,7 +114,9 @@ typedef struct s_ray
 typedef struct s_wall
 {
 	double	ds_proj_plane;
-	double	walls_height;
+	double	wall_height;
+	t_icoords   p0;
+    t_icoords   p1;
 }	t_wall;
 typedef struct s_img
 {
