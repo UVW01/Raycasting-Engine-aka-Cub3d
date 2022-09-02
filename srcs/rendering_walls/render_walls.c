@@ -23,7 +23,6 @@ static double get_x_offset(t_ray ray, t_texture texture)
 
 static  int get_cardinal_point(t_ray ray)
 {
-    return (EA);
     if (ray.grid_direction == HORIZONTAL)
     {
         if (ray.is_facing_up)
