@@ -20,13 +20,21 @@ void	draw_background(t_cub *cub)
 	int		y;
 	int		x;
 
+	color = cub->input.ceil_clr;
 	y = -1;
-	while (++y < WIN_HEIGHT)
+	while (++y < WIN_HEIGHT / 2)
 	{
-		color = cub->input.ceil_clr;
-		if (y >= WIN_HEIGHT / 2)
-			color = cub->input.floor_clr;
 		x = -1;
+		while (++x < WIN_WIDTH)
+			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
+				color);
+	}
+	y = WIN_HEIGHT;
+	while (--y > WIN_HEIGHT / 2)
+	{
+		x = -1;
+		color = cub->input.floor_clr;
+		color = shade_color(color, get_darkness_percent(abs(y - WIN_HEIGHT), WIN_HEIGHT / 10));
 		while (++x < WIN_WIDTH)
 			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
 				color);

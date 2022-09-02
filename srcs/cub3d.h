@@ -197,7 +197,9 @@ void	casting_rays(t_cub *cub);
 void	cast(t_cub *cub, t_ray *ray);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
-
 void	render_walls(t_cub *cub, t_ray ray);
+
+double		get_darkness_percent(double value, double max_value);
+int		shade_color(int color, double percent);
 
 #endif

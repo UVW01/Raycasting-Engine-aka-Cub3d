@@ -59,6 +59,7 @@ static void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
         ds = (y + (wall.wall_height / 2) - (WIN_HEIGHT / 2));
         txtur_offset.y = (ds * ((double)cub->input.textures[cardinal_point].height / wall.wall_height));
         color = get_pixels_from_texture(cub->input.textures[cardinal_point], txtur_offset);
+        color = shade_color(color, get_darkness_percent(ray.distance, 100));
 		img_pixel_put(&cub->display.img, (t_icoords){.x = wall.p0.x, .y = y}, color);
 		y++;
 	}

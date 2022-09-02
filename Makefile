@@ -16,7 +16,7 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror --std=c99 --pedantic \
 	-fstack-protector-strong -fno-signed-zeros -mtune=intel \
 	-Ofast -Os -march=native -fno-trapping-math
-#-fsanitize=address -static-libsan
+# -fsanitize=address -static-libsan
 
 CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 	-framework OpenGL -framework AppKit -lft -L includes/libft \
@@ -28,7 +28,8 @@ GEN_LST	:=	file_parcer.c data_init.c check_map.c
 
 DISPLAY	:=	line_drawing_algo.c \
 	window_management.c \
-	coordinates_calculs.c
+	coordinates_calculs.c \
+	color_convertion.c
 DRAWING	:=	minimap.c minimap_player.c misc_drawing.c custom_line_algo.c
 
 EVENTS			:=	handle_keypress.c
