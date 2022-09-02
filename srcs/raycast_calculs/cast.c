@@ -33,6 +33,8 @@ static void cast_until_hit_wall(t_fcoords intrcpt, t_fcoords step, \
     }
 }
 
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 static void horizi_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
 {
     t_fcoords    intrcpt;
@@ -84,6 +86,7 @@ static void vert_intrsctn(t_cub *cub, t_ray *ray, t_intrsctn *wall_hit)
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin, \
     char grid_dir)
 {
@@ -93,6 +96,7 @@ static void store_distance(t_ray *ray, double distnce, t_intrsctn intersectin, \
     ray->grid_direction = grid_dir;
 }
 
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 static void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
     t_intrsctn vert)
@@ -118,6 +122,7 @@ static void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
 }
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
 void    cast(t_cub *cub, t_ray *ray)
 {
     t_intrsctn  h_intersect;
