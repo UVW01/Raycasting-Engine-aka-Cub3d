@@ -1,31 +1,29 @@
 #include "../cub3d.h"
 
-static int get_x_offset(t_ray ray, t_texture texture)
+static double get_x_offset(t_ray ray, t_texture texture)
 {
-    int x_offset;
+    double x_offset;
 
     x_offset = 0;
     if (ray.grid_direction == HORIZONTAL)
-        x_offset = ((int)ray.wall_hit.x % texture.width);
+    {
+        x_offset = (ray.wall_hit.x / CUB_SIZE);
+        x_offset = (x_offset - (int)x_offset);
+    }
     else if (ray.grid_direction == VERTICAL)
-        x_offset = ((int)ray.wall_hit.y % texture.width);
+    {
+        x_offset = (ray.wall_hit.y / CUB_SIZE);
+        x_offset = (x_offset - (int)x_offset);
+    }
+    x_offset = (x_offset * texture.width);
     return (x_offset);
 }
 
-static int get_pixels_from_texture(t_texture texture, t_icoords offset)
-{
-    int *txtur_ptr;
-    int     bpp;
-    int     size_line;
-    int     endian;
-
-    offset.y = (offset.y % texture.height);
-    txtur_ptr = (int *)mlx_get_data_addr(texture.img_ptr, &bpp, &size_line, &endian);
-    return (txtur_ptr[(texture.width * offset.y) + offset.x]);
-}
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 static  int get_cardinal_point(t_ray ray)
 {
+    return (EA);
     if (ray.grid_direction == HORIZONTAL)
     {
         if (ray.is_facing_up)
@@ -33,7 +31,7 @@ static  int get_cardinal_point(t_ray ray)
         else
             return (SO);
     }
-    if (ray.grid_direction == VERTICAL)
+    else if (ray.grid_direction == VERTICAL)
     {
         if (ray.is_facing_right)
             return (EA);
@@ -42,6 +40,24 @@ static  int get_cardinal_point(t_ray ray)
     }
     return (0);
 }
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+static int get_pixels_from_texture(t_texture texture, t_icoords offset)
+{
+    int *txtur_ptr;
+    int     bpp;
+    int     size_line;
+    int     endian;
+    int     color;
+
+    offset.y = (offset.y % texture.height);
+    txtur_ptr = (int *)mlx_get_data_addr(texture.img_ptr, &bpp, &size_line, &endian);
+    color = txtur_ptr[(offset.y * texture.width) + offset.x];
+    return (color);
+}
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 static void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
 {
@@ -54,7 +70,7 @@ static void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
     cardinal_point = get_cardinal_point(ray);
     txtur_offset.x = get_x_offset(ray, cub->input.textures[cardinal_point]);
     y = wall.p0.y;
-	while (y <= wall.p1.y)
+	while (y < wall.p1.y)
 	{
         ds = (y + (wall.wall_height / 2) - (WIN_HEIGHT / 2));
         txtur_offset.y = (ds * ((double)cub->input.textures[cardinal_point].height / wall.wall_height));
@@ -64,6 +80,8 @@ static void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
 		y++;
 	}
 }
+
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
 void    render_walls(t_cub *cub, t_ray ray)
 {
