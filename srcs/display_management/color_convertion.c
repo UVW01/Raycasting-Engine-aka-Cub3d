@@ -37,9 +37,9 @@ int	shade_color(int color, double percent)
 	green &= 255;
 	blue = color;
 	blue &= 255;
-	red /= (100.0F + percent) / 100.0F;
-	green /= (100.0F + percent) / 100.0F;
-	blue /= (100.0F + percent) / 100.0F;
+	red /= (100.0 + percent) / 100.0;
+	green /= (100.0 + percent) / 100.0;
+	blue /= (100.0 + percent) / 100.0;
 	if (red > 255)
 		red = 255;
 	if (green > 255)

@@ -6,3 +6,4 @@ cub3d
 *.txt
 .gitignore
 .DS_Store
+*.dSYM

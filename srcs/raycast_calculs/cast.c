@@ -18,7 +18,7 @@ static void cast_until_hit_wall(t_fcoords intrcpt, t_fcoords step, \
 {
     while (1)
     {
-        if (check_wall_colision(intrcpt, cub->input.map_arr))
+        if (check_wall_colision(cub->player, intrcpt, cub->input.map_arr))
         {
             wall_hit->x_point = intrcpt.x;
             wall_hit->y_point = intrcpt.y;

@@ -74,6 +74,10 @@ static void	init_texture(int direction, t_input *data, void *img_ptr, \
 	if (data->textures[direction].img_ptr != NULL)
 		ft_perror(MAP_ERR"Texture redefinition", 1);
 	data->textures[direction].img_ptr = img_ptr;
+	data->textures[direction].addr = mlx_get_data_addr(img_ptr, \
+		&data->textures[direction].bits_per_pixel, \
+		&data->textures[direction].line_length, \
+		&data->textures[direction].endian);
 	data->textures[direction].height = size.y;
 	data->textures[direction].width = size.x;
 }

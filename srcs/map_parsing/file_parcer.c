@@ -71,10 +71,10 @@ static void	process_map_arr(t_input *data, char *line)
 
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
-	ft_bzero(&data->textures[NO], sizeof(t_texture));
-	ft_bzero(&data->textures[SO], sizeof(t_texture));
-	ft_bzero(&data->textures[EA], sizeof(t_texture));
-	ft_bzero(&data->textures[WE], sizeof(t_texture));
+	ft_bzero(&data->textures[NO], sizeof(t_img));
+	ft_bzero(&data->textures[SO], sizeof(t_img));
+	ft_bzero(&data->textures[EA], sizeof(t_img));
+	ft_bzero(&data->textures[WE], sizeof(t_img));
 	data->ceil_clr = -1;
 	data->floor_clr = -1;
 	data->map_arr = NULL;

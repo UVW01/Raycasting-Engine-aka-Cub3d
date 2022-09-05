@@ -44,16 +44,21 @@ typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* -------------------------------- STRUCTS --------------------------------- */
-typedef struct s_texture
+typedef struct s_img
 {
 	void	*img_ptr;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 	int		height;
 	int		width;
-}	t_texture;
+	int		m_offset;
+}	t_img;
 
 typedef struct s_input
 {
-	t_texture	textures[4];
+	t_img		textures[4];
 	int			ceil_clr;
 	int			floor_clr;
 	char		**map_arr;
@@ -118,17 +123,6 @@ typedef struct s_wall
 	t_icoords   p0;
     t_icoords   p1;
 }	t_wall;
-typedef struct s_img
-{
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		height;
-	int		width;
-	int		m_offset;
-}	t_img;
 
 typedef struct s_display
 {
@@ -187,7 +181,7 @@ int		xclose(void *v_cub);
 double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
-int		check_wall_colision(t_fcoords pos, char **map_arr);
+int		check_wall_colision(t_player player, t_fcoords pos, char **map_arr);
 double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
 
 /* - - casting_rays.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */

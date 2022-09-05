@@ -1,6 +1,6 @@
 #include "../cub3d.h"
 
-static double get_x_offset(t_ray ray, t_texture texture)
+static double get_x_offset(t_ray ray, t_img texture)
 {
     double x_offset;
 
@@ -42,16 +42,13 @@ static  int get_cardinal_point(t_ray ray)
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-static int get_pixels_from_texture(t_texture texture, t_icoords offset)
+static int get_pixels_from_texture(t_img texture, t_icoords offset)
 {
-    int *txtur_ptr;
-    int     bpp;
-    int     size_line;
-    int     endian;
+    int     *txtur_ptr;
     int     color;
 
     offset.y = (offset.y % texture.height);
-    txtur_ptr = (int *)mlx_get_data_addr(texture.img_ptr, &bpp, &size_line, &endian);
+    txtur_ptr = (int *)texture.addr;
     color = txtur_ptr[(offset.y * texture.width) + offset.x];
     return (color);
 }
@@ -74,7 +71,7 @@ static void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
         ds = (y + (wall.wall_height / 2) - (WIN_HEIGHT / 2));
         txtur_offset.y = (ds * ((double)cub->input.textures[cardinal_point].height / wall.wall_height));
         color = get_pixels_from_texture(cub->input.textures[cardinal_point], txtur_offset);
-        color = shade_color(color, get_darkness_percent(ray.distance, 100));
+        color = shade_color(color, get_darkness_percent(ray.distance, 150));
 		img_pixel_put(&cub->display.img, (t_icoords){.x = wall.p0.x, .y = y}, color);
 		y++;
 	}

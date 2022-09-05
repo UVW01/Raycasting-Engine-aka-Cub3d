@@ -31,6 +31,6 @@ void	update_player_position(t_cub *cub)
 	temp_pos.y = cub->player.pos.y + (sin(temp_rot) * steps);
 	if (!cub->player.walk_horizon)
 		cub->player.rot = temp_rot;
-	if (!check_wall_colision(temp_pos, cub->input.map_arr))
+	if (!check_wall_colision(cub->player, temp_pos, cub->input.map_arr))
 		cub->player.pos = temp_pos;
 }
