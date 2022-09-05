@@ -91,12 +91,19 @@ typedef struct s_player
 	char		walk_horizon;
 }	t_player;
 
-typedef struct s_intersection
+typedef struct s_intrsctn
 {
 	double	x_point;
 	double	y_point;
 	char	is_intersected;
 }	t_intrsctn;
+
+typedef struct s_cast_params
+{
+	t_fcoords intrcpt;
+	t_fcoords step;
+	t_intrsctn *wall_hit;
+}	t_cast_params;
 
 typedef struct s_ray
 {
@@ -188,13 +195,17 @@ double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
 int		check_wall_colision(t_fcoords pos, char **map_arr);
-double	dstnce_btwn_points(double x1, double y1, double x2, double y2);
+double	dstnce_btwn_points(t_fcoords p, t_intrsctn intr);
 
 /* - - casting_rays.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	casting_rays(t_cub *cub);
 
 /* - - cast.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	cast(t_cub *cub, t_ray *ray);
+
+/* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
+    t_intrsctn vert);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
 void	render_walls(t_cub *cub, t_ray ray);

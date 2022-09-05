@@ -50,16 +50,15 @@ int	check_wall_colision(t_fcoords pos, char **map_arr)
 		return (1);
 	map_size.x = ft_strlen(map_arr[map_index.y]);
 	if (map_index.x >= map_size.x || map_index.x < 0 || \
-		 map_arr[map_index.y][map_index.x] == '1')
+		map_arr[map_index.y][map_index.x] == '1')
 		return (1);
 	return (0);
 }
 
 /* -------------------------------------------------------------------------- */
 
-double dstnce_btwn_points(double x1, double y1, double x2, double y2)
+double	dstnce_btwn_points(t_fcoords p, t_intrsctn intr)
 {
-	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+	return (sqrt((intr.x_point - p.x) * (intr.x_point - p.x) + \
+		(intr.y_point - p.y) * (intr.y_point - p.y)));
 }
-
-/* -------------------------------------------------------------------------- */
