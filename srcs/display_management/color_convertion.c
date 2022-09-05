@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../cub3d.h"
+#include "../cub3d.h"
 
 /* -------------------------------------------------------------------------- */
 
 double	get_darkness_percent(double value, double max_value)
 {
-	double percent;
+	double	percent;
 
 	percent = 100 / (max_value / value);
 	return (percent);
@@ -26,7 +26,6 @@ double	get_darkness_percent(double value, double max_value)
 
 int	shade_color(int color, double percent)
 {
-
 	int	red;
 	int	green;
 	int	blue;

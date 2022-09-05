@@ -115,7 +115,7 @@ void	only_one_player(char **map_arr, t_player *player)
 				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;
 		}
-	}	// line number 25
+	}
 	if (count != 1)
 		ft_perror(MAP_ERR"More than one player spawn point", 1);
 }

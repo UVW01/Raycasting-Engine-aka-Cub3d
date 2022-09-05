@@ -29,7 +29,7 @@ static int	close_window(void *v_cub)
 
 static int	key_press(int keycode, void *v_cub)
 {
-	t_cub *cub;
+	t_cub	*cub;
 
 	cub = (t_cub *)v_cub;
 	if (keycode == KEY_ESCAPE)
@@ -53,7 +53,7 @@ static int	key_press(int keycode, void *v_cub)
 
 static int	key_release(int keycode, t_cub *v_cub)
 {
-	t_cub *cub;
+	t_cub	*cub;
 
 	cub = (t_cub *)v_cub;
 	if (keycode == KEY_W || keycode == KEY_S || keycode == KEY_UP || \
@@ -68,7 +68,7 @@ static int	key_release(int keycode, t_cub *v_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int mouse_hover(int x, int y, void *v_cub)
+static int	mouse_hover(int x, int y, void *v_cub)
 {
 	t_cub	*cub;
 
@@ -90,7 +90,7 @@ static int mouse_hover(int x, int y, void *v_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int mouse_click(int keycode, int x, int y, void *v_cub)
+static int	mouse_click(int keycode, int x, int y, void *v_cub)
 {
 	t_cub	*cub;
 
@@ -106,9 +106,9 @@ static int mouse_click(int keycode, int x, int y, void *v_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int mouse_release(int keycode, int x, int y, void *v_cub)
+static int	mouse_release(int keycode, int x, int y, void *v_cub)
 {
-	t_cub		*cub;
+	t_cub	*cub;
 
 	(void)keycode;
 	(void)x;

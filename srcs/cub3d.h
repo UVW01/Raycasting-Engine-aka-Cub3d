@@ -89,7 +89,7 @@ typedef struct s_player
 {
 	t_fcoords	pos;
 	double		rot;
-	int			mouse_prev_x;		
+	int			mouse_prev_x;
 	char		mouse_click;
 	char		turn_dir;
 	char		walk_dir;
@@ -105,9 +105,9 @@ typedef struct s_intrsctn
 
 typedef struct s_cast_params
 {
-	t_fcoords intrcpt;
-	t_fcoords step;
-	t_intrsctn *wall_hit;
+	t_fcoords	intrcpt;
+	t_fcoords	step;
+	t_intrsctn	*wall_hit;
 }	t_cast_params;
 
 typedef struct s_ray
@@ -125,10 +125,10 @@ typedef struct s_ray
 
 typedef struct s_wall
 {
-	double	ds_proj_plane;
-	double	wall_height;
-	t_icoords   p0;
-    t_icoords   p1;
+	double		ds_proj_plane;
+	double		wall_height;
+	t_icoords	p0;
+	t_icoords	p1;
 }	t_wall;
 
 typedef struct s_display
@@ -197,14 +197,14 @@ void	casting_rays(t_cub *cub);
 /* - - cast.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	cast(t_cub *cub, t_ray *ray);
 
-/* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
-    t_intrsctn vert);
+/* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
+	t_intrsctn vert);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
 void	render_walls(t_cub *cub, t_ray ray);
 
-double		get_darkness_percent(double value, double max_value);
+double	get_darkness_percent(double value, double max_value);
 int		shade_color(int color, double percent);
 
 #endif

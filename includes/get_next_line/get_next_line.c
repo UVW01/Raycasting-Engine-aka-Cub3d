@@ -27,7 +27,7 @@ static char	*final_step(char **the_rest, char **line_ptr)
 		if (!*the_rest)
 			return (NULL);
 		ft_bzero(ft_strchr(*line_ptr, '\n'), \
-			ft_strlen(ft_strchr(*line_ptr, '\n'))); //removed +1 from both lines 
+			ft_strlen(ft_strchr(*line_ptr, '\n')));
 		*line_ptr = ft_strdup(*line_ptr);
 		if (!*line_ptr)
 			return (NULL);
@@ -96,5 +96,3 @@ char	*get_next_line(int fd, int buffer_size)
 	line = final_step(&the_rest, &line);
 	return (line);
 }
-
-/* -------------------------------------------------------------------------- */

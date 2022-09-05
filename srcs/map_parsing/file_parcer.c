@@ -85,7 +85,7 @@ static void	init_default_values(t_input *data, bool *mp_obj_found)
   I have modified the get_next_line function so that it trims the trailing 
 newline '\n' character, it is more convinient than triming it later with 
 'ft_strtrim', it just lowers the code's complexity
-///  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
+/  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
 
 void	process_file_data(char *filename, t_cub *cub)
 {

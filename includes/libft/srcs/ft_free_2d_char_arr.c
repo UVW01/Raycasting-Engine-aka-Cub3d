@@ -16,7 +16,7 @@
 
 void	ft_free_2d_char_arr(char **arr)
 {
-    int	i;
+	int	i;
 
 	i = 0;
 	while (arr && arr[i])

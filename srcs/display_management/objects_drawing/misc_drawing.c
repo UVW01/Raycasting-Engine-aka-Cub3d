@@ -34,7 +34,7 @@ void	draw_background(t_cub *cub)
 	{
 		x = -1;
 		color = shade_color(cub->input.floor_clr, \
-			get_darkness_percent(abs(y - WIN_HEIGHT), WIN_HEIGHT / 8));
+			get_darkness_percent(abs(y - WIN_HEIGHT), WIN_HEIGHT / 10));
 		while (++x < WIN_WIDTH)
 			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
 				color);

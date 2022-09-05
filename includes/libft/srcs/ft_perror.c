@@ -16,11 +16,11 @@
 
 void	ft_perror(char *msg, int to_exit)
 {
-    ft_putstr_fd("Error\n", STDERR_FILENO);
-    ft_putstr_fd(msg, STDERR_FILENO);
-    ft_putchar_fd('\n', STDERR_FILENO);
-    if (to_exit)
-        exit(EXIT_FAILURE);
+	ft_putstr_fd("Error\n", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	if (to_exit)
+		exit(EXIT_FAILURE);
 }
 
 /* -------------------------------------------------------------------------- */

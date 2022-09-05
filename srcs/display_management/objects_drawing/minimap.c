@@ -91,14 +91,14 @@ static void	draw_minimap_objects(t_cub *cub, int scale, int offset)
 			cub->display.img.m_offset = offset;
 			draw_object(loop, cub, color);
 		}
-	} 
+	}
 }
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
 void	draw_minimap(t_cub *cub)
 {
-	int scale;
+	int	scale;
 	int	offset;
 
 	scale = 4;

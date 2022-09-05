@@ -24,7 +24,7 @@ void	update_player_position(t_cub *cub)
 		steps = cub->player.walk_horizon * 8;
 	else
 		steps = cub->player.walk_dir * 8;
-	temp_rot = cub->player.rot + deg2rad(cub->player.turn_dir * 4); 
+	temp_rot = cub->player.rot + deg2rad(cub->player.turn_dir * 4);
 	temp_rot += deg2rad(abs(cub->player.walk_horizon) * 90);
 	temp_rot = normalize_angle(temp_rot);
 	temp_pos.x = cub->player.pos.x + (cos(temp_rot) * steps);
