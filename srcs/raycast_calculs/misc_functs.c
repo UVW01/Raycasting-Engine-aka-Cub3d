@@ -75,9 +75,8 @@ int	check_wall_colision(t_player player, t_fcoords pos, char **map_arr)
 
 /* -------------------------------------------------------------------------- */
 
-double dstnce_btwn_points(double x1, double y1, double x2, double y2)
+double	dstnce_btwn_points(t_fcoords p, t_intrsctn intr)
 {
-	return (sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+	return (sqrt((intr.x_point - p.x) * (intr.x_point - p.x) + \
+		(intr.y_point - p.y) * (intr.y_point - p.y)));
 }
-
-/* -------------------------------------------------------------------------- */
