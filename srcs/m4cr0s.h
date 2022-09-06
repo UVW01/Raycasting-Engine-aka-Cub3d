@@ -14,8 +14,8 @@
 # define M4CR0S_H
 
 /* -------------------------------- WINDOW ---------------------------------- */
-# define WIN_WIDTH		2400
-# define WIN_HEIGHT		1200
+# define WIN_WIDTH		1200
+# define WIN_HEIGHT		800
 # define CUB_SIZE		64
 # define FOV_ANGLE		1.0472
 # define RAYS_LENGTH	WIN_WIDTH
@@ -24,19 +24,19 @@
 # define MAP_DIRECTNS	"NO SO WE EA"
 
 /* -------------------------------- ERRORS ---------------------------------- */
-# define EMPTY_FL_ERR	"Empty file"
-# define EXT_ERR		"Invalid file extension"
-# define FD_ERR			"File not found"
-# define MAP_ERR		"Invalid map: "
-# define GEN_ERR		"Internal error: "
-# define MLX_ERR		"Minilibx error"
-# define WIN_ERR		"Window error"
+# define EMPTY_FL_ERR	"Empty file "
+# define EXT_ERR		"Invalid file extension "
+# define FD_ERR			"File not found "
+# define MAP_ERR		"Invalid map "
+# define GEN_ERR		"Internal error "
+# define MLX_ERR		"Minilibx error "
+# define WIN_ERR		"Window error" 
 
 /* -------------------------------- EVENTS ---------------------------------- */
 // ---------- Event masks -------- //
-# define NO_MASK	0L
-# define KP_MASK	0b00000001
-# define KR_MASK	0b00000010
+# define NO_MASK	0
+# define KP_MASK	1
+# define KR_MASK	2
 
 // ---------- Event type -------- //
 typedef enum s_event_types {

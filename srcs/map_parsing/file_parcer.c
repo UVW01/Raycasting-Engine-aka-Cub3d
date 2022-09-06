@@ -14,12 +14,32 @@
 
 /* -------------------------------------------------------------------------- */
 
+static char	**split_args(char *line)
+{
+	char	*arg;
+	char	**args;
+
+	arg = ft_strchr(line, ' ');
+	if (arg == NULL)
+		return (NULL);
+	args = (char **)ft_calloc(3, sizeof(char *));
+	if (args == NULL)
+		ft_perror(GEN_ERR, 1);
+	args[0] = ft_substr(line, 0, arg - line);
+	args[1] = ft_strdup(arg + 1);
+	if (args[0] == NULL || args[1] == NULL)
+		ft_perror(GEN_ERR, 1);
+	return (args);
+}
+
+/* -------------------------------------------------------------------------- */
+
 static void	check_and_init_data(char *line, t_input *data, void *mlx)
 {
 	char	**line_split;
 
-	line_split = ft_split(line, ' ');
-	if (line_split[2] != NULL || ft_strlen(line_split[0]) > 2)
+	line_split = split_args(line);
+	if (line_split == NULL || ft_strlen(line_split[0]) > 2)
 		ft_perror(MAP_ERR"Too many values", 1);
 	if (ft_strstr(MAP_DIRECTNS, line_split[0]))
 		check_init_texture(line_split, data, mlx);
@@ -30,7 +50,7 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 	ft_free_2d_char_arr(line_split);
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* -------------------------------------------------------------------------- */
 
 static bool	is_map_objs(char *line, bool *is_mp_obj)
 {
@@ -45,7 +65,7 @@ static bool	is_map_objs(char *line, bool *is_mp_obj)
 	return (free(tmp), false);
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* -------------------------------------------------------------------------- */
 
 static void	process_map_arr(t_input *data, char *line)
 {
@@ -67,7 +87,7 @@ static void	process_map_arr(t_input *data, char *line)
 	data->map_arr = tmp_arr;
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* -------------------------------------------------------------------------- */
 
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
@@ -81,11 +101,51 @@ static void	init_default_values(t_input *data, bool *mp_obj_found)
 	*mp_obj_found = false;
 }
 
-/* -  -  Notes:  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  ///
-  I have modified the get_next_line function so that it trims the trailing 
-newline '\n' character, it is more convinient than triming it later with 
-'ft_strtrim', it just lowers the code's complexity
-/  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
+/* -------------------------------------------------------------------------- */
+
+int	is_diognal_wall(charr **map_arr, t_icoords index)
+{
+	if (map_arr[index.y][index.x] == '1' && \
+		map_arr[index.y + 1][index.x + 1] == '1' && \
+		map_arr[index.y + 1][index.x] == '0' && \
+		map_arr[index.y][index.x + 1] == '0')
+		return (1);
+	else if (map_arr[index.y] != map_arr[index.y][index.x] && \
+		map_arr[index.y][index.x] == '1' && \
+		map_arr[index.y + 1][index.x - 1] == '1' && \
+		map_arr[index.y + 1][index.x] == '0' && \
+		map_arr[index.y][index.x - 1] == '0')
+		return (2);
+	return (0);
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	place_virtual_walls(char **map_arr)
+{
+	t_icoords	index;
+
+	index.y = -1;
+	while (++index.y)
+	{
+		index.x = -1;
+		while (index.x)
+		{
+			if (is_diognal_wall(map_arr, index) == 1)
+			{
+				map_arr[index.y + 1][index.x] = '2';
+				map_arr[index.y][index.x + 1] = '2';
+			}
+			else if (is_diognal_wall(map_arr, index) == 2)
+			{
+				map_arr[index.y + 1][index.x] = '2';
+				map_arr[index.y][index.x - 1] = '2';
+			}
+		}
+	}
+}
+
+/* -------------------------------------------------------------------------- */
 
 void	process_file_data(char *filename, t_cub *cub)
 {

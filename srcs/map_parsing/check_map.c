@@ -28,7 +28,7 @@ static void	check_horizontally(char **map_arr, t_icoords *pixel)
 		if (elems[x] == '1')
 			break ;
 		else if ((x == 0 && elems[x] != '1') || elems[x] == ' ')
-			ft_perror(MAP_ERR"Unclosed/Invalid map elements", 1);
+			ft_perror(MAP_ERR"Unclosed/Invalid map elements1", 1);
 	}
 	x = pixel->x;
 	while (elems[++x])
@@ -36,7 +36,7 @@ static void	check_horizontally(char **map_arr, t_icoords *pixel)
 		if (elems[x] == '1')
 			break ;
 		else if ((x == len - 1 && elems[x] != '1') || elems[x] == ' ')
-			ft_perror(MAP_ERR"Unclosed/Invalid map elements", 1);
+			ft_perror(MAP_ERR"Unclosed/Invalid map elements2", 1);
 	}
 }
 
@@ -87,6 +87,19 @@ void	map_is_closed(char **map_arr)
 	}
 }
 
+static int	get_proper_deg(char direction)
+{
+	if (direction == 'N')
+		return (270);
+	else if (direction == 'S')
+		return (90);
+	else if (direction == 'E')
+		return (0);
+	else if (direction == 'W')
+		return (180);
+	return (0);
+}
+
 /* -------------------------------------------------------------------------- */
 
 void	only_one_player(char **map_arr, t_player *player)
@@ -103,14 +116,7 @@ void	only_one_player(char **map_arr, t_player *player)
 		{
 			if (!ft_strchr("NEWS", map_arr[pixel.y][pixel.x]))
 				continue ;
-			else if (map_arr[pixel.y][pixel.x] == 'N')
-				player->rot = deg2rad(270);
-			else if (map_arr[pixel.y][pixel.x] == 'S')
-				player->rot = deg2rad(90);
-			else if (map_arr[pixel.y][pixel.x] == 'E')
-				player->rot = deg2rad(0);
-			else if (map_arr[pixel.y][pixel.x] == 'W')
-				player->rot = deg2rad(180);
+			player->rot = deg2rad(get_proper_deg(map_arr[pixel.y][pixel.x]));
 			player->pos = (t_fcoords){.x = (pixel.x * CUB_SIZE) + CUB_SIZE / 2, \
 				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;

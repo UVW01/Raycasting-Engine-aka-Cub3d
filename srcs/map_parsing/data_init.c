@@ -34,6 +34,22 @@ static void	error_check_colors(char *a_rgb)
 
 /* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
 
+int	*get_proper_var(char *line, t_input *gen_data)
+{
+	int	*color;
+
+	color = NULL;
+	if (!ft_strcmp(line, "C"))
+		color = &gen_data->ceil_clr;
+	else if (!ft_strcmp(line, "F"))
+		color = &gen_data->floor_clr;
+	if (color && *color != -1)
+		ft_perror(MAP_ERR"Color redefinition", 1);
+	return (color);
+}
+
+/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+
 void	check_init_color(char **line_split, t_input *gen_data)
 {
 	int		i;
@@ -42,17 +58,13 @@ void	check_init_color(char **line_split, t_input *gen_data)
 	char	**a_rgb;
 
 	i = 0;
-	clr = NULL;
 	error_check_colors(line_split[1]);
 	a_rgb = ft_split(line_split[1], ',');
 	if (a_rgb[3] != NULL)
 		ft_perror(MAP_ERR"Too many color values", 1);
-	if (!ft_strcmp(line_split[0], "C"))
-		clr = &gen_data->ceil_clr;
-	else if (!ft_strcmp(line_split[0], "F"))
-		clr = &gen_data->floor_clr;
-	if (*clr != -1)
-		ft_perror(MAP_ERR"Color redefinition", 1);
+	clr = get_proper_var(line_split[0], gen_data);
+	if (!clr)
+		ft_perror(MAP_ERR, 1);
 	*clr = 0;
 	while (a_rgb[i])
 	{
