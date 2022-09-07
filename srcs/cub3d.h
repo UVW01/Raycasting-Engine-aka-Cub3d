@@ -169,6 +169,10 @@ void	check_init_texture(char **line_split, t_input *gen_data, void *mlx);
 
 void	process_file_data(char *filename, t_cub *cub);
 
+bool	is_map_objs(char *line, bool *is_mp_obj);
+void	process_map_arr(t_input *data, char *line);
+void	place_virtual_walls(char **map_arr);
+
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 int		draw_and_output_image(t_cub *cub);
@@ -178,7 +182,9 @@ void	handle_keys(t_cub *cub);
 int		xclose(void *v_cub);
 
 /* - - handle_mouse_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
-int		mouse_move(int x, int y, void *_cub);
+int		mouse_hover(int x, int y, void *v_cub);
+int		mouse_click(int keycode, int x, int y, void *v_cub);
+int		mouse_release(int keycode, int x, int y, void *v_cub);
 
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);

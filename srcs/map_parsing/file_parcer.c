@@ -23,8 +23,6 @@ static char	**split_args(char *line)
 	if (arg == NULL)
 		return (NULL);
 	args = (char **)ft_calloc(3, sizeof(char *));
-	if (args == NULL)
-		ft_perror(GEN_ERR, 1);
 	args[0] = ft_substr(line, 0, arg - line);
 	args[1] = ft_strdup(arg + 1);
 	if (args[0] == NULL || args[1] == NULL)
@@ -52,43 +50,6 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 
 /* -------------------------------------------------------------------------- */
 
-static bool	is_map_objs(char *line, bool *is_mp_obj)
-{
-	char	*tmp;
-
-	tmp = ft_strtrim(line, MAP_OBJS);
-	if (tmp[0] == '\0')
-	{
-		*is_mp_obj = true;
-		return (free(tmp), true);
-	}
-	return (free(tmp), false);
-}
-
-/* -------------------------------------------------------------------------- */
-
-static void	process_map_arr(t_input *data, char *line)
-{
-	char	**tmp_arr;
-	int		i;
-
-	i = 0;
-	while (data->map_arr && data->map_arr[i])
-		++i;
-	tmp_arr = (char **)ft_calloc(i + 2, sizeof(char *));
-	i = 0;
-	while (data->map_arr && data->map_arr[i])
-	{
-		tmp_arr[i] = data->map_arr[i];
-		++i;
-	}
-	tmp_arr[i] = ft_strdup(line);
-	free(data->map_arr);
-	data->map_arr = tmp_arr;
-}
-
-/* -------------------------------------------------------------------------- */
-
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
 	ft_bzero(&data->textures[NO], sizeof(t_img));
@@ -103,46 +64,18 @@ static void	init_default_values(t_input *data, bool *mp_obj_found)
 
 /* -------------------------------------------------------------------------- */
 
-int	is_diognal_wall(charr **map_arr, t_icoords index)
+static void	check_other_factors(t_cub *cub)
 {
-	if (map_arr[index.y][index.x] == '1' && \
-		map_arr[index.y + 1][index.x + 1] == '1' && \
-		map_arr[index.y + 1][index.x] == '0' && \
-		map_arr[index.y][index.x + 1] == '0')
-		return (1);
-	else if (map_arr[index.y] != map_arr[index.y][index.x] && \
-		map_arr[index.y][index.x] == '1' && \
-		map_arr[index.y + 1][index.x - 1] == '1' && \
-		map_arr[index.y + 1][index.x] == '0' && \
-		map_arr[index.y][index.x - 1] == '0')
-		return (2);
-	return (0);
-}
-
-/* -------------------------------------------------------------------------- */
-
-void	place_virtual_walls(char **map_arr)
-{
-	t_icoords	index;
-
-	index.y = -1;
-	while (++index.y)
-	{
-		index.x = -1;
-		while (index.x)
-		{
-			if (is_diognal_wall(map_arr, index) == 1)
-			{
-				map_arr[index.y + 1][index.x] = '2';
-				map_arr[index.y][index.x + 1] = '2';
-			}
-			else if (is_diognal_wall(map_arr, index) == 2)
-			{
-				map_arr[index.y + 1][index.x] = '2';
-				map_arr[index.y][index.x - 1] = '2';
-			}
-		}
-	}
+	map_is_closed(cub->input.map_arr);
+	only_one_player(cub->input.map_arr, &cub->player);
+	place_virtual_walls(cub->input.map_arr);
+	if (cub->input.textures[NO].img_ptr == NULL || \
+		cub->input.textures[SO].img_ptr == NULL || \
+		cub->input.textures[EA].img_ptr == NULL || \
+		cub->input.textures[WE].img_ptr == NULL || \
+		cub->input.ceil_clr == -1 || \
+		cub->input.floor_clr == -1)
+		ft_perror("Missing data", 1);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -171,7 +104,6 @@ void	process_file_data(char *filename, t_cub *cub)
 		free(line);
 		line = get_next_line(map_fd, 1);
 	}
-	map_is_closed(cub->input.map_arr);
-	only_one_player(cub->input.map_arr, &cub->player);
+	check_other_factors(cub);
 	close(map_fd);
 }

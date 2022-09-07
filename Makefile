@@ -16,7 +16,7 @@ CC			:= gcc
 CC_FLAGS	:= -Wall -Wextra -Werror --std=c99 --pedantic \
 	-fstack-protector-strong -fno-signed-zeros -mtune=intel \
 	-Ofast -Os -march=native -fno-trapping-math
-# -fsanitize=address -static-libsan
+#-fsanitize=address -static-libsan
 
 CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 	-framework OpenGL -framework AppKit -lft -L includes/libft \
@@ -24,7 +24,7 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 
 # ---------------------------------------------------------------------------- #
 
-GEN_LST	:=	file_parcer.c data_init.c check_map.c
+GEN_LST	:=	file_parcer.c data_init.c check_map_1.c check_map_2.c
 
 DISPLAY	:=	line_drawing_algo.c \
 	window_management.c \
@@ -32,7 +32,7 @@ DISPLAY	:=	line_drawing_algo.c \
 	color_convertion.c
 DRAWING	:=	minimap.c minimap_player.c misc_drawing.c custom_line_algo.c
 
-EVENTS			:=	handle_keypress.c
+EVENTS			:=	handle_keypress.c mouse_keypress.c
 CASTING_RAYS	:=	casting_rays.c cast.c cast_util.c misc_functs.c
 RENDERING_WALLS	:=	render_walls.c
 

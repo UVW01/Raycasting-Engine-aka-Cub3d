@@ -68,58 +68,6 @@ static int	key_release(int keycode, t_cub *v_cub)
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 
-static int	mouse_hover(int x, int y, void *v_cub)
-{
-	t_cub	*cub;
-
-	(void)y;
-	cub = (t_cub *)v_cub;
-	if (!cub->player.mouse_click)
-		return (0);
-	else if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-	{
-		if (x > cub->player.mouse_prev_x)
-			cub->player.rot += deg2rad(3);
-		else if (x < cub->player.mouse_prev_x)
-			cub->player.rot -= deg2rad(3);
-		normalize_angle(cub->player.rot);
-		cub->player.mouse_prev_x = x;
-	}
-	return (0);
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
-static int	mouse_click(int keycode, int x, int y, void *v_cub)
-{
-	t_cub	*cub;
-
-	(void)keycode;
-	cub = (t_cub *)v_cub;
-	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
-	{
-		cub->player.mouse_prev_x = x;
-		cub->player.mouse_click = 1;
-	}
-	return (0);
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
-static int	mouse_release(int keycode, int x, int y, void *v_cub)
-{
-	t_cub	*cub;
-
-	(void)keycode;
-	(void)x;
-	(void)y;
-	cub = (t_cub *)v_cub;
-	cub->player.mouse_click = 0;
-	return (0);
-}
-
-/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
-
 void	handle_keys(t_cub *cub)
 {
 	t_display	*disp;
