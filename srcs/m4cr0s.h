@@ -14,8 +14,8 @@
 # define M4CR0S_H
 
 /* -------------------------------- WINDOW ---------------------------------- */
-# define WIN_WIDTH		2400
-# define WIN_HEIGHT		1200
+# define WIN_WIDTH		1200
+# define WIN_HEIGHT		800
 # define CUB_SIZE		64
 # define FOV_ANGLE		1.0472
 # define RAYS_LENGTH	WIN_WIDTH
