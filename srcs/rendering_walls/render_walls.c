@@ -71,7 +71,7 @@ static	void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
 {
 	int			y;
 	int			color;
-	int			ds;
+	int			y_txtur_start;
 	t_icoords	txtur_offset;
 	int			cardinal_point;
 
@@ -79,10 +79,11 @@ static	void	draw_walls(t_cub *cub, t_ray ray, t_wall wall)
 	txtur_offset.x = get_x_offset(ray, cub->input.textures[cardinal_point]);
 	color = 0xFFFFFF;
 	y = wall.p0.y;
+	y_txtur_start = 0;
 	while (y < wall.p1.y)
 	{
-		ds = (y + (wall.wall_height / 2) - (WIN_HEIGHT / 2));
-		txtur_offset.y = ((ds) * \
+		y_txtur_start = (y + (wall.wall_height / 2) - (WIN_HEIGHT / 2));
+		txtur_offset.y = (y_txtur_start * \
 			((double)cub->input.textures[cardinal_point].height / \
 				wall.wall_height));
 		color = get_pixels_from_texture(cub->input.textures[cardinal_point], \
