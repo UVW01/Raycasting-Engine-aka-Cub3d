@@ -100,7 +100,11 @@ void	check_init_texture(char **line_split, t_input *data, void *mlx)
 {
 	void		*img_ptr;
 	t_icoords	size;
+	char		*ext;
 
+	ext = ft_strrchr(line_split[1], '.');
+	if (ext == NULL || ft_strcmp(ext, ".xpm"))
+		ft_perror(EXT_ERR"(texture file)", 1);
 	size = (t_icoords){.x = 0, .y = 0};
 	img_ptr = mlx_xpm_file_to_image(mlx, line_split[1], &size.x, &size.y);
 	if (img_ptr == NULL)

@@ -28,7 +28,7 @@ static void	check_horizontally(char **map_arr, t_icoords *pixel)
 		if (elems[x] == '1')
 			break ;
 		else if ((x == 0 && elems[x] != '1') || elems[x] == ' ')
-			ft_perror(MAP_ERR"(unclosed)1", 1);
+			ft_perror(MAP_ERR"(unclosed)", 1);
 	}
 	x = pixel->x;
 	while (elems[++x])
@@ -36,7 +36,7 @@ static void	check_horizontally(char **map_arr, t_icoords *pixel)
 		if (elems[x] == '1')
 			break ;
 		else if ((x == len - 1 && elems[x] != '1') || elems[x] == ' ')
-			ft_perror(MAP_ERR"(unclosed)2", 1);
+			ft_perror(MAP_ERR"(unclosed)", 1);
 	}
 }
 
@@ -55,7 +55,7 @@ static void	check_vertically(char **map_arr, t_icoords *pixel)
 		else if ((pixel->x >= (int)ft_strlen(map_arr[y])) \
 			|| (y == 0 && map_arr[y][pixel->x] != '1') \
 			|| map_arr[y][pixel->x] == ' ')
-			ft_perror(MAP_ERR"(unclosed)3", 1);
+			ft_perror(MAP_ERR"(unclosed)", 1);
 	}
 	y = pixel->y;
 	while (map_arr[++y])
@@ -66,7 +66,7 @@ static void	check_vertically(char **map_arr, t_icoords *pixel)
 		else if ((pixel->x >= (int)ft_strlen(map_arr[y])) \
 			|| (map_arr[y + 1] == NULL && map_arr[y][pixel->x] != '1') \
 			|| map_arr[y][pixel->x] == ' ')
-			ft_perror(MAP_ERR"(unclosed)4", 1);
+			ft_perror(MAP_ERR"(unclosed)", 1);
 	}
 }
 

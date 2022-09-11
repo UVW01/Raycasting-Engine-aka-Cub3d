@@ -18,6 +18,7 @@ static char	**split_args(char *line)
 {
 	char	*arg;
 	char	**args;
+	void	*ptr;
 
 	arg = ft_strchr(line, ' ');
 	if (arg == NULL)
@@ -27,6 +28,9 @@ static char	**split_args(char *line)
 	args[1] = ft_strdup(arg + 1);
 	if (args[0] == NULL || args[1] == NULL)
 		ft_perror(GEN_ERR, 1);
+	ptr = args[1];
+	args[1] = ft_strtrim(args[1], " ");
+	free(ptr);
 	return (args);
 }
 
