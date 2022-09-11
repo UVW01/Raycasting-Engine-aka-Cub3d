@@ -169,9 +169,10 @@ void	check_init_texture(char **line_split, t_input *gen_data, void *mlx);
 
 void	process_file_data(char *filename, t_cub *cub);
 
-bool	is_map_objs(char *line, bool *is_mp_obj);
+int		is_map_objs(char *line, int *is_mp_obj);
 void	process_map_arr(t_input *data, char *line);
 void	place_virtual_walls(char **map_arr);
+void	trim_colors(char **colors);
 
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/

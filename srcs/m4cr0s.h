@@ -79,5 +79,8 @@ typedef enum s_direction {
 	HORIZONTAL = 0,
 	VERTICAL = 1,
 }	t_directon;
+// Space before element name
+// Space between color's element
+// x=0, y=length - 1 error in map
 
 #endif

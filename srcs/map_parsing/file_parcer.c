@@ -16,18 +16,23 @@
 
 static char	**split_args(char *line)
 {
+	char	*trimmed;
 	char	*arg;
 	char	**args;
 	void	*ptr;
 
-	arg = ft_strchr(line, ' ');
+	trimmed = ft_strtrim(line, " ");
+	if (trimmed == NULL)
+		return (NULL);
+	arg = ft_strchr(trimmed, ' ');
 	if (arg == NULL)
 		return (NULL);
 	args = (char **)ft_calloc(3, sizeof(char *));
-	args[0] = ft_substr(line, 0, arg - line);
+	args[0] = ft_substr(trimmed, 0, arg - trimmed);
 	args[1] = ft_strdup(arg + 1);
 	if (args[0] == NULL || args[1] == NULL)
 		ft_perror(GEN_ERR, 1);
+	free(trimmed);
 	ptr = args[1];
 	args[1] = ft_strtrim(args[1], " ");
 	free(ptr);
@@ -42,7 +47,7 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 
 	line_split = split_args(line);
 	if (line_split == NULL || ft_strlen(line_split[0]) > 2)
-		ft_perror(MAP_ERR"Too many values", 1);
+		ft_perror(MAP_ERR"(Undefined)", 1);
 	if (ft_strstr(MAP_DIRECTNS, line_split[0]))
 		check_init_texture(line_split, data, mlx);
 	else if (!ft_strcmp(line_split[0], "F") || !ft_strcmp(line_split[0], "C"))
@@ -54,7 +59,8 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 
 /* -------------------------------------------------------------------------- */
 
-static void	init_default_values(t_input *data, bool *mp_obj_found)
+static void	init_default_values(t_input *data, int *mp_obj_found, int *map_fd, \
+	char *filename)
 {
 	ft_bzero(&data->textures[NO], sizeof(t_img));
 	ft_bzero(&data->textures[SO], sizeof(t_img));
@@ -63,7 +69,10 @@ static void	init_default_values(t_input *data, bool *mp_obj_found)
 	data->ceil_clr = -1;
 	data->floor_clr = -1;
 	data->map_arr = NULL;
-	*mp_obj_found = false;
+	*mp_obj_found = 0;
+	*map_fd = open(filename, O_RDONLY);
+	if (*map_fd < 0)
+		ft_perror(FD_ERR, 1);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -86,25 +95,24 @@ static void	check_other_factors(t_cub *cub)
 
 void	process_file_data(char *filename, t_cub *cub)
 {
-	bool	mp_obj_found;
+	int		mp_obj_found;
 	int		map_fd;
 	char	*line;
 
-	init_default_values(&cub->input, &mp_obj_found);
-	map_fd = open(filename, O_RDONLY);
-	if (map_fd < 0)
-		ft_perror(FD_ERR, 1);
+	init_default_values(&cub->input, &mp_obj_found, &map_fd, filename);
 	line = get_next_line(map_fd, 1);
 	if (line == NULL)
 		ft_perror(EMPTY_FL_ERR, 1);
 	while (line != NULL)
 	{
-		if (line[0] && is_map_objs(line, &mp_obj_found))
-			process_map_arr(&cub->input, line);
-		else if (line[0] && mp_obj_found == false)
-			check_and_init_data(line, &cub->input, cub->display.mlx);
-		else if (line[0] && mp_obj_found == true)
+		if (!line[0] && mp_obj_found == 1)
+			mp_obj_found = 2;
+		else if (line[0] && mp_obj_found == 2)
 			ft_perror(MAP_ERR, 1);
+		else if (line[0] && is_map_objs(line, &mp_obj_found))
+			process_map_arr(&cub->input, line);
+		else if (line[0] && mp_obj_found == 0)
+			check_and_init_data(line, &cub->input, cub->display.mlx);
 		free(line);
 		line = get_next_line(map_fd, 1);
 	}

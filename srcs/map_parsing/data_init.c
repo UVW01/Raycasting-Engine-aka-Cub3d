@@ -23,7 +23,7 @@ static void	error_check_colors(char *a_rgb)
 	count = 0;
 	while (a_rgb[++i])
 	{
-		if (!ft_isdigit(a_rgb[i]) && a_rgb[i] != ',')
+		if (!ft_isdigit(a_rgb[i]) && a_rgb[i] != ',' && a_rgb[i] != ' ' )
 			ft_perror(MAP_ERR"Invalid Color code", 1);
 		if (a_rgb[i] == ',' && count < 2)
 			count++;
@@ -66,6 +66,7 @@ void	check_init_color(char **line_split, t_input *gen_data)
 	if (!clr)
 		ft_perror(MAP_ERR, 1);
 	*clr = 0;
+	trim_colors(a_rgb);
 	while (a_rgb[i])
 	{
 		tmp_clr = ft_atoi(a_rgb[i]);
@@ -108,7 +109,7 @@ void	check_init_texture(char **line_split, t_input *data, void *mlx)
 	size = (t_icoords){.x = 0, .y = 0};
 	img_ptr = mlx_xpm_file_to_image(mlx, line_split[1], &size.x, &size.y);
 	if (img_ptr == NULL)
-		ft_perror(FD_ERR, 1);
+		ft_perror("XPM file error", 1);
 	if (!ft_strcmp(line_split[0], "NO"))
 		init_texture(NO, data, img_ptr, size);
 	else if (!ft_strcmp(line_split[0], "SO"))

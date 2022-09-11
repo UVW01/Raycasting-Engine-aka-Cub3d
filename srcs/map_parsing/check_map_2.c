@@ -14,17 +14,18 @@
 
 /* -------------------------------------------------------------------------- */
 
-bool	is_map_objs(char *line, bool *is_mp_obj)
+int	is_map_objs(char *line, int *is_mp_obj)
 {
 	char	*tmp;
 
 	tmp = ft_strtrim(line, MAP_OBJS);
 	if (tmp[0] == '\0')
 	{
-		*is_mp_obj = true;
-		return (free(tmp), true);
+		if (*is_mp_obj == 0)
+			*is_mp_obj = 1;
+		return (free(tmp), 1);
 	}
-	return (free(tmp), false);
+	return (free(tmp), 0);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -93,5 +94,22 @@ void	place_virtual_walls(char **map_arr)
 				map_arr[index.y][index.x - 1] = '2';
 			}
 		}
+	}
+}
+
+/* -------------------------------------------------------------------------- */
+
+void	trim_colors(char **colors)
+{
+	int		i;
+	char	*ptr;
+
+	i = 0;
+	while (colors[i])
+	{
+		ptr = colors[i];
+		colors[i] = ft_strtrim(colors[i], " ");
+		free(ptr);
+		i++;
 	}
 }
