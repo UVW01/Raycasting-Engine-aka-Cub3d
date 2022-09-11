@@ -76,15 +76,6 @@ typedef struct s_icoords
 	int	x;
 }	t_icoords;
 
-typedef struct s_brsnhm
-{
-	t_icoords	dlta;
-	t_icoords	pxl;
-	t_icoords	s;
-	int			err;
-	int			e2;
-}	t_brsnhm;
-
 typedef struct s_player
 {
 	t_fcoords	pos;
@@ -148,15 +139,14 @@ typedef struct s_cub
 /* ------------------------------- PROTOTYPES ------------------------------- */
 /* DISPLAY */
 void	img_pixel_put(t_img *img, t_icoords pxl, int color);
-void	draw_line(t_img *img, t_fcoords p0, t_fcoords p1, int color);
 
 void	update_player_position(t_cub *cub);
 
 void	draw_background(t_cub *cub);
 
+void	draw_limited_line(t_cub *cub, t_fcoords p0, t_fcoords p1, int color);
 void	draw_minimap_player(t_cub *cub, int scale);
 void	draw_minimap(t_cub *cub);
-void	draw_limited_line(t_cub *cub, t_fcoords fp0, t_fcoords fp1, int color);
 
 void	init_display_params(t_cub *cub);
 

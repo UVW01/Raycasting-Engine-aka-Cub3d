@@ -14,52 +14,42 @@
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-static void	dll_continued(t_img *img, t_icoords p1, int color, t_brsnhm brsnhm)
+static	void	dda_util(t_fcoords p0, t_fcoords p1, int *steps, t_fcoords *inc)
 {
-	(void)color;
-	while (brsnhm.pxl.x != p1.x || brsnhm.pxl.y != p1.y)
-	{
-		if (brsnhm.pxl.x > img->m_offset && brsnhm.pxl.y > img->m_offset \
-			&& brsnhm.pxl.x <= (WIN_HEIGHT / 4) - img->m_offset \
-			&& brsnhm.pxl.y <= (WIN_HEIGHT / 4) - img->m_offset)
-			img_pixel_put(img, brsnhm.pxl, color);
-		else
-			break ;
-		brsnhm.e2 = 2 * brsnhm.err;
-		if (brsnhm.e2 >= brsnhm.dlta.y)
-		{
-			brsnhm.err += brsnhm.dlta.y;
-			brsnhm.pxl.x += brsnhm.s.x;
-		}
-		if (brsnhm.e2 <= brsnhm.dlta.x)
-		{
-			brsnhm.err += brsnhm.dlta.x;
-			brsnhm.pxl.y += brsnhm.s.y;
-		}
-	}
+	int	dx;
+	int	dy;
+
+	dx = ((int)p1.x - (int)p0.x);
+	dy = ((int)p1.y - (int)p0.y);
+	if (abs(dx) > abs(dy))
+		*steps = abs(dx);
+	else
+		*steps = abs(dy);
+	inc->x = (dx / (float)*steps);
+	inc->y = (dy / (float)*steps);
 }
 
-/* -------------------------------------------------------------------------- */
-
-void	draw_limited_line(t_cub *cub, t_fcoords fp0, t_fcoords fp1, int color)
+void	draw_limited_line(t_cub *cub, t_fcoords p0, t_fcoords p1, int color)
 {
-	t_brsnhm	brsnhm;
-	t_icoords	p0;
-	t_icoords	p1;
-	t_img		*img;
+	int			steps;
+	t_fcoords	inc;
+	int			i;
+	t_fcoords	new_pos;
 
-	img = &cub->display.img;
-	p0 = (t_icoords){.x = (int)fp0.x, .y = (int)fp0.y};
-	p1 = (t_icoords){.x = (int)fp1.x, .y = (int)fp1.y};
-	brsnhm.dlta.x = abs(p1.x - p0.x);
-	brsnhm.dlta.y = -abs(p1.y - p0.y);
-	brsnhm.s.x = -1;
-	if (p0.x < p1.x)
-		brsnhm.s.x = 1;
-	brsnhm.s.y = -1;
-	if (p0.y < p1.y)
-		brsnhm.s.y = 1;
-	brsnhm.err = brsnhm.dlta.x + brsnhm.dlta.y;
-	brsnhm.pxl = (t_icoords){.x = p0.x, .y = p0.y};
-	dll_continued(img, p1, color, brsnhm);
+	i = 0;
+	dda_util(p0, p1, &steps, &inc);
+	new_pos.x = (int)p0.x;
+	new_pos.y = (int)p0.x;
+	while (i <= steps)
+	{
+		if (new_pos.x > cub->display.img.m_offset \
+			&& new_pos.y > cub->display.img.m_offset \
+			&& new_pos.x <= (WIN_HEIGHT / 4) - cub->display.img.m_offset \
+			&& new_pos.y <= (WIN_HEIGHT / 4) - cub->display.img.m_offset)
+			img_pixel_put(&cub->display.img,
+				(t_icoords){.x = new_pos.x, .y = new_pos.y}, color);
+		new_pos.x += inc.x;
+		new_pos.y += inc.y;
+		i++;
+	}
 }
