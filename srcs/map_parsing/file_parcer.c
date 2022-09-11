@@ -14,12 +14,30 @@
 
 /* -------------------------------------------------------------------------- */
 
+static char	**split_args(char *line)
+{
+	char	*arg;
+	char	**args;
+
+	arg = ft_strchr(line, ' ');
+	if (arg == NULL)
+		return (NULL);
+	args = (char **)ft_calloc(3, sizeof(char *));
+	args[0] = ft_substr(line, 0, arg - line);
+	args[1] = ft_strdup(arg + 1);
+	if (args[0] == NULL || args[1] == NULL)
+		ft_perror(GEN_ERR, 1);
+	return (args);
+}
+
+/* -------------------------------------------------------------------------- */
+
 static void	check_and_init_data(char *line, t_input *data, void *mlx)
 {
 	char	**line_split;
 
-	line_split = ft_split(line, ' ');
-	if (line_split[2] != NULL || ft_strlen(line_split[0]) > 2)
+	line_split = split_args(line);
+	if (line_split == NULL || ft_strlen(line_split[0]) > 2)
 		ft_perror(MAP_ERR"Too many values", 1);
 	if (ft_strstr(MAP_DIRECTNS, line_split[0]))
 		check_init_texture(line_split, data, mlx);
@@ -30,62 +48,37 @@ static void	check_and_init_data(char *line, t_input *data, void *mlx)
 	ft_free_2d_char_arr(line_split);
 }
 
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
-
-static bool	is_map_objs(char *line, bool *is_mp_obj)
-{
-	char	*tmp;
-
-	tmp = ft_strtrim(line, MAP_OBJS);
-	if (tmp[0] == '\0')
-	{
-		*is_mp_obj = true;
-		return (free(tmp), true);
-	}
-	return (free(tmp), false);
-}
-
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
-
-static void	process_map_arr(t_input *data, char *line)
-{
-	char	**tmp_arr;
-	int		i;
-
-	i = 0;
-	while (data->map_arr && data->map_arr[i])
-		++i;
-	tmp_arr = (char **)ft_calloc(i + 2, sizeof(char *));
-	i = 0;
-	while (data->map_arr && data->map_arr[i])
-	{
-		tmp_arr[i] = data->map_arr[i];
-		++i;
-	}
-	tmp_arr[i] = ft_strdup(line);
-	free(data->map_arr);
-	data->map_arr = tmp_arr;
-}
-
-/* -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  */
+/* -------------------------------------------------------------------------- */
 
 static void	init_default_values(t_input *data, bool *mp_obj_found)
 {
-	ft_bzero(&data->textures[NO], sizeof(t_texture));
-	ft_bzero(&data->textures[SO], sizeof(t_texture));
-	ft_bzero(&data->textures[EA], sizeof(t_texture));
-	ft_bzero(&data->textures[WE], sizeof(t_texture));
+	ft_bzero(&data->textures[NO], sizeof(t_img));
+	ft_bzero(&data->textures[SO], sizeof(t_img));
+	ft_bzero(&data->textures[EA], sizeof(t_img));
+	ft_bzero(&data->textures[WE], sizeof(t_img));
 	data->ceil_clr = -1;
 	data->floor_clr = -1;
 	data->map_arr = NULL;
 	*mp_obj_found = false;
 }
 
-/* -  -  Notes:  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  ///
-  I have modified the get_next_line function so that it trims the trailing 
-newline '\n' character, it is more convinient than triming it later with 
-'ft_strtrim', it just lowers the code's complexity
-///  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -*/
+/* -------------------------------------------------------------------------- */
+
+static void	check_other_factors(t_cub *cub)
+{
+	map_is_closed(cub->input.map_arr);
+	only_one_player(cub->input.map_arr, &cub->player);
+	place_virtual_walls(cub->input.map_arr);
+	if (cub->input.textures[NO].img_ptr == NULL || \
+		cub->input.textures[SO].img_ptr == NULL || \
+		cub->input.textures[EA].img_ptr == NULL || \
+		cub->input.textures[WE].img_ptr == NULL || \
+		cub->input.ceil_clr == -1 || \
+		cub->input.floor_clr == -1)
+		ft_perror("Missing data", 1);
+}
+
+/* -------------------------------------------------------------------------- */
 
 void	process_file_data(char *filename, t_cub *cub)
 {
@@ -111,7 +104,6 @@ void	process_file_data(char *filename, t_cub *cub)
 		free(line);
 		line = get_next_line(map_fd, 1);
 	}
-	map_is_closed(cub->input.map_arr);
-	only_one_player(cub->input.map_arr, &cub->player);
+	check_other_factors(cub);
 	close(map_fd);
 }

@@ -20,7 +20,7 @@ int	main(int ac, char **av)
 	char	*ext;
 
 	if (ac != 2)
-		return (EXIT_FAILURE);
+		ft_perror("Invalid arguments passed", 1);
 	ext = ft_strrchr(av[1], '.');
 	if (ext == NULL || ft_strcmp(ext, ".cub"))
 		ft_perror(EXT_ERR, 1);

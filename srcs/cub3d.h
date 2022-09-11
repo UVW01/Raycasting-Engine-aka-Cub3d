@@ -44,16 +44,21 @@ typedef unsigned char	t_uchar;
 typedef unsigned int	t_uint;
 
 /* -------------------------------- STRUCTS --------------------------------- */
-typedef struct s_texture
+typedef struct s_img
 {
 	void	*img_ptr;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
 	int		height;
 	int		width;
-}	t_texture;
+	int		m_offset;
+}	t_img;
 
 typedef struct s_input
 {
-	t_texture	textures[4];
+	t_img		textures[4];
 	int			ceil_clr;
 	int			floor_clr;
 	char		**map_arr;
@@ -84,7 +89,7 @@ typedef struct s_player
 {
 	t_fcoords	pos;
 	double		rot;
-	int			mouse_prev_x;		
+	int			mouse_prev_x;
 	char		mouse_click;
 	char		turn_dir;
 	char		walk_dir;
@@ -100,9 +105,9 @@ typedef struct s_intrsctn
 
 typedef struct s_cast_params
 {
-	t_fcoords intrcpt;
-	t_fcoords step;
-	t_intrsctn *wall_hit;
+	t_fcoords	intrcpt;
+	t_fcoords	step;
+	t_intrsctn	*wall_hit;
 }	t_cast_params;
 
 typedef struct s_ray
@@ -120,22 +125,11 @@ typedef struct s_ray
 
 typedef struct s_wall
 {
-	double	ds_proj_plane;
-	double	wall_height;
-	t_icoords   p0;
-    t_icoords   p1;
+	double		ds_proj_plane;
+	double		wall_height;
+	t_icoords	p0;
+	t_icoords	p1;
 }	t_wall;
-typedef struct s_img
-{
-	void	*img_ptr;
-	char	*addr;
-	int		bits_per_pixel;
-	int		line_length;
-	int		endian;
-	int		height;
-	int		width;
-	int		m_offset;
-}	t_img;
 
 typedef struct s_display
 {
@@ -175,6 +169,10 @@ void	check_init_texture(char **line_split, t_input *gen_data, void *mlx);
 
 void	process_file_data(char *filename, t_cub *cub);
 
+bool	is_map_objs(char *line, bool *is_mp_obj);
+void	process_map_arr(t_input *data, char *line);
+void	place_virtual_walls(char **map_arr);
+
 /* -------------------------- EVENTS HANDLING ------------------------------- */
 /* - - handle_keypress.c - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 int		draw_and_output_image(t_cub *cub);
@@ -184,7 +182,9 @@ void	handle_keys(t_cub *cub);
 int		xclose(void *v_cub);
 
 /* - - handle_mouse_events.c - - - - - - - - - - - - - - - - - - - - - - - - -*/
-int		mouse_move(int x, int y, void *_cub);
+int		mouse_hover(int x, int y, void *v_cub);
+int		mouse_click(int keycode, int x, int y, void *v_cub);
+int		mouse_release(int keycode, int x, int y, void *v_cub);
 
 /* - - handle_misc_events.c - - - - - - - - - - - - - - - - - - - - - - - - - */
 int		xclose(void *v_cub);
@@ -194,7 +194,7 @@ int		xclose(void *v_cub);
 double	deg2rad(int deg);
 int		rad2deg(double rad);
 double	normalize_angle(double rotation);
-int		check_wall_colision(t_fcoords pos, char **map_arr);
+int		check_wall_colision(t_player player, t_fcoords pos, char **map_arr);
 double	dstnce_btwn_points(t_fcoords p, t_intrsctn intr);
 
 /* - - casting_rays.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -203,14 +203,14 @@ void	casting_rays(t_cub *cub);
 /* - - cast.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 void	cast(t_cub *cub, t_ray *ray);
 
-/* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
-void    calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
-    t_intrsctn vert);
+/* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+void	calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
+	t_intrsctn vert);
 
 /* -------------------- WALL CALCULATIONS AND RENDERIGN --------------------- */
 void	render_walls(t_cub *cub, t_ray ray);
 
-double		get_darkness_percent(double value, double max_value);
+double	get_darkness_percent(double value, double max_value);
 int		shade_color(int color, double percent);
 
 #endif

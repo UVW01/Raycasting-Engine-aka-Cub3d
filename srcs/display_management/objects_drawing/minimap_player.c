@@ -39,7 +39,7 @@ static void	draw_fov(t_fcoords start_pos, t_fcoords end_pos, t_cub *cub)
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-static void reinit_ray_infos(t_ray *ray)
+static void	reinit_ray_infos(t_ray *ray)
 {
 	ray->is_facing_down = false;
 	ray->is_facing_up = false;
@@ -57,10 +57,10 @@ static void reinit_ray_infos(t_ray *ray)
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-static void recasting_rays(t_cub *cub)
+static void	recasting_rays(t_cub *cub)
 {
-	t_ray ray;
-	int i;
+	t_ray	ray;
+	int		i;
 
 	ft_bzero(&ray, sizeof(t_ray));
 	ray.ray_angle = (cub->player.rot - (FOV_ANGLE / 2));

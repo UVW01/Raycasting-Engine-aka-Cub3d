@@ -12,7 +12,7 @@
 
 #include "../cub3d.h"
 
-static	double	get_x_offset(t_ray ray, t_texture texture)
+static double	get_x_offset(t_ray ray, t_img texture)
 {
 	double	x_offset;
 
@@ -54,16 +54,13 @@ static	int	get_cardinal_point(t_ray ray)
 
 /*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 
-static	int	get_pixels_from_texture(t_texture texture, t_icoords offset)
+static int	get_pixels_from_texture(t_img texture, t_icoords offset)
 {
 	int	*txtur_ptr;
-	int	bpp;
-	int	size_line;
-	int	endian;
 	int	color;
 
-	txtur_ptr = (int *)mlx_get_data_addr(texture.img_ptr, &bpp, \
-		&size_line, &endian);
+	offset.y = (offset.y % texture.height);
+	txtur_ptr = (int *)texture.addr;
 	color = txtur_ptr[(offset.y * texture.width) + offset.x];
 	return (color);
 }
