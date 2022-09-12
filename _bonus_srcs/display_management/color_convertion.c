@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_drawing_algo.c                                :+:      :+:    :+:   */
+/*   color_convertion.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,15 +14,36 @@
 
 /* -------------------------------------------------------------------------- */
 
-void	img_pixel_put(t_img *img, t_icoords pxl, int color)
+double	get_darkness_percent(double value, double max_value)
 {
-	char	*pxl_ptr;
+	double	percent;
 
-	if ((pxl.x >= 0 && pxl.x < WIN_WIDTH) && (pxl.y >= 0 && pxl.y < WIN_HEIGHT))
-	{
-		pxl_ptr = img->addr;
-		pxl_ptr += pxl.y * img->line_length;
-		pxl_ptr += pxl.x * (img->bits_per_pixel / 8);
-		*(t_uint *)pxl_ptr = color;
-	}
+	percent = 100 / (max_value / value);
+	return (percent);
+}
+
+/* -------------------------------------------------------------------------- */
+
+int	shade_color(int color, double percent)
+{
+	int	red;
+	int	green;
+	int	blue;
+
+	red = color >> 16;
+	red &= 255;
+	green = color >> 8;
+	green &= 255;
+	blue = color;
+	blue &= 255;
+	red /= (100.0 + percent) / 100.0;
+	green /= (100.0 + percent) / 100.0;
+	blue /= (100.0 + percent) / 100.0;
+	if (red > 255)
+		red = 255;
+	if (green > 255)
+		green = 255;
+	if (blue > 255)
+		blue = 255;
+	return (red << 16 | green << 8 | blue);
 }

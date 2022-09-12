@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_drawing_algo.c                                :+:      :+:    :+:   */
+/*   misc_drawing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnaimi <mnaimi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,19 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "../../cub3d.h"
 
 /* -------------------------------------------------------------------------- */
 
-void	img_pixel_put(t_img *img, t_icoords pxl, int color)
+void	draw_background(t_cub *cub)
 {
-	char	*pxl_ptr;
+	int		color;
+	int		y;
+	int		x;
 
-	if ((pxl.x >= 0 && pxl.x < WIN_WIDTH) && (pxl.y >= 0 && pxl.y < WIN_HEIGHT))
+	color = cub->input.ceil_clr;
+	y = -1;
+	while (++y < WIN_HEIGHT / 2)
 	{
-		pxl_ptr = img->addr;
-		pxl_ptr += pxl.y * img->line_length;
-		pxl_ptr += pxl.x * (img->bits_per_pixel / 8);
-		*(t_uint *)pxl_ptr = color;
+		x = -1;
+		while (++x < WIN_WIDTH)
+			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
+				color);
+	}
+	y = WIN_HEIGHT;
+	while (--y > WIN_HEIGHT / 2)
+	{
+		x = -1;
+		color = shade_color(cub->input.floor_clr, \
+			get_darkness_percent(abs(y - WIN_HEIGHT), WIN_HEIGHT / 10));
+		while (++x < WIN_WIDTH)
+			img_pixel_put(&cub->display.img, (t_icoords){.x = x, .y = y}, \
+				color);
 	}
 }
