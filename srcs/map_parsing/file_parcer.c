@@ -108,7 +108,7 @@ void	process_file_data(char *filename, t_cub *cub)
 		if (!line[0] && mp_obj_found == 1)
 			mp_obj_found = 2;
 		else if (line[0] && mp_obj_found == 2)
-			ft_perror(MAP_ERR, 1);
+			check_last_lines(line);
 		else if (line[0] && is_map_objs(line, &mp_obj_found))
 			process_map_arr(&cub->input, line);
 		else if (line[0] && mp_obj_found == 0)

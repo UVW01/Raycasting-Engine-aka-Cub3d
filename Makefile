@@ -24,7 +24,7 @@ CC_OPTS		:= -I /usr/local/include -L/usr/local/lib/ -lmlx \
 
 # ---------------------------------------------------------------------------- #
 
-GEN_LST	:=	file_parcer.c data_init.c check_map_1.c check_map_2.c
+GEN_LST	:=	file_parcer.c data_init.c check_map_1.c check_map_2.c misc_parsing.c
 
 DISPLAY	:=	line_drawing_algo.c \
 	window_management.c \
