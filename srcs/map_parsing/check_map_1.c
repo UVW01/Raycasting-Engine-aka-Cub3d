@@ -84,7 +84,15 @@ void	map_is_closed(char **map_arr)
 		{
 			if (ft_strchr("0NEWS", map_arr[pixel.y][pixel.x]))
 			{
+				if ((pixel.y == 0 && map_arr[pixel.y][pixel.x] == '0') \
+					|| (map_arr[pixel.y + 1] == NULL \
+					&& map_arr[pixel.y][pixel.x] == '0'))
+					ft_perror(MAP_ERR"(unclosed)", 1);
 				check_vertically(map_arr, &pixel);
+				if ((pixel.x == 0 && map_arr[pixel.y][pixel.x] == '0') \
+					|| (map_arr[pixel.y][pixel.x + 1] == '\0' \
+					&& map_arr[pixel.y][pixel.x] == '0'))
+					ft_perror(MAP_ERR"(unclosed)", 1);
 				check_horizontally(map_arr, &pixel);
 			}
 		}
