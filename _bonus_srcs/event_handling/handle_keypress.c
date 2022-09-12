@@ -76,5 +76,8 @@ void	handle_keys(t_cub *cub)
 	mlx_hook(disp->win, KEY_PRESS, KP_MASK, &key_press, (void *)cub);
 	mlx_hook(disp->win, KEY_RELEASE, KR_MASK, &key_release, (void *)cub);
 	mlx_hook(disp->win, DESTROY_NOTIFY, NO_MASK, &close_window, (void *)cub);
+	mlx_hook(disp->win, MOUSE_CLICK, (1 << 8), &mouse_click, (void *)cub);
+	mlx_hook(disp->win, MOUSE_RELEASE, (1 << 8), &mouse_release, (void *)cub);
+	mlx_hook(disp->win, MOUSE_MOVEMENT, (1 << 6), &mouse_hover, (void *)cub);
 	mlx_loop_hook(disp->mlx, &draw_and_output_image, (void *)cub);
 }

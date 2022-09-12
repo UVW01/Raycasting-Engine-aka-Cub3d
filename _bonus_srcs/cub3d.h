@@ -144,6 +144,10 @@ void	update_player_position(t_cub *cub);
 
 void	draw_background(t_cub *cub);
 
+void	draw_limited_line(t_cub *cub, t_fcoords p0, t_fcoords p1, int color);
+void	draw_minimap_player(t_cub *cub, int scale);
+void	draw_minimap(t_cub *cub);
+
 void	init_display_params(t_cub *cub);
 
 /* PARSING */

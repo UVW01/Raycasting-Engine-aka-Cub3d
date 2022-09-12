@@ -30,7 +30,7 @@ DISPLAY	:=	line_drawing_algo.c \
 	window_management.c \
 	coordinates_calculs.c \
 	color_convertion.c
-DRAWING	:= minimap.c minimap_player.c misc_drawing.c custom_line_algo.c
+DRAWING	:= misc_drawing.c
 EVENTS			:=	handle_keypress.c mouse_keypress.c
 CASTING_RAYS	:=	casting_rays.c cast.c cast_util.c misc_functs.c
 RENDERING_WALLS	:=	render_walls.c
@@ -57,6 +57,7 @@ NAME	:= cub3d
 BNAME	:= cub3d_bonus
 MAIN	:= srcs/cub3d.c
 HEADER	:= srcs/cub3d.h srcs/m4cr0s.h
+BHEADER	:= srcs/cub3d.h srcs/m4cr0s.h
 
 # ---------------------------------------------------------------------------- #
 
@@ -75,7 +76,7 @@ ${NAME}: ${HEADER} ${MAIN} ${SRCS}
 	@${CC} ${CC_FLAGS} ${CC_OPTS} ${MAIN} ${SRCS} -o ${NAME}
 	@echo "${NAME}: Compiled successfully"
 
-${BNAME}: ${HEADER} ${MAIN} ${SRCS}
+${BNAME}: ${BHEADER} ${MAIN} ${BSRCS}
 	@echo "Making dependencies, please wait ..."
 	@make -C includes/libft >> /dev/null
 	@echo "Making ./cub3d_bonus executable, please wait ..."

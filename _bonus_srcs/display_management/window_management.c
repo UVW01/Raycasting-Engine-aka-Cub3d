@@ -33,6 +33,7 @@ int	draw_and_output_image(t_cub *cub)
 	update_player_position(cub);
 	draw_background(cub);
 	casting_rays(cub);
+	draw_minimap(cub);
 	mlx_put_image_to_window(cub->display.mlx, cub->display.win,
 		cub->display.img.img_ptr, 0, 0);
 	return (0);
