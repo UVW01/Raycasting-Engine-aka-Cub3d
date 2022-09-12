@@ -157,6 +157,8 @@ void	only_one_player(char **map_arr, t_player *player);
 void	check_init_color(char **line_split, t_input *gen_data);
 void	check_init_texture(char **line_split, t_input *gen_data, void *mlx);
 
+void	check_last_lines(char *line);
+
 void	process_file_data(char *filename, t_cub *cub);
 
 int		is_map_objs(char *line, int *is_mp_obj);
