@@ -194,6 +194,7 @@ void	casting_rays(t_cub *cub);
 void	cast(t_cub *cub, t_ray *ray);
 
 /* - - cast_util.c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+int		wall_colision(t_fcoords pos, char **map_arr);
 void	calcul_distance(t_player p, t_ray *ray, t_intrsctn horiz, \
 	t_intrsctn vert);
 

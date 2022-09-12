@@ -12,6 +12,29 @@
 
 #include "../cub3d.h"
 
+/*- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+
+int	wall_colision(t_fcoords pos, char **map_arr)
+{
+	t_icoords	exact_axis;
+	t_icoords	map_max_index;
+
+	exact_axis.x = (pos.x / CUB_SIZE);
+	exact_axis.y = (pos.y / CUB_SIZE);
+	map_max_index.y = 0;
+	map_max_index.x = 0;
+	while (map_arr[map_max_index.y])
+		map_max_index.y++;
+	if (exact_axis.y < 0 || exact_axis.y >= map_max_index.y)
+		return (1);
+	map_max_index.x = ft_strlen(map_arr[exact_axis.y]);
+	if (exact_axis.x < 0 || exact_axis.x > map_max_index.x)
+		return (1);
+	if (map_arr[exact_axis.y][exact_axis.x] == '1')
+		return (1);
+	return (0);
+}
+
 static	void	store_distance(t_ray *ray, double distnce, \
 	t_intrsctn intersectin, char grid_dir)
 {

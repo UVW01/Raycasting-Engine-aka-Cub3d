@@ -24,7 +24,7 @@ static	void	cast_until_hit_wall(t_cast_params params, t_cub *cub, \
 			new_intrcpt.y -= 1;
 		if (grid_dir == VERTICAL && ray.is_facing_left)
 			new_intrcpt.x -= 1;
-		if (check_wall_colision(cub->player, new_intrcpt, cub->input.map_arr))
+		if (wall_colision(new_intrcpt, cub->input.map_arr))
 		{
 			params.wall_hit->x_point = params.intrcpt.x;
 			params.wall_hit->y_point = params.intrcpt.y;

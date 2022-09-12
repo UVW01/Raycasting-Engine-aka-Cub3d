@@ -93,16 +93,16 @@ void	map_is_closed(char **map_arr)
 
 /* -------------------------------------------------------------------------- */
 
-static int	get_proper_deg(char direction)
+static double	get_proper_deg(char direction)
 {
 	if (direction == 'N')
-		return (270);
+		return (4.72984);
 	else if (direction == 'S')
-		return (90);
+		return (1.58825);
 	else if (direction == 'E')
-		return (0);
+		return (0.0174533);
 	else if (direction == 'W')
-		return (180);
+		return (3.15905);
 	return (0);
 }
 
@@ -122,7 +122,7 @@ void	only_one_player(char **map_arr, t_player *player)
 		{
 			if (!ft_strchr("NEWS", map_arr[pixel.y][pixel.x]))
 				continue ;
-			player->rot = deg2rad(get_proper_deg(map_arr[pixel.y][pixel.x]));
+			player->rot = get_proper_deg(map_arr[pixel.y][pixel.x]);
 			player->pos = (t_fcoords){.x = (pixel.x * CUB_SIZE) + CUB_SIZE / 2, \
 				.y = (pixel.y * CUB_SIZE) + (CUB_SIZE / 2)};
 			++count;

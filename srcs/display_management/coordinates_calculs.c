@@ -20,7 +20,6 @@ int	check_wall_colision(t_player player, t_fcoords pos, char **map_arr)
 	t_icoords	player_index;
 	t_icoords	map_size;
 
-	(void)player;
 	map_index = (t_icoords){.x = pos.x / CUB_SIZE, .y = pos.y / CUB_SIZE};
 	player_index.x = player.pos.x / CUB_SIZE;
 	player_index.y = player.pos.y / CUB_SIZE;
